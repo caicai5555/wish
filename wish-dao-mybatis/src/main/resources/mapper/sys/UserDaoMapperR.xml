@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.foundation.dao.modules.read.sys.UserDaoR">
+
+
+    <sql id="userColumns">
+        a.id,
+        a.company_id AS "company.id",
+        a.office_id AS "office.id",
+        a.login_name,
+        a.password,
+        a.name,
+        a.sex,
+        cast(AES_DECRYPT(a.card_no,#{DBKEY}) as CHAR) as cardNo,
+        cast(AES_DECRYPT(a.email,#{DBKEY}) as CHAR) as email,
+        cast(AES_DECRYPT(a.phone,#{DBKEY}) as CHAR) as phone,
+        cast(AES_DECRYPT(a.mobile,#{DBKEY}) as CHAR) as mobile,
+        cast(AES_DECRYPT(a.address,#{DBKEY}) as CHAR) as address,
+        a.user_type,
+        a.login_ip,
+        a.login_date,
+        a.remarks,
+        a.login_flag,
+        a.photo,
+        a.create_by AS "createBy.id",
+        a.create_date,
+        a.update_by AS "updateBy.id",
+        a.update_date,
+        a.del_flag,
+        c.name AS "company.name",
+        c.parent_id AS "company.parent.id",
+        c.parent_ids AS "company.parentIds",
+        ca.id AS "company.area.id",
+        ca.name AS "company.area.name",
+        ca.parent_id AS "company.area.parent.id",
+        ca.parent_ids AS "company.area.parentIds",
+        o.name AS "office.name",
+        o.parent_id AS "office.parent.id",
+        o.parent_ids AS "office.parentIds",
+        oa.id AS "office.area.id",
+        oa.name AS "office.area.name",
+        oa.parent_id AS "office.area.parent.id",
+        oa.parent_ids AS "office.area.parentIds",
+        cu.id AS "company.primaryPerson.id",
+        cu.name AS "company.primaryPerson.name",
+        cu2.id AS "company.deputyPerson.id",
+        cu2.name AS "company.deputyPerson.name",
+        ou.id AS "office.primaryPerson.id",
+        ou.name AS "office.primaryPerson.name",
+        ou2.id AS "office.deputyPerson.id",
+        ou2.name AS "office.deputyPerson.name"
+        <!-- ,
+        a.pregnancy_archive_id as pregnancyArchiveId,
+        r.id AS "roleList.id",
+        r.office_id AS "roleList.office.id",
+        r.name AS "roleList.name",
+        r.enname AS "roleList.enname",
+        r.role_type AS "roleList.roleType",
+        r.data_scope AS "roleList.dataScope" -->
+    </sql>
+
+
+    <sql id="userColumnsNew">
+		id,
+		company_id as companyId,
+		office_id as officeId,
+		password,
+		login_name as loginName,
+		name,
+		cast(AES_DECRYPT(card_no,#{DBKEY}) as CHAR) as cardNo,
+		cast(AES_DECRYPT(email,#{DBKEY}) as CHAR) as email,
+		cast(AES_DECRYPT(phone,#{DBKEY}) as CHAR) as phone,
+		cast(AES_DECRYPT(mobile,#{DBKEY}) as CHAR) as mobile,
+		cast(AES_DECRYPT(address,#{DBKEY}) as CHAR) as address,
+		user_type as userType,
+		photo,
+		birthday as birthday,
+		login_date as loginDate,
+		login_flag as loginFlag,
+		create_by as createBy,
+		create_date as createDate,
+		update_by as updateBy,
+		update_date as updateDate,
+		remarks,
+		del_flag as delFlag,
+		age,
+		sex,
+		nation,
+		education,
+		certificate_type as certificateType,
+		certificate_number as certificateNumber,
+		occupation,
+		occupation_others as occupation_Others,
+		post_code as postCode,
+		followup_type as followupType,
+		hukou_type as hukouType,
+		address_province as addressProvince,
+		address_city as addressCity,
+		address_county as addressCounty,
+		address_town as addressTown,
+		address_village as addressVillage,
+		hukou_province as hukouProvince,
+		hukou_city as hukouCity,
+		hukou_county as hukouCounty,
+		hukou_town as hukouTown,
+		hukou_village as hukouVillage,
+		marry_date as marryDate,
+		login_ip as loginIp,
+		pregnancy_archive_id as pregnancyArchiveId
+</sql>
+
+    <sql id="userColumnsPage">
+        a.id,
+        a.company_id as 'company.id',
+        a.office_id as 'office.id',
+        a.password,
+        a.login_name as loginName,
+        a.name,
+        cast(AES_DECRYPT(a.card_no,#{map.DBKEY}) as CHAR) as cardNo,
+        cast(AES_DECRYPT(a.email,#{map.DBKEY}) as CHAR) as email,
+        cast(AES_DECRYPT(a.phone,#{map.DBKEY}) as CHAR) as phone,
+        cast(AES_DECRYPT(a.mobile,#{map.DBKEY}) as CHAR) as mobile,
+        cast(AES_DECRYPT(a.address,#{map.DBKEY}) as CHAR) as address,
+        a.user_type as userType,
+        a.photo,
+        a.birthday as birthday,
+        a.login_date as loginDate,
+        a.login_flag as loginFlag,
+        a.create_by as 'createBy.id',
+        a.create_date as createDate,
+        a.update_by as 'updateBy.id',
+        a.update_date as updateDate,
+        a.remarks,
+        a.del_flag as delFlag,
+        a.age,
+        a.sex,
+        a.nation,
+        a.education,
+        a.certificate_type as certificateType,
+        a.certificate_number as certificateNumber,
+        a.occupation,
+        a.occupation_others as occupation_Others,
+        a.post_code as postCode,
+        a.followup_type as followupType,
+        a.hukou_type as hukouType,
+        a.address_province as addressProvince,
+        a.address_city as addressCity,
+        a.address_county as addressCounty,
+        a.address_town as addressTown,
+        a.address_village as addressVillage,
+        a.hukou_province as hukouProvince,
+        a.hukou_city as hukouCity,
+        a.hukou_county as hukouCounty,
+        a.hukou_town as hukouTown,
+        a.hukou_village as hukouVillage,
+        a.marry_date as marryDate,
+        a.login_ip as loginIp
+    </sql>
+
+    <sql id="userColumnsSync">
+        id,
+        company_id as companyId,
+        office_id as officeId,
+        password,
+        login_name as loginName,
+        name,
+        user_type as userType,
+        photo,
+        birthday as birthday,
+        login_date as loginDate,
+        login_flag as loginFlag,
+        create_by as createBy,
+        create_date as createDate,
+        update_by as updateBy,
+        update_date as updateDate,
+        remarks,
+        del_flag as delFlag,
+        age,
+        sex,
+        nation,
+        education,
+        certificate_type as certificateType,
+        certificate_number as certificateNumber,
+        occupation,
+        occupation_others as occupation_Others,
+        post_code as postCode,
+        followup_type as followupType,
+        hukou_type as hukouType,
+        address_province as addressProvince,
+        address_city as addressCity,
+        address_county as addressCounty,
+        address_town as addressTown,
+        address_village as addressVillage,
+        hukou_province as hukouProvince,
+        hukou_city as hukouCity,
+        hukou_county as hukouCounty,
+        hukou_town as hukouTown,
+        hukou_village as hukouVillage,
+        marry_date as marryDate,
+        login_ip as loginIp,
+        pregnancy_archive_id as pregnancyArchiveId
+    </sql>
+
+    <sql id="userJoins">
+        LEFT JOIN sys_office c ON c.id = a.company_id
+        LEFT JOIN sys_area ca ON ca.id = c.area_id
+        LEFT JOIN sys_office o ON o.id = a.office_id
+        LEFT JOIN sys_area oa ON oa.id = o.area_id
+        LEFT JOIN sys_user cu ON cu.id = c.primary_person
+        LEFT JOIN sys_user cu2 ON cu2.id = c.deputy_person
+        LEFT JOIN sys_user ou ON ou.id = o.primary_person
+        LEFT JOIN sys_user ou2 ON ou2.id = o.deputy_person
+    </sql>
+
+    <!-- 根据编号获得用户 -->
+    <select id="get" resultType="com.foundation.dao.entity.sys.User">
+        SELECT
+        <include refid="userColumns"/>
+        <!-- ,
+                    ro.office_id AS "roleList.officeList.id" -->
+        FROM sys_user a
+        <include refid="userJoins"/>
+        <!--
+                LEFT JOIN sys_role_office ro ON ro.role_id = r.id -->
+        WHERE a.id = #{id}
+    </select>
+
+    <!-- 根据编号获得用户 -->
+    <select id="getUserInfoById" resultType="com.foundation.dao.entity.sys.User" parameterType="map">
+        SELECT
+        <include refid="userColumnsNew"/>
+        <!-- ,
+                    ro.office_id AS "roleList.officeList.id" -->
+        FROM sys_user a
+        <!--
+        LEFT JOIN sys_role_office ro ON ro.role_id = r.id -->
+        WHERE a.id = #{id}
+    </select>
+
+    <!-- 根据登录名查询用户 -->
+    <select id="getByLoginName" resultType="com.foundation.dao.entity.sys.User"
+            parameterType="com.foundation.dao.entity.sys.User">
+        SELECT
+        <include refid="userColumns"/>
+        <!-- ,
+                    ro.office_id AS "roleList.officeList.id" -->
+        FROM sys_user a
+        <include refid="userJoins"/>
+        <!--
+                LEFT JOIN sys_role_office ro ON ro.role_id = r.id -->
+        WHERE a.login_name = #{loginName} AND  <![CDATA[
+				a.del_flag = ${@com.foundation.common.bean.Constants@DEL_FLAG_NORMAL}
+			]]>
+    </select>
+
+    <!-- 分页查询用户信息 -->
+    <select id="findList" resultType="com.foundation.dao.entity.sys.User"
+            parameterType="com.foundation.dao.entity.sys.User">
+        SELECT
+        <include refid="userColumns"/>
+        FROM sys_user a
+        <include refid="userJoins"/>
+        <if test="role != null and role.id != null and role.id != ''">
+            JOIN sys_user_role ur ON ur.user_id = a.id AND ur.role_id = #{role.id}
+        </if>
+        WHERE <![CDATA[
+				a.del_flag = ${@com.foundation.common.bean.Constants@DEL_FLAG_NORMAL}
+			]]>
+        <if test="company != null and company.id != null and company.id != ''">
+            AND (c.id = #{company.id} OR c.parent_ids LIKE CONCAT('%,', #{company.id}, ',%'))
+        </if>
+        <if test="office != null and office.id != null and office.id != ''">
+            AND (o.id = #{office.id} OR o.parent_ids LIKE CONCAT('%,', #{office.id}, ',%'))
+        </if>
+        <!-- 如果不是超级管理员，则不显示超级管理员用户 -->
+        <if test="!currentUser.admin">
+            AND a.id != '1'
+        </if>
+        <if test="loginName != null and loginName != ''">
+            AND a.login_name like CONCAT('%', #{loginName}, '%')
+        </if>
+        <if test="name != null and name != ''">
+            AND a.name like CONCAT('%', #{name}, '%')
+        </if>
+
+        <if test="pregnancyArchiveId != null and pregnancyArchiveId !='' ">
+            AND a.pregnancy_archive_id = #{pregnancyArchiveId}
+        </if>
+
+        <!-- 数据范围过滤 -->
+        ${sqlMap.dsf}
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY c.code, o.code, a.name
+            </otherwise>
+        </choose>
+    </select>
+
+    <!-- 根据OfficeId获取用户（树查询用户时用） -->
+    <select id="findUserByOfficeId" resultType="com.foundation.dao.entity.sys.User" useCache="true"
+            parameterType="com.foundation.dao.entity.sys.User">
+        SELECT
+        a.id, a.name, a.login_name
+        FROM sys_user a
+        WHERE a.del_flag = ${@com.foundation.common.bean.Constants@DEL_FLAG_NORMAL}
+        AND a.office_id = #{office.id}
+        ORDER BY a.name
+    </select>
+
+    <!-- 查询全部用户 -->
+    <select id="findAllList" resultType="com.foundation.dao.entity.sys.User">
+        SELECT
+        <include refid="userColumns"/>
+        FROM sys_user a
+        <include refid="userJoins"/>
+        WHERE <![CDATA[
+				a.del_flag = ${@com.foundation.common.bean.Constants@DEL_FLAG_NORMAL}
+			]]>
+        ORDER BY c.code, o.code, a.name
+    </select>
+
+    <!-- 查询全部用户数目 -->
+    <select id="findAllCount" resultType="long">
+        SELECT
+        COUNT(1)
+        FROM sys_user a
+        WHERE a.del_flag = ${@com.foundation.common.bean.Constants@DEL_FLAG_NORMAL}
+    </select>
+
+
+    <!-- 根据登录名查询用户 -->
+    <select id="getUserByCertNum" resultType="com.foundation.dao.entity.sys.User" parameterType="map">
+        SELECT
+        <include refid="userColumnsSync"/>
+        FROM sys_user a
+        WHERE a.sex = #{sex} AND a.pregnancy_archive_id =#{pregnancyArchiveId}
+        AND  <![CDATA[
+				a.del_flag = ${@com.foundation.common.bean.Constants@DEL_FLAG_NORMAL}
+			]]>
+    </select>
+
+
+    <!-- 外接系统用户查询 -->
+
+    <!-- 根据登录名查询用户 -->
+    <select id="getByIdOrLoginName" resultType="com.foundation.dao.entity.sys.User" parameterType="java.util.Map">
+        SELECT
+        <include refid="userColumns"/>
+        FROM  subsystem S
+        LEFT JOIN subsystem_platform_user P ON S.id = P.sid
+        LEFT JOIN   sys_user a  ON P.uid = a.id
+        <include refid="userJoins"/>
+        <where>
+            1=1
+            <if test="code != null and code!= ''"> AND S.code = #{code} </if>
+            AND <![CDATA[
+				a.del_flag = ${@com.foundation.common.bean.Constants@DEL_FLAG_NORMAL}
+			]]>
+            <if test="loginName != null and loginName!= ''"> AND a.login_name = #{loginName} </if>
+            <if test="id != null and id!= ''"> AND a.id = #{id} </if>
+        </where>
+    </select>
+
+    <select id="queryPage" resultType="com.foundation.dao.entity.sys.User" parameterType="java.util.Map">
+        SELECT
+        <include refid="userColumnsPage"/>
+        FROM  subsystem S
+        LEFT JOIN subsystem_platform_user P ON S.id = P.sid
+        LEFT JOIN   sys_user a  ON P.uid = a.id
+        <include refid="userJoins"/>
+        <where>
+            1=1
+            <if test="map.code != null and map.code!= ''"> AND S.code = #{map.code} </if>
+            AND <![CDATA[
+				a.del_flag = ${@com.foundation.common.bean.Constants@DEL_FLAG_NORMAL}
+			]]>
+            <if test="map.companyId  != null and map.companyId != '' "> AND a.company_id = #{map.companyId } </if>
+            <if test="map.officeId  != null and map.officeId != '' "> AND a.office_id = #{map.officeId } </if>
+            <if test="map.loginName  != null and map.loginName != '' "> AND a.login_name = #{map.loginName } </if>
+            <if test="map.name  != null and map.name != '' "> AND a.name LIKE CONCAT('%', #{map.name }, '%')  </if>
+        </where>
+    </select>
+
+</mapper>

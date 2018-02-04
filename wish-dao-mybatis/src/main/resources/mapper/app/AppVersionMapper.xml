@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.foundation.dao.modules.write.app.AppVersionDao">
+
+    <!-- 插入： 1.由数据库生成id并赋值到user对象 2.输入用对象, 嵌套属性表达式#{team.id} -->
+    <insert id="save" parameterType="com.foundation.dao.entity.app.AppVersion"  keyProperty="id">
+		insert into ${tableName} (id,type, version, url, forceUpdate,createDate,updateDate)
+		values (
+		#{id},#{type}, #{version}, #{url}, #{forceUpdate},#{createDate},#{updateDate})
+	</insert>
+
+  <insert id="batchSave" parameterType="java.util.List"  keyProperty="id">
+        insert into tb_app_version (
+		id,type, version, url, forceUpdate,createDate,updateDate)
+		values
+        <foreach collection="list" item="item" index="index" separator="," >
+        (#{item.id},  #{item.type}, #{item.version}, #{item.url}, #{item.forceUpdate},#{item.createDate},#{item.updateDate})
+        </foreach>
+    </insert>
+
+    <insert id="batchSaveMap" parameterType="java.util.Map"  keyProperty="id" >
+        insert into ${tableName}
+        (id,type, version, url, forceUpdate,createDate,updateDate)
+        values
+        <foreach collection="list" item="item" index="index" separator="," >
+         (#{item.id},#{item.type}, #{item.version}, #{item.url}, #{item.forceUpdate},#{item.createDate},#{item.updateDate})
+        </foreach>
+    </insert>
+
+    <!-- 删除版本 -->
+    <delete id="delete" parameterType="string">
+        delete from tb_app_version where id=#{id}
+    </delete>
+
+
+
+</mapper>

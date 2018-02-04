@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.write.disease.GeneLociDao" >
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from gene_loci
+    where id = #{id}
+  </delete>
+
+  <insert id="save" parameterType="com.foundation.dao.entity.disease.GeneLoci" >
+    insert into gene_loci
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="enname != null" >
+        enname,
+      </if>
+      <if test="lociName != null" >
+        loci_name,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id},
+      </if>
+      <if test="name != null" >
+        #{name},
+      </if>
+      <if test="enname != null" >
+        #{enname},
+      </if>
+      <if test="lociName != null" >
+        #{lociName},
+      </if>
+      <if test="remark != null" >
+        #{remark},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.foundation.dao.entity.disease.GeneLoci" >
+    update gene_loci
+    <set >
+      <if test="name != null" >
+        name = #{name},
+      </if>
+      <if test="enname != null" >
+        enname = #{enname},
+      </if>
+      <if test="lociName != null" >
+        loci_name = #{lociName},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+</mapper>

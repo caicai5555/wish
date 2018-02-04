@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.read.indicatorSys.IndicatorDaoR">
+    <!-- 父子树级联映射 -->
+    <resultMap id="indicatorTreeRM" type="com.foundation.dao.entity.indicatorSys.IndicatorTreeDO">
+        <id column="id" property="id"/>
+        <result column="code" property="code"/>
+        <result column="type" property="type"/>
+        <result column="name" property="name"/>
+        <result column="remark" property="remark"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="state" property="state"/>
+        <result column="show_class" property="showClass"/>
+        <result column="create_date" property="createDate"/>
+        <result column="update_date" property="updateDate"/>
+        <result column="del_flag" property="delFlag"/>
+        <result column="archive_flag" property="archiveFlag"/>
+        <collection property="leafIndicator" ofType="com.foundation.dao.entity.indicatorSys.Indicator">
+            <id column="l_id" property="id"/>
+            <result column="l_code" property="code"/>
+            <result column="l_type" property="type"/>
+            <result column="l_name" property="name"/>
+            <result column="l_remark" property="remark"/>
+            <result column="l_parent_id" property="parentId"/>
+            <result column="l_state" property="state"/>
+            <result column="l_show_class" property="showClass"/>
+            <result column="l_create_date" property="createDate"/>
+            <result column="l_update_date" property="updateDate"/>
+            <result column="l_del_flag" property="delFlag"/>
+            <result column="l_archive_flag" property="archiveFlag"/>
+        </collection>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+      id, code, type, name, remark, create_date createDate, update_date updateDate, parent_id parentId,
+      state, show_class showClass, del_flag delFlag, archive_flag archiveFlag
+    </sql>
+
+    <!--级联查询用-->
+    <sql id="Cascade_Query_Column">
+		i.id,
+        i.code,
+        i.type,
+        i.name,
+        i.remark,
+        i.create_date createDate,
+        i.update_date updateDate,
+        i.parent_id parentId,
+        i.state,
+        i.show_class showClass,
+        i.del_flag delFlag,
+        i.archive_flag archiveFlag
+    </sql>
+    <!--主键查询-->
+    <select id="queryById" resultType="com.foundation.dao.entity.indicatorSys.Indicator"
+            parameterType="String">
+        select
+        <include refid="Base_Column_List"/>
+        from indicator
+        where id = #{id}
+    </select>
+
+    <!-- 分页查询 -->
+    <select id="queryPage" parameterType="map"
+            resultType="com.foundation.dao.entity.indicatorSys.Indicator">
+        select
+        <include refid="Base_Column_List"/>
+        from indicator
+        <where>
+            <![CDATA[
+				del_flag = ${@com.foundation.common.bean.Constants@DEL_FLAG_NORMAL}
+			]]>
+            <if test="map.parentId != null">
+                and parent_id=#{map.parentId}
+            </if>
+        </where>
+    </select>
+
+    <!-- 指标分类分页查询 -->
+    <select id="queryCategoryPage" parameterType="map"
+            resultType="com.foundation.dao.entity.indicatorSys.Indicator">
+        select
+        <include refid="Base_Column_List"/>
+        from indicator
+        <where>
+            <![CDATA[
+				del_flag = ${@com.foundation.common.bean.Constants@DEL_FLAG_NORMAL}
+			]]>
+            <!-- 判断无查询条件,直接根据parent_id查询-->
+            <if test="map.name == null">
+                and parent_id = '0'
+            </if>
+            <!-- 判断有查询条件，现根据查询条件查询出符合的指标，再根据指标父节点查询出指标分类-->
+            <if test="map.name != null">
+                and id in (
+                select DISTINCT j.parent_id from indicator j
+                where j.name like CONCAT('%',#{map.name},'%' )
+                )
+            </if>
+        </where>
+        order by id
+    </select>
+
+
+    <!-- 查询父子级联，并手动分页 -->
+    <select id="queryTree" resultMap="indicatorTreeRM" parameterType="map">
+        select
+        p.id ,
+        p.code,
+        p.type,
+        p.name,
+        p.remark,
+        p.create_date,
+        p.update_date,
+        p.parent_id,
+        p.state,
+        p.show_class,
+        p.del_flag,
+        p.archive_flag,
+        l.id l_id,
+        l.code l_code,
+        l.type l_type,
+        l.name l_name,
+        l.remark l_remark,
+        l.create_date l_create_date,
+        l.update_date l_update_date,
+        l.parent_id parent_id,
+        l.state l_state,
+        l.show_class l_show_class,
+        l.del_flag l_del_flag,
+        l.archive_flag l_archive_lag
+        from
+        (select * from indicator where parent_id=#{parentId}
+        AND
+        <![CDATA[
+				del_flag = ${@com.foundation.common.bean.Constants@DEL_FLAG_NORMAL}
+			]]>
+        order by id
+        <if test="name == null or name ==''"><!-- 外层判断无查询条件时启动分页-->
+            <if test="pageNo !=null and pageSize!= null"><!--内层判断分页条件不为null-->
+                limit ${pageNo},${pageSize}
+            </if>
+        </if>
+        ) as p left OUTER join indicator l
+        on p.id = l.parent_id
+        <where>
+            <if test="name != null and name !=''">
+                and l.name like CONCAT('%','${name}','%' )
+            </if>
+        </where>
+
+    </select>
+
+    <!-- 查询列表 -->
+    <select id="queryList" parameterType="map"
+            resultType="com.foundation.dao.entity.indicatorSys.Indicator">
+        select
+        <include refid="Base_Column_List"/>
+        from indicator
+        <where>
+            <![CDATA[
+				del_flag = ${@com.foundation.common.bean.Constants@DEL_FLAG_NORMAL}
+			]]>
+
+            <if test="code!= null">
+                and code = #{code}
+            </if>
+            <if test="name!= null">
+                and name = #{name}
+            </if>
+            <if test="parentId!= null">
+                and parent_id = #{parentId}
+            </if>
+            <if test="childs!= null">/*根据判断自定义key,,childs表示查询所有子节点*/
+                and parent_id != 0
+            </if>
+        </where>
+    </select>
+    <!-- 获取数量 -->
+    <select id="getCount" parameterType="map"
+            resultType="java.lang.Integer">
+
+        select count(1) from indicator
+        <where>
+            <![CDATA[
+				del_flag = ${@com.foundation.common.bean.Constants@DEL_FLAG_NORMAL}
+			]]>
+            <if test="parentId != null">
+                and parent_id=#{parentId}
+            </if>
+            <if test="name != null">
+                and name like CONCAT('%','${name}','%' )
+            </if>
+        </where>
+    </select>
+
+    <!--根据查询条件统计父节点总数-->
+    <select id="getCountByParams" parameterType="map"
+            resultType="java.lang.Integer">
+
+        select count(DISTINCT l.parent_id)
+        from indicator l
+        where
+        <![CDATA[
+				del_flag = ${@com.foundation.common.bean.Constants@DEL_FLAG_NORMAL}
+			]]>
+        and l.`name` like CONCAT('%','${name}','%')
+        and l.parent_id >0;
+    </select>
+
+    <!--根据疾病id查询列表-->
+    <select id="queryByDiseaseId" parameterType="String"
+            resultType="com.foundation.dao.entity.indicatorSys.Indicator">
+        select
+        <include refid="Cascade_Query_Column"/>
+        from
+        disease_indicator_rel r
+        LEFT JOIN
+        indicator i
+        on
+        r.indicator_id=i.id
+        WHERE
+        r.disease_id=#{diseaseId}
+    </select>
+</mapper>

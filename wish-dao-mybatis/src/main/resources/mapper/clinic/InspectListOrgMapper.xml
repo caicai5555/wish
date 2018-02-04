@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.write.clinic.InspectListOrgDao" >
+
+  <resultMap id="BaseResultMap" type="com.foundation.dao.entity.clinic.InspectListOrg" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="inspect_name" property="inspectName" jdbcType="VARCHAR" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="list_id" property="listId" jdbcType="VARCHAR" />
+    <result column="org_id" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, inspect_name, org_name, list_id, org_id
+  </sql>
+
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from inspect_list_org
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="save" parameterType="com.foundation.dao.entity.clinic.InspectListOrg" >
+    insert into inspect_list_org (id, inspect_name, org_name, 
+      list_id, org_id)
+    values (#{id,jdbcType=VARCHAR}, #{inspectName,jdbcType=VARCHAR}, #{orgName,jdbcType=VARCHAR}, 
+      #{listId,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="saveSelective" parameterType="com.foundation.dao.entity.clinic.InspectListOrg" >
+    insert into inspect_list_org
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="inspectName != null" >
+        inspect_name,
+      </if>
+      <if test="orgName != null" >
+        org_name,
+      </if>
+      <if test="listId != null" >
+        list_id,
+      </if>
+      <if test="orgId != null" >
+        org_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="inspectName != null" >
+        #{inspectName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null" >
+        #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="listId != null" >
+        #{listId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="update" parameterType="com.foundation.dao.entity.clinic.InspectListOrg" >
+    update inspect_list_org
+    <set >
+      <if test="inspectName != null" >
+        inspect_name = #{inspectName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null" >
+        org_name = #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="listId != null" >
+        list_id = #{listId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        org_id = #{orgId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateById" parameterType="com.foundation.dao.entity.clinic.InspectListOrg" >
+    update inspect_list_org
+    set inspect_name = #{inspectName,jdbcType=VARCHAR},
+      org_name = #{orgName,jdbcType=VARCHAR},
+      list_id = #{listId,jdbcType=VARCHAR},
+      org_id = #{orgId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

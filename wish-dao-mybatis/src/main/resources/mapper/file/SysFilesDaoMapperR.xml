@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.foundation.dao.modules.read.file.SysFileDaoR">
+    <resultMap id="BaseResultMap" type="com.foundation.dao.entity.file.SysFile">
+        <id column="id" property="id"/>
+        <result column="busi_id" property="busiId"/>
+        <result column="module_id" property="moduleId"/>
+        <result column="file_name" property="fileName"/>
+        <result column="file_ext_name" property="fileExtName"/>
+        <result column="file_group" property="fileGroup"/>
+        <result column="file_path" property="filePath"/>
+        <result column="status" property="status"/>
+        <result column="create_by" property="createByStr"/>
+        <result column="create_date" property="createDate"/>
+        <result column="update_date" property="updateDate"/>
+        <result column="del_flag" property="delFlag"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id,busi_id,module_id,file_name, file_ext_name, file_group, file_path, status, create_by, create_date, update_date, file_size,
+    del_flag
+  </sql>
+
+    <sql id="Where_Column_List">
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="busiId != null">
+                and busi_id = #{busiId}
+            </if>
+            <if test="moduleId != null">
+                and module_id = #{moduleId}
+            </if>
+            <if test="fileName != null">
+                and file_name = #{fileName}
+            </if>
+            <if test="fileGroup != null">
+                and file_group = #{fileGroup}
+            </if>
+            <if test="fileExtName != null">
+                and file_ext_name = #{fileExtName}
+            </if>
+            <if test="1==1">
+                and del_flag=0
+            </if>
+        </where>
+    </sql>
+
+    <select id="queryById" parameterType="java.lang.String" resultType="com.foundation.dao.entity.file.SysFile">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_files
+        where id = #{id} and del_flag=0
+    </select>
+
+    <select id="queryObject" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_files
+        <include refid="Where_Column_List"/>
+        order by update_date desc,create_date desc limit 1
+    </select>
+
+    <select id="queryList" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_files
+        <include refid="Where_Column_List"/>
+        order by create_date desc
+    </select>
+</mapper>

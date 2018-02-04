@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.foundation.dao.modules.write.file.SysFileDao">
+
+    <insert id="save" parameterType="com.foundation.dao.entity.file.SysFile">
+        insert into sys_files
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,create_date,
+            </if>
+            <if test="busiId != null">
+                busi_id,
+            </if>
+            <if test="moduleId != null">
+                module_id,
+            </if>
+            <if test="fileName != null">
+                file_name,
+            </if>
+            <if test="fileExtName != null">
+                file_ext_name,
+            </if>
+            <if test="fileGroup != null">
+                file_group,
+            </if>
+            <if test="filePath != null">
+                file_path,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+            <if test="fileSize != null">
+                file_size,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},now(),
+            </if>
+            <if test="busiId != null">
+                #{busiId},
+            </if>
+            <if test="moduleId != null">
+                #{moduleId},
+            </if>
+            <if test="fileName != null">
+                #{fileName},
+            </if>
+            <if test="fileExtName != null">
+                #{fileExtName},
+            </if>
+            <if test="fileGroup != null">
+                #{fileGroup},
+            </if>
+            <if test="filePath != null">
+                #{filePath},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="createBy != null">
+                #{createBy},
+            </if>
+            <if test="delFlag != null">
+                0,
+            </if>
+            <if test="fileSize != null">
+                #{fileSize},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.foundation.dao.entity.file.SysFile">
+        update sys_files
+        <set>
+            <if test="busiId != null">
+                busi_id = #{busiId},
+            </if>
+            <if test="moduleId != null">
+                module_id = #{moduleId},
+            </if>
+            <if test="fileName != null">
+                file_name = #{fileName},
+            </if>
+            <if test="fileExtName != null">
+                file_ext_name = #{fileExtName},
+            </if>
+            <if test="fileGroup != null">
+                file_group = #{fileGroup},
+            </if>
+            <if test="filePath != null">
+                file_path = #{filePath},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="update_date != null">
+                update_date = now(),
+            </if>
+            <if test="fileSize != null">
+                file_size = #{fileSize},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <update id="delete" parameterType="java.lang.String">
+    update sys_files
+    set del_flag = 1
+    where id = #{id}
+  </update>
+
+    <!--
+    <delete id="delete" parameterType="java.lang.String">
+     delete from sys_files
+     where id = #{id}
+   </delete>-->
+
+</mapper>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>设备管理</title>
+  <style type="text/css">
+    body {
+      font-size: 62.5%;
+    }
+
+    ul, li {
+      margin: 0;
+      padding: 0;
+    }
+
+    div:after {
+      display: block;
+      height: auto;
+      clear: both;
+      content: '\20';
+    }
+
+    .device-list li {
+      padding: 2rem;
+      background: #4CB050;
+      font-size: 2rem;
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+
+    .title-text, .edit-icon, .delete {
+      display: block;
+    }
+
+    .title-text, .edit-icon {
+      float: left;
+    }
+
+    .delete {
+      float: right;
+    }
+
+    .title-text {
+      font-size: 2.8rem;
+      margin-right: 2rem;
+      max-width: 28rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .edit-icon, .delete {
+      width: 3rem;
+      height: 3rem;
+    }
+
+    .delete {
+      background: url('${content.contextPath}/images/delete.png') no-repeat center center;
+    }
+
+    .edit-icon {
+      background: url('${content.contextPath}/images/edit.png') no-repeat center center;
+    }
+
+    .device-info {
+      clear: both;
+    }
+
+    .device-info span {
+      display: block;
+    }
+
+    .device-info span.serial-number {
+      float: left;
+    }
+
+    .device-info span.device-status {
+      float: right;
+      width: 18rem;
+    }
+
+    .device-status i {
+      display: inline-block;
+      width: 1.5rem;
+      height: 1.5rem;
+      border: 2px solid #fff;
+      border-radius: 1.5rem;
+      margin-right: 1rem;
+      vertical-align: middle;
+    }
+
+    .device-status.exception i {
+      background: red;
+    }
+
+    .device-status.normal i {
+      background: green;
+    }
+
+    .add-device {
+      text-align: center;
+      font-size: 2rem;
+      color: #4CB050;
+      background: #E5F3E6;
+      line-height: 13rem;
+    }
+
+    .add-device b {
+      font-size: 3rem;
+      vertical-align: bottom;
+    }
+
+    .add-device span {
+      line-height: 3rem;
+    }
+  </style>
+  #parse("common/header.html")
+</head>
+<body>
+<input type="hidden" id="openId" value="${openId}">
+<input type="hidden" name="responseData" value='${page}'>
+<script id="template" type="text/html">
+  <div id="listWrapper">
+    <ul class="device-list" data-bind="foreach:$root.resData">
+      <li>
+        <div class="device-title">
+          <b class="title-text" data-bind="text:position"></b>
+          <a class="edit-icon" data-bind="attr:{href:'${content.contextPath}/wxAirCat/openUpdateWXDevice?id='+id+'&openId='+openId}"> </a>
+          <a class="delete" data-bind="attr:{href:'${content.contextPath}/wxAirCat/deleteWXUserDeviceRelation?id='+id+'&openId='+openId}"> </a>
+        </div>
+        <div class="device-info">
+          <span class="serial-number">设备ID:<em data-bind="text:mac"></em></span>
+          <span data-bind="attr:{class:airCatStatus.status === 'online' ? 'device-status normal' : 'device-status exception'}"><i> </i><em data-bind="text:(airCatStatus.status === 'online' ? '连接正常' : '连接异常')"></em></span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</script>
+
+<div class="add-device">
+  <b>+ </b><span onclick="toBind()">添加设备</span>
+</div>
+</body>
+<script type="text/javascript">
+  function toBind() {
+    var openId = $("#openId").val();
+    window.location.href = "${content.contextPath}/wxAirCat/toBind?openId=" + openId;
+  }
+  $(function () {
+    function List(compile) {
+      var resData;
+      eval('resData = ' + $('[name=responseData]').val());
+      var template = $('#template').html();
+      this.viewModel = {
+        resData: resData
+      };
+      this.compile = compile;
+      var segment = compile.call(this, $(template), this.viewModel);
+      segment.insertBefore('.add-device');
+    }
+    new List(templateCompile);
+  });
+</script>
+</body>
+</html>

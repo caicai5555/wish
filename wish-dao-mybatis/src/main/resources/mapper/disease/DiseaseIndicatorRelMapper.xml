@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.write.disease.DiseaseIndicatorRelDao" >
+
+  <delete id="deleteByDiseaseId" parameterType="java.lang.String" >
+    delete from disease_indicator_rel
+    where disease_id = #{diseaseId}
+  </delete>
+
+  <insert id="save" parameterType="com.foundation.dao.entity.disease.DiseaseIndicatorRel" >
+    insert into disease_indicator_rel (id,disease_id, indicator_id)
+    values (#{id},#{diseaseId}, #{indicatorId})
+  </insert>
+
+  <insert id="batchSave" parameterType="list" >
+    insert into disease_indicator_rel (id,disease_id, indicator_id)
+    values
+    <foreach collection="list" item="item" index="index" separator=",">
+    (#{item.id},#{item.diseaseId}, #{item.indicatorId})
+    </foreach>
+  </insert>
+</mapper>

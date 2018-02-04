@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache updateCheck="false" name="defaultCache">
+
+	<diskStore path="../tmp/webConsole/ehcache" />
+
+	<!-- 默认缓存配置. 自动失效：最后一次访问时间间隔300秒失效，若没有访问过自创建时间600秒失效。-->
+	<defaultCache maxEntriesLocalHeap="100" eternal="false" timeToIdleSeconds="30" timeToLiveSeconds="10"
+		overflowToDisk="false" statistics="true"/>
+	
+	<!-- 系统缓存 -->
+	<cache name="sysCache" maxEntriesLocalHeap="1000" eternal="true" overflowToDisk="false" statistics="true"/>
+	
+	<!-- 用户缓存 -->
+	<cache name="userCache" maxEntriesLocalHeap="1000" eternal="true" overflowToDisk="false" statistics="true"/>
+	
+	<!-- 集团缓存 -->
+	<cache name="corpCache" maxEntriesLocalHeap="1000" eternal="true" overflowToDisk="false" statistics="true"/>
+	
+	<!-- 系统活动会话缓存 -->
+    <cache name="activeSessionsCache" maxEntriesLocalHeap="10000" eternal="true" overflowToDisk="true"
+           diskPersistent="false" diskExpiryThreadIntervalSeconds="600" statistics="true"/>
+    	
+</ehcache>

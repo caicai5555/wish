@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.write.clinic.InspectItemDao" >
+
+  <resultMap id="BaseResultMap" type="com.foundation.dao.entity.clinic.InspectItem" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="english_name" property="englishName" jdbcType="VARCHAR" />
+    <result column="item_name" property="itemName" jdbcType="VARCHAR" />
+    <result column="units" property="units" jdbcType="VARCHAR" />
+    <result column="normal_range" property="normalRange" jdbcType="VARCHAR" />
+    <result column="max" property="max" jdbcType="REAL" />
+    <result column="min" property="min" jdbcType="REAL" />
+    <result column="index_name" property="indexName" jdbcType="VARCHAR" />
+    <result column="reduce_formula" property="reduceFormula" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="index_id" property="indexId" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, english_name, item_name, units, normal_range, max, min, index_name, reduce_formula,
+    create_date, index_id
+  </sql>
+
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from inspect_item
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="save" parameterType="com.foundation.dao.entity.clinic.InspectItem" >
+    insert into inspect_item (id, english_name, item_name,
+      units, normal_range, max, 
+      min, index_name, reduce_formula, 
+      create_date, index_id)
+    values (#{id,jdbcType=VARCHAR}, #{englishName,jdbcType=VARCHAR}, #{itemName,jdbcType=VARCHAR},
+      #{units,jdbcType=VARCHAR}, #{normalRange,jdbcType=VARCHAR}, #{max,jdbcType=REAL}, 
+      #{min,jdbcType=REAL}, #{indexName,jdbcType=VARCHAR}, #{reduceFormula,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{indexId,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="saveSelective" parameterType="com.foundation.dao.entity.clinic.InspectItem" >
+    insert into inspect_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="englishName != null" >
+        english_name,
+      </if>
+      <if test="itemName != null" >
+        item_name,
+      </if>
+      <if test="units != null" >
+        units,
+      </if>
+      <if test="normalRange != null" >
+        normal_range,
+      </if>
+      <if test="max != null" >
+        max,
+      </if>
+      <if test="min != null" >
+        min,
+      </if>
+      <if test="indexName != null" >
+        index_name,
+      </if>
+      <if test="reduceFormula != null" >
+        reduce_formula,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="indexId != null" >
+        index_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="englishName != null" >
+        #{englishName,jdbcType=VARCHAR},
+      </if>
+      <if test="itemName != null" >
+        #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="units != null" >
+        #{units,jdbcType=VARCHAR},
+      </if>
+      <if test="normalRange != null" >
+        #{normalRange,jdbcType=VARCHAR},
+      </if>
+      <if test="max != null" >
+        #{max,jdbcType=REAL},
+      </if>
+      <if test="min != null" >
+        #{min,jdbcType=REAL},
+      </if>
+      <if test="indexName != null" >
+        #{indexName,jdbcType=VARCHAR},
+      </if>
+      <if test="reduceFormula != null" >
+        #{reduceFormula,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="indexId != null" >
+        #{indexId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="update" parameterType="com.foundation.dao.entity.clinic.InspectItem" >
+    update inspect_item
+    <set >
+      <if test="englishName != null" >
+        english_name = #{englishName,jdbcType=VARCHAR},
+      </if>
+      <if test="itemName != null" >
+        item_name = #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="units != null" >
+        units = #{units,jdbcType=VARCHAR},
+      </if>
+      <if test="normalRange != null" >
+        normal_range = #{normalRange,jdbcType=VARCHAR},
+      </if>
+      <if test="max != null" >
+        max = #{max,jdbcType=REAL},
+      </if>
+      <if test="min != null" >
+        min = #{min,jdbcType=REAL},
+      </if>
+      <if test="indexName != null" >
+        index_name = #{indexName,jdbcType=VARCHAR},
+      </if>
+      <if test="reduceFormula != null" >
+        reduce_formula = #{reduceFormula,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="indexId != null" >
+        index_id = #{indexId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateById" parameterType="com.foundation.dao.entity.clinic.InspectItem" >
+    update inspect_item
+    set english_name = #{englishName,jdbcType=VARCHAR},
+      item_name = #{itemName,jdbcType=VARCHAR},
+      units = #{units,jdbcType=VARCHAR},
+      normal_range = #{normalRange,jdbcType=VARCHAR},
+      max = #{max,jdbcType=REAL},
+      min = #{min,jdbcType=REAL},
+      index_name = #{indexName,jdbcType=VARCHAR},
+      reduce_formula = #{reduceFormula,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      index_id = #{indexId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

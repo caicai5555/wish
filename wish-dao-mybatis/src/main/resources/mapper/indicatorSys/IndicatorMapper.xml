@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.write.indicatorSys.IndicatorDao" >
+  <!--保存实体-->
+  <insert id="save" parameterType="com.foundation.dao.entity.indicatorSys.Indicator" >
+    insert into indicator
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="showClass != null" >
+        show_class,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+      <if test="archiveFlag != null" >
+        archive_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id},
+      </if>
+      <if test="code != null" >
+        #{code},
+      </if>
+      <if test="type != null" >
+        #{type},
+      </if>
+      <if test="name != null" >
+        #{name},
+      </if>
+      <if test="remark != null" >
+        #{remark},
+      </if>
+      <if test="createDate != null" >
+        #{createDate},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate},
+      </if>
+      <if test="parentId != null" >
+        #{parentId},
+      </if>
+      <if test="state != null" >
+        #{state},
+      </if>
+      <if test="showClass != null" >
+        #{showClass},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag},
+      </if>
+      <if test="archiveFlag != null" >
+        #{archiveFlag},
+      </if>
+    </trim>
+  </insert>
+
+  <!--更新实体 -->
+  <update id="update" parameterType="com.foundation.dao.entity.indicatorSys.Indicator" >
+    update indicator
+    <set >
+      <if test="code != null" >
+        code = #{code},
+      </if>
+      <if test="type != null" >
+        type = #{type},
+      </if>
+      <if test="name != null" >
+        name = #{name},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate},
+      </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId},
+      </if>
+      <if test="state != null" >
+        state = #{state},
+      </if>
+      <if test="showClass != null" >
+        show_class = #{showClass},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag},
+      </if>
+      <if test="archiveFlag != null" >
+        archive_flag = #{archiveFlag},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+
+</mapper>

@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.read.disease.DiseaseDaoR">
+    <resultMap id="BaseResultMap" type="com.foundation.dao.entity.disease.Disease">
+        <id column="id" property="id"/>
+        <result column="pid" property="pid"/>
+        <result column="type" property="type"/>
+        <result column="disease_category_id" property="diseaseCategoryId"/>
+        <result column="name" property="name"/>
+        <result column="english_name" property="englishName"/>
+        <result column="alias" property="alias"/>
+        <result column="info" property="info"/>
+        <result column="hint" property="hint"/>
+        <result column="medical_department" property="medicalDepartment"/>
+        <result column="infectiousness" property="infectiousness"/>
+        <result column="common_site" property="commonSite"/>
+        <result column="common_cause" property="commonCause"/>
+        <result column="symptom" property="symptom"/>
+        <result column="inspect" property="inspect"/>
+        <result column="cure" property="cure"/>
+        <result column="dieteric_treatment" property="dietericTreatment"/>
+        <result column="expert_interpretation" property="expertInterpretation"/>
+        <result column="antidiastole" property="antidiastole"/>
+        <result column="medical_insurance" property="medicalInsurance"/>
+        <result column="treatment_cost" property="treatmentCost"/>
+        <result column="treatment_rate" property="treatmentRate"/>
+        <result column="multiple_population" property="multiplePopulation"/>
+        <result column="neopathy" property="neopathy"/>
+        <result column="sort" property="sort"/>
+        <result column="active_flag" property="activeFlag"/>
+        <result column="del_flag" property="delFlag"/>
+        <result column="create_date" property="createDate"/>
+        <result column="update_date" property="updateDate"/>
+        <result column="remark" property="remark"/>
+        <result column="diease_type_id" property="dieaseTypeId"/>
+        <result column="diease_id" property="dieaseId"/>
+    </resultMap>
+
+    <!--级联查询指标信息-->
+    <resultMap id="diseaseIndicators" extends="BaseResultMap"
+               type="com.foundation.dao.entity.disease.DiseaseRelations">
+        <collection property="indicators" ofType="com.foundation.dao.entity.indicatorSys.Indicator">
+            <id column="i_id" property="id"/>
+            <result column="i_code" property="code"/>
+            <result column="i_type" property="type"/>
+            <result column="i_name" property="name"/>
+            <result column="i_remark" property="remark"/>
+            <result column="i_parent_id" property="parentId"/>
+            <result column="i_state" property="state"/>
+            <result column="i_show_class" property="showClass"/>
+            <result column="i_create_date" property="createDate"/>
+            <result column="i_update_date" property="updateDate"/>
+            <result column="i_del_flag" property="delFlag"/>
+            <result column="i_archive_flag" property="archiveFlag"/>
+        </collection>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, pid, type, disease_category_id, name, english_name, alias, info, hint, medical_department, 
+    infectiousness, common_site, common_cause, symptom, inspect, cure, dieteric_treatment, 
+    expert_interpretation, antidiastole, medical_insurance, treatment_cost, treatment_rate, 
+    multiple_population, neopathy, sort, active_flag, del_flag, create_date, update_date, 
+    remark, diease_type_id, diease_id
+  </sql>
+
+    <!--级联查询用-->
+    <sql id="Cascade_Query_Column">
+    d.id,
+    d.pid,
+    d.type,
+    d.disease_category_id,
+    d.name,
+    d.english_name,
+    d.alias,
+    d.info,
+    d.hint,
+    d.medical_department,
+    d.infectiousness,
+    d.common_site,
+    d.common_cause,
+    d.symptom,
+    d.inspect,
+    d.cure,
+    d.dieteric_treatment,
+    d.expert_interpretation,
+    d.antidiastole,
+    d.medical_insurance,
+    d.treatment_cost,
+    d.treatment_rate,
+    d.multiple_population,
+    d.neopathy,
+    d.sort,
+    d.active_flag,
+    d.del_flag,
+    d.create_date,
+    d.update_date,
+    d.remark,
+    d.diease_type_id,
+    d.diease_id
+  </sql>
+
+    <select id="queryById" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from disease
+        where id = #{id}
+    </select>
+
+    <!-- ************级联相关实体查询，
+    TODO相关级联查询分散到各自的查询中*************** -->
+    <!--级联查询指标-->
+    <select id="queryIndicatorById" resultMap="diseaseIndicators" parameterType="java.lang.String">
+        select
+            <include refid="Cascade_Query_Column"/>,
+            i.id i_id,i.code i_code,i.type i_type,i.name i_name,i.remark i_remark,i.parent_id i_parent_id,
+            i.state i_state,i.show_class i_show_class,
+            i.create_date i_create_date,i.update_date i_update_date,i.del_flag i_del_flag
+            from
+            disease d
+            LEFT JOIN disease_indicator_rel r
+            on d.id=r.disease_id
+            LEFT JOIN indicator i
+        wherem
+        d.id = #{id}
+            on r.indicator_id = i.id
+    </select>
+    <!--级联查询描述性指标-->
+    <!--级联查询症状-->
+    <!--级联查询基位点-->
+
+    <!-- ************级联相关实体查询 END************** -->
+
+
+    <!-- 更新操作验证名称是否存在-->
+    <select id="queryNameExist" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from disease
+        <where>
+            <![CDATA[
+				del_flag = ${@com.foundation.common.bean.Constants@DEL_FLAG_NORMAL}
+			]]>
+            and name =#{name}
+            <if test="id != null">
+                and id !=#{id}
+            </if>
+            <if test="pid != null">
+                and pid !=#{pid}
+            </if>
+        </where>
+    </select>
+
+    <!--查询列表-->
+    <select id="queryList" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from disease
+        <where>
+            <![CDATA[
+				del_flag = ${@com.foundation.common.bean.Constants@DEL_FLAG_NORMAL}
+			]]>
+            <if test="pid != null">
+                and pid =#{pid}
+            </if>
+            <if test="type != null">
+                and type =#{type}
+            </if>
+            <if test="diseaseCategoryId != null">
+                and disease_category_id =#{diseaseCategoryId}
+            </if>
+            <if test="name != null">
+                and name =#{name}
+            </if>
+            <if test="id != null">
+                and id =#{id}
+            </if>
+        </where>
+        order by update_date desc
+    </select>
+
+    <!--分页查询-->
+    <select id="queryPage" parameterType="map"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from disease
+        <where>
+            <if test="map.pid != null">
+                and pid =#{map.pid}
+            </if>
+            <if test="map.type != null">
+                and type =#{map.type}
+            </if>
+            <if test="map.diseaseCategoryId != null">
+                and disease_category_id =#{map.diseaseCategoryId}
+            </if>
+            <if test="map.name != null">
+                and name like CONCAT('%','${map.name}','%')
+            </if>
+            <if test="map.createDate != null">
+                and create_date >= #{map.createDate}
+            </if>
+        </where>
+        order by update_date desc
+    </select>
+
+    <!--查询条数-->
+    <select id="getCount" parameterType="map"
+            resultType="java.lang.Integer">
+        select count(1) from disease
+        <where>
+            <if test="pid != null">
+                and pid =#{pid}
+            </if>
+            <if test="type != null">
+                and type =#{type}
+            </if>
+            <if test="diseaseCategoryId != null">
+                and disease_category_id =#{diseaseCategoryId}
+            </if>
+            <if test="name != null">
+                and name like CONCAT('%','${name}','%')
+            </if>
+        </where>
+    </select>
+</mapper>

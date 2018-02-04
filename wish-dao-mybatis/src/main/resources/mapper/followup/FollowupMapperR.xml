@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.read.followup.FollowupDaoR" >
+
+  <sql id="Base_Column_List" >
+      id, 
+      name, 
+      times, 
+      quest_id AS questId, 
+      quest_name AS questName,
+      org_id AS orgId, 
+      org_name AS orgName, 
+      intervals, 
+      type, 
+      used,
+      status, 
+      start_date AS startDate, 
+      start_by AS 'startBy.id', 
+      update_by AS 'updateBy.id', 
+      update_date AS updateDate,
+      create_by AS 'createBy.id', 
+      create_date AS createDate, 
+      remarks
+  </sql>
+
+  <select id="queryById"  parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from followup
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="queryPageList" resultType="com.foundation.dao.entity.followup.Followup" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM followup
+    <where>
+      <if test="map.ids != null">
+        AND id IN
+        <foreach collection="map.ids" item="item" index="index" open="(" separator="," close=")">
+          '${item}'
+        </foreach>
+      </if>
+      <if test="map.name != null and map.name != '' ">
+        AND name = '${map.name}'
+      </if>
+      <if test="map.questId != null and map.questId != '' ">
+        AND quest_id = '${map.questId}'
+      </if>
+      <if test="map.questName != null and map.questName != '' ">
+        AND quest_name LIKE  CONCAT('%', '${map.questName}', '%')
+      </if>
+      <if test="map.orgId != null and map.orgId != '' ">
+        AND org_id = '${map.orgId}'
+      </if>
+      <if test="map.used != null ">
+        AND used = '${map.used}'
+      </if>
+      <if test="map.status != null ">
+        AND status = '${map.status}'
+      </if>
+      <if test="map.startBy != null and map.startBy != '' ">
+        AND start_by = '${map.startBy}'
+      </if>
+    </where>
+    <if test="map.orders != null">
+      ORDER BY
+      <foreach collection="map.orders" item="item" index="index" open="" separator="," close="">
+        ${index} ${item}
+      </foreach>
+    </if>
+    ORDER BY start_date ASC
+  </select>
+
+<select id="getCount" resultType="int">
+  select
+  count(0)
+  from followup
+  <where>
+    <if test="ids != null">
+      AND id IN
+      <foreach collection="ids" item="item" index="index" open="(" separator="," close=")">
+        '${item}'
+      </foreach>
+    </if>
+    <if test="name != null and name != '' ">
+      AND name = '${name}'
+    </if>
+    <if test="questId != null and questId != '' ">
+      AND quest_id = '${questId}'
+    </if>
+    <if test="questName != null and questName != '' ">
+      AND quest_name LIKE  CONCAT('%', '${questName}', '%')
+    </if>
+    <if test="orgId != null and orgId != '' ">
+      AND org_id = '${orgId}'
+    </if>
+    <if test="used != null ">
+      AND used = '${used}'
+    </if>
+    <if test="status != null ">
+      AND status = '${status}'
+    </if>
+    <if test="startBy != null and startBy != '' ">
+      AND start_by = '${startBy}'
+    </if>
+  </where>
+</select>
+
+</mapper>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.read.archive.DistArchiveDescindicatorDaoR" >
+  <resultMap id="BaseResultMap" type="com.foundation.dao.entity.archive.DistArchiveDescindicator" >
+    <id column="id" property="id"/>
+    <result column="code" property="code"/>
+    <result column="type" property="type"/>
+    <result column="name" property="name"/>
+    <result column="remark" property="remark"/>
+    <result column="create_date" property="createDate"/>
+    <result column="update_date" property="updateDate"/>
+    <result column="parent_id" property="parentId"/>
+    <result column="del_flag" property="delFlag"/>
+    <result column="archive_flag" property="archiveFlag"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, code, type, name, remark, create_date, update_date, parent_id, del_flag, archive_flag
+  </sql>
+
+  <!-- 关联查询用-->
+  <sql id="Cascade_Query_Column" >
+    d.id, d.code, d.type, d.name, d.remark, d.create_date, d.update_date, d.parent_id, d.del_flag, d.archive_flag
+  </sql>
+  <!-- 根据主键查询实体 -->
+  <select id="queryById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from dist_archive_descindicator
+    where id = #{id}
+  </select>
+
+  <!-- 根据code查询实体 -->
+  <select id="queryObject" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from dist_archive_descindicator
+    where code = #{code}
+  </select>
+
+  <!-- 动态参数获取数量 -->
+  <select id="getCount" parameterType="map" resultType="int">
+    select count(1) from dist_archive_descindicator
+    <where>
+      <![CDATA[
+				del_flag = ${@com.foundation.common.bean.Constants@DEL_FLAG_NORMAL}
+			]]>
+      <if test="code != null">
+        and code = #{code}
+      </if>
+    </where>
+  </select>
+  <!--查询列表-->
+  <select id="queryList" resultMap="BaseResultMap" parameterType="map" >
+    select
+    <include refid="Base_Column_List" />
+    from dist_archive_descindicator
+    <where>
+      <![CDATA[
+				del_flag = ${@com.foundation.common.bean.Constants@DEL_FLAG_NORMAL}
+			]]>
+      <if test="parentId != null">
+        and parent_id = #{parentId}
+      </if>
+      <if test="name != null">
+        and name LIKE CONCAT('%,', #{name}, ',%')
+      </if>
+    </where>
+  </select>
+
+  <!-- *****根据疾病id级联查询描述性指标-->
+  <select id="queryByDiseaseId" parameterType="java.lang.String"
+          resultMap="BaseResultMap">
+      select
+      <include refid="Cascade_Query_Column"/>
+      from diseaseinfo_descindicator_rel r
+      LEFT JOIN dist_archive_descindicator d
+      on r.descindicator_id = d.id
+      WHERE
+      r.disease_info_id = #{diseaseId}
+  </select>
+</mapper>

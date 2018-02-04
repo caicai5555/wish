@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>检查报告列表</title>
+  <meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5">
+  <link rel="stylesheet" type="text/css" href="../../webapp/styles/common.css">
+  <style type="text/css">
+    header {
+      height: 4rem;
+      font-size: 2rem;
+      text-align: right;
+    }
+
+    header .icon-cancel {
+      background: red;
+      width: 3rem;
+      height: 3rem;
+      background: url('../../webapp/images/cancel.png') no-repeat 0 0;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    section {
+      background: #E5F3E6;
+      font-size: 2.3rem;
+      margin-bottom: 3rem;
+    }
+
+    section .title {
+      height: 7rem;
+      background: #4CB050;
+      color: #fff;
+      line-height: 7rem;
+      padding: 0 2rem;
+    }
+
+    section ul {
+      color: #000;
+      height: auto;
+      width: 90%;
+      width: -moz-calc(100% - 4rem);
+      width: -webkit-calc(100% - 4rem);
+      width: calc(100% - 4rem);
+      padding: 0 2rem;
+    }
+
+    section li {
+      line-height: 7rem;
+      border-bottom: 1px solid #CDE8CE;
+      clear: both;
+    }
+
+    section .result {
+      height: 7rem;
+      line-height: 7rem;
+      color: #999;
+      padding: 0 2rem;
+      font-size: 2rem;
+    }
+
+    .result em {
+      float: left;
+      font-style: normal;
+    }
+
+    .result em.finish {
+      width: 20rem;
+      height: 7rem;
+      line-height: 7rem;
+      padding-left: 3rem;
+      background: url('../../webapp/images/finish.png') no-repeat left center;
+    }
+
+    .result a {
+      float: right;
+      width: 49%;
+      text-align: center;
+      text-decoration: none;
+      height: 3rem;
+      line-height: 3rem;
+      margin-top: 2rem;
+    }
+
+    .result .view {
+      border-right: 1px solid #3BAF3D;
+    }
+
+    hr {
+      margin: 0;
+    }
+
+    .dialog .progress {
+      height: 6px;
+      background: #3BAF3D;
+      border: 1px solid #3BAF3D;
+      border-radius: 3px;
+      width: 0;
+      position: absolute;
+      left: 0;
+      top: -3px;
+    }
+
+    .dialog .progress-line {
+      height: 1px;
+      width: 100%;
+      color: red;
+      background: #3BAF3D;
+      border: 1px solid #3BAF3D;
+      position: relative;
+      margin: 3rem 0;
+    }
+
+    .rate {
+      text-align: right;
+    }
+    #pdfContainer{
+      width: 100%;
+      height: 100%;
+      border: none;
+      position: absolute;
+      left:0;
+      top:0;
+    }
+  </style>
+</head>
+<body>
+
+<input type="hidden" name="responseData"
+       value='[{"reportTimeStamp":"","reportUrl":"xxx.pdf","reportDate":"2015-11-14 19:05:35","reportVersion":-1,"reportName":"xxx.pdf","isShow":0},{"reportTimeStamp":"","reportUrl":"xxx.pdf","reportDate":"2015-11-14 19:05:35","reportVersion":-1,"reportName":"xxx.pdf","isShow":0}]'/>
+<script id="template" type="text/html">
+  <div class="viewport">
+  <div class="main">
+    <div data-bind="foreach:$root.resData">
+      <section>
+        <div class="title" data-bind="text:reportName"></div>
+        <div class="result">
+          <a target="_blank" class="download" data-bind="attr:{href:reportUrl}">下载</a>
+          <a target="_blank" class="view" data-bind="attr:{href:reportUrl}">查看</a>
+        </div>
+      </section>
+    </div>
+  </div>
+  </div>
+</script>
+
+<script id="dialogTemplate" type="text/html">
+  <div class="shade">
+  </div>
+  <div class="dialog">
+    <div class="content" data-bind="html:$root.content"></div>
+    <div class="button-group">
+      <button class="confirm" data-bind="click:$root.onConfirm" data-if="$root.isShowConfirm">确定</button>
+      <button class="cancel" data-bind="click:$root.onCancel">取消</button>
+    </div>
+  </div>
+</script>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="../../webapp/viewjs/common/common.js"></script>
+<script type="text/javascript" src="pdf2.js"></script>
+<script type="text/javascript">
+  $(function () {
+    new Component();
+
+    function downloadPdf(url) {
+      var blobUrl = url + '#pdfjs.action=download';
+      var filename = /(?:^|\/)([^\/]+\.pdf)/.exec(blobUrl)[1] || 'myPDF';
+      var a = document.createElement('a');
+        if (window.top === window &&
+            blobUrl.split('#')[0] === window.location.href.split('#')[0]) {
+          var padCharacter = blobUrl.indexOf('?') === -1 ? '?' : '&';
+          blobUrl = blobUrl.replace(/#|$/, padCharacter + '$&');
+        }
+        window.open(blobUrl, '_parent');
+    }
+
+
+    function createCORSRequest(method, url) {
+      var xhr = new XMLHttpRequest();
+      if ("withCredentials" in xhr) {
+        // Check if the XMLHttpRequest object has a "withCredentials" property.
+        xhr.open(method, url, true);
+
+      } else if (typeof XDomainRequest != "undefined") {
+
+        xhr = new XDomainRequest();
+        xhr.open(method, url);
+
+      } else {
+        // Otherwise, CORS is not supported by the browser.
+        xhr = null;
+      }
+      if (!xhr) {
+        alert('-------------------');
+        throw new Error('CORS not supported');
+      }else{
+        xhr.onreadystatechange = function(){
+          console.log(arguments);
+        };
+        xhr.send(null);
+      }
+    }
+
+   //createCORSRequest('GET', 'http://mozilla.github.io/pdf.js/examples/learning/helloworld.pdf');
+
+//    viewPdf('http://lz553814861.6655.la/ehfs/upload/otherfile/sip/CS2015122801/report_CS2015122801.pdf');
+
+    function viewPdf(url) {
+
+      //
+      // If absolute URL from the remote server is provided, configure the CORS
+      // header on that server.
+      //
+
+      //
+      // Disable workers to avoid yet another cross-origin issue (workers need
+      // the URL of the script to be loaded, and dynamically loading a cross-origin
+      // script does not work).
+      //
+       PDFJS.disableWorker = true;
+
+      //
+      // In cases when the pdf.worker.js is located at the different folder than the
+      // pdf.js's one, or the pdf.js is executed via eval(), the workerSrc property
+      // shall be specified.
+      //
+      // PDFJS.workerSrc = '../../build/pdf.worker.js';
+
+      var pdfDoc = null,
+          pageNum = 1,
+          pageRendering = false,
+          pageNumPending = null,
+          scale = 0.8,
+          canvas = document.getElementById('the-canvas'),
+          ctx = canvas.getContext('2d');
+
+      /**
+       * Get page info from document, resize canvas accordingly, and render page.
+       * @param num Page number.
+       */
+      function renderPage(num) {
+        pageRendering = true;
+        // Using promise to fetch the page
+        pdfDoc.getPage(num).then(function (page) {
+          var viewport = page.getViewport(scale);
+          canvas.height = viewport.height;
+          canvas.width = viewport.width;
+
+          // Render PDF page into canvas context
+          var renderContext = {
+            canvasContext: ctx,
+            viewport: viewport
+          };
+          var renderTask = page.render(renderContext);
+
+          // Wait for rendering to finish
+          renderTask.promise.then(function () {
+            pageRendering = false;
+            if (pageNumPending !== null) {
+              // New page rendering is pending
+              renderPage(pageNumPending);
+              pageNumPending = null;
+            }
+          });
+        });
+
+        // Update page counters
+        document.getElementById('page_num').textContent = pageNum;
+      }
+
+      /**
+       * If another page rendering in progress, waits until the rendering is
+       * finised. Otherwise, executes rendering immediately.
+       */
+      function queueRenderPage(num) {
+        if (pageRendering) {
+          pageNumPending = num;
+        } else {
+          renderPage(num);
+        }
+      }
+
+      /**
+       * Displays previous page.
+       */
+      function onPrevPage() {
+        if (pageNum <= 1) {
+          return;
+        }
+        pageNum--;
+        queueRenderPage(pageNum);
+      }
+
+      document.getElementById('prev').addEventListener('click', onPrevPage);
+
+      /**
+       * Displays next page.
+       */
+      function onNextPage() {
+        if (pageNum >= pdfDoc.numPages) {
+          return;
+        }
+        pageNum++;
+        queueRenderPage(pageNum);
+      }
+
+      document.getElementById('next').addEventListener('click', onNextPage);
+
+      /**
+       * Asynchronously downloads PDF.
+       */
+      PDFJS.getDocument(url).then(function (pdfDoc_) {
+        pdfDoc = pdfDoc_;
+        document.getElementById('page_count').textContent = pdfDoc.numPages;
+
+        // Initial/first page rendering
+        renderPage(pageNum);
+      });
+
+    }
+
+    //弹窗
+    $('body').click(function (event) {
+      var target = $(event.target);
+      var dataModel;
+      if (target.hasClass('download')) {
+        var downloadURL = target.attr('href');
+        dataModel = {
+          id: 007,
+          content: '确定下载吗？非WIFI网络会消耗手机流量',
+          onCancel: function () {
+            $('.shade, .dialog').remove();
+          },
+          onConfirm: function (data, event) {
+            downloadPdf(downloadURL);
+          },
+          isShowConfirm: true
+        };
+        new Component(null, dataModel, '#dialogTemplate');
+      }
+      if (target.hasClass('view')) {
+        var downloadURL = target.attr('href');
+        var dataModel = {
+          id: 007,
+          content: '<div class="description">正在打开，请稍后…</div><div class="progress-line"><div class="progress"></div></div><div class="rate"><span>6.7M</span> / <b>18.8M</b></div>',
+          onCancel: function () {
+            $('.shade, .dialog').remove();
+            clearInterval(interval);
+          },
+          isShowConfirm: false
+        };
+        new Component(null, dataModel, '#dialogTemplate');
+        var num = 0, max = 100;
+        var interval = setInterval(function () {
+          //fixme
+          num += 20;
+          if (num > max) {
+            num = max;
+            clearInterval(interval);
+            $('.shade, .dialog').remove();
+            $('#pdfContainer').remove();
+            $('body').append('<iframe id="pdfContainer" style="display: none;" src="http://192.168.1.88:63342/app-wechat/src/main/resources/static-pages/pdfviewer.html#'+ downloadURL +'"></iframe>');
+            $('#pdfContainer').show();
+            $('body').append('<div style="padding-right:50px; line-height:68px; font-size:23px; position:absolute;right:0;top:0;" onclick="$(\'#pdfContainer\').remove();$(this).remove()">关闭</div>');
+          }
+          $('.progress').width(num + '%');
+        }, 300);
+      }
+      if(!target.attr('download')){
+        event.stopPropagation();
+        event.preventDefault();
+        return false;
+      }
+    });
+  });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.write.followup.FollowupDao" >
+
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from followup
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="save">
+    insert into followup (
+      id, name, times, quest_id, quest_name,
+      org_id, org_name, intervals, type, used,
+      status, start_date, start_by, update_by, update_date,
+      create_by, create_date, remarks
+      )
+    values (
+      #{id}, #{name}, #{times}, #{questId}, #{questName},
+      #{orgId}, #{orgName}, #{intervals}, #{type}, #{used},
+      #{status}, #{startDate}, #{startBy.id}, #{updateBy.id}, #{updateDate},
+      #{createBy.id}, #{createDate}, #{remarks}
+      )
+  </insert>
+
+
+  <update id="update" >
+    update followup
+    <set >
+      <if test="name != null and name != '' " > name = #{name}, </if>
+      <if test="times != 0.0 and times != 0 " > times = #{times}, </if>
+      <if test="questId != null and questId != '' " > quest_id = #{questId}, </if>
+      <if test="questName != null and questName != '' " > quest_name = #{questName}, </if>
+      <if test="orgId != null and orgId != '' " > org_id = #{orgId}, </if>
+      <if test="orgName != null and orgName != '' " > org_name = #{orgName}, </if>
+      <if test="intervals != null and intervals != '' " > intervals = #{intervals}, </if>
+      <if test=" type != null " > type = #{type}, </if>
+      <if test=" used != null" > used = #{used}, </if>
+      <if test=" status != null  " > status = #{status}, </if>
+      <if test="startBy != null" > start_by = #{startBy.id}, </if>
+      <if test="startDate != null " > start_date = #{startDate}, </if>
+      <if test="updateBy != null" > update_by = #{updateBy.id}, </if>
+      <if test="updateDate != null " > update_date = #{updateDate}, </if>
+      <if test="remarks != null and remarks != '' " > remarks = #{remarks}, </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <insert id="batchSave" parameterType="java.util.List">
+    insert into  followup (
+        id, name, times, quest_id, quest_name,
+        org_id, org_name, intervals, type, used,
+        status, start_date, start_by, update_by, update_date,
+        create_by, create_date, remarks
+      )
+    values
+    <foreach item="item" collection="list" separator=",">
+      (
+        #{item.id}, #{item.name}, #{item.times}, #{item.questId}, #{item.questName},
+        #{item.orgId}, #{item.orgName}, #{item.intervals}, #{item.type}, #{item.used},
+        #{item.status}, #{item.startDate}, #{item.startBy.id}, #{item.updateBy.id}, #{item.updateDate},
+        #{item.createBy.id}, #{item.createDate}, #{item.remarks}
+      )
+    </foreach>
+  </insert>
+
+</mapper>

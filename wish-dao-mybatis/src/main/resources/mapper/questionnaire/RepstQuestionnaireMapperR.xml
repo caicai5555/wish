@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.read.questionnaire.RepstQuestionnaireDaoR" >
+
+  <resultMap id="BaseResultMap" type="com.foundation.dao.entity.questionnaire.RepstQuestionnaire" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="questionnaire_name" property="questionnaireName"/>
+    <result column="questionnaire_ctgr" property="questionnaireCtgr"/>
+    <result column="is_show_flag" property="isShowFlag"/>
+    <result column="sys_user_id" property="sysUserId"/>
+    <result column="create_date" property="createDate"/>
+    <result column="update_date" property="updateDate"/>
+    <result column="back_compute_class" property="backComputeClass"/>
+    <result column="result_url" property="resultUrl"/>
+    <result column="remark" property="remark"/>
+    <result column="order_id" property="orderId"/>
+    <result column="questionnaire_url" property="questionnaireUrl"/>
+    <result column="who_answer" property="whoAnswer"/>
+    <result column="conclusion_id" property="conclusionId"/>
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, questionnaire_name, questionnaire_ctgr, is_show_flag, sys_user_id, create_date, update_date,
+    back_compute_class, result_url, remark, order_id, questionnaire_url, who_answer, conclusion_id
+  </sql>
+
+  <select id="queryById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from repst_questionnaire
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="queryPageList" resultType="com.foundation.dao.entity.questionnaire.RepstQuestionnaire" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM repst_questionnaire
+    <where>
+      <if test="map.ids != null">
+        AND id IN
+        <foreach collection="map.ids" item="item" index="index" open="(" separator="," close=")">
+          '${item}'
+        </foreach>
+      </if>
+      <if test="map.questionnaireName != null">
+        AND questionnaire_name LIKE CONCAT('%','${map.questionnaireName}','%' )
+      </if>
+      <if test="map.repstQuestionnaireCtgr != null">
+        AND repst_questionnaire_ctgr = '${map.repstQuestionnaireCtgr}'
+      </if>
+    </where>
+    <if test="map.orders != null">
+      ORDER BY
+      <foreach collection="map.orders" item="item" index="index" open="" separator="," close="">
+        ${index} ${item}
+      </foreach>
+    </if>
+    ORDER BY create_date ASC
+  </select>
+
+<select id="getCount" parameterType="map" resultType="int">
+  select
+  count(0)
+  from repst_questionnaire
+  <where>
+    <if test="map != null">
+      <if test="map.id != null">id = #{map.id} </if>
+    </if>
+  </where>
+</select>
+
+  <select id="queryDetailById" resultMap="entityDetail" parameterType="java.lang.String" >
+    SELECT
+      A.*,
+      C.id as ctgr_id,
+      C.question_ctgr_name ,
+      C.parent_question_ctgr,
+      C.order_id
+    FROM repst_questionnaire A
+      LEFT JOIN repst_questionnaire_ctgr_rel B ON A.id = B.questionnaire_id
+      LEFT JOIN repst_questions_ctgr C ON B.question_ctgr = C.id
+    WHERE A.id = #{id,jdbcType=VARCHAR}
+    ORDER BY C.order_id;
+    </select>
+  
+  <resultMap id="entityDetail" type="com.foundation.dao.entity.questionnaire.RepstQuestionnaire">
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="questionnaire_name" property="questionnaireName"/>
+    <result column="questionnaire_ctgr" property="questionnaireCtgr"/>
+    <result column="is_show_flag" property="isShowFlag"/>
+    <result column="sys_user_id" property="sysUserId"/>
+    <result column="create_date" property="createDate"/>
+    <result column="update_date" property="updateDate"/>
+    <result column="back_compute_class" property="backComputeClass"/>
+    <result column="result_url" property="resultUrl"/>
+    <result column="remark" property="remark"/>
+    <result column="order_id" property="orderId"/>
+    <result column="questionnaire_url" property="questionnaireUrl"/>
+    <result column="who_answer" property="whoAnswer"/>
+    <result column="conclusion_id" property="conclusionId"/>
+    <collection property="repstQuestionsCtgrList" ofType="com.foundation.dao.entity.questionnaire.RepstQuestionsCtgr">
+      <id column="ctgr_id" property="id" jdbcType="VARCHAR"/>
+      <result column="question_ctgr_name" property="questionCtgrName"/>
+      <result column="parent_question_ctgr" property="parentQuestionCtgr"/>
+      <result column="order_id" property="orderId"/>
+    </collection>
+  </resultMap>
+  
+</mapper>

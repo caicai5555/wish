@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.write.questionnaire.RepstQuestionnaireRecordDao" >
+
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from repst_questionnaire_record
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="save" parameterType="com.foundation.dao.entity.questionnaire.RepstQuestionnaireRecord" >
+    insert into repst_questionnaire_record (
+      id, questionnaire_id, order_item_id, sys_user_id, user_id,
+      status, create_date, order_id, resp_result, resp_time,
+      evaluation, answer_start_time, service_use_record_id, assistant_record_id
+      )
+    values (
+      #{id}, #{questionnaireId}, #{orderItemId}, #{sysUserId}, #{userId},
+      #{status}, #{createDate}, #{orderId}, #{respResult}, #{respTime},
+      #{evaluation}, #{answerStartTime}, #{serviceUseRecordId}, #{assistantRecordId}
+      )
+  </insert>
+
+  <update id="update" parameterType="com.foundation.dao.entity.questionnaire.RepstQuestionnaireRecord" >
+    update repst_questionnaire_record
+    <set >
+      <if test="questionnaireId != null" > questionnaire_id = #{questionnaireId}, </if>
+      <if test="orderItemId != null" > order_item_id = #{orderItemId}, </if>
+      <if test="sysUserId != null" > sys_user_id = #{sysUserId}, </if>
+      <if test="userId != null" > user_id = #{userId}, </if>
+      <if test="status != null" > status = #{status}, </if>
+      <if test="createDate != null" > create_date = #{createDate}, </if>
+      <if test="orderId != null" > order_id = #{orderId}, </if>
+      <if test="respResult != null" > resp_result = #{respResult}, </if>
+      <if test="respTime != null" > resp_time = #{respTime}, </if>
+      <if test="evaluation != null" > evaluation = #{evaluation}, </if>
+      <if test="answerStartTime != null" > answer_start_time = #{answerStartTime}, </if>
+      <if test="serviceUseRecordId != null" > service_use_record_id = #{serviceUseRecordId}, </if>
+      <if test="assistantRecordId != null" > assistant_record_id = #{assistantRecordId}, </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateById" parameterType="java.util.Map" >
+    update repst_questionnaire_record
+    <set >
+      <if test="questionnaireId != null" > questionnaire_id = #{questionnaireId}, </if>
+      <if test="orderItemId != null" > order_item_id = #{orderItemId}, </if>
+      <if test="sysUserId != null" > sys_user_id = #{sysUserId}, </if>
+      <if test="userId != null" > user_id = #{userId}, </if>
+      <if test="status != null" > status = #{status}, </if>
+      <if test="createDate != null" > create_date = #{createDate}, </if>
+      <if test="orderId != null" > order_id = #{orderId}, </if>
+      <if test="respResult != null" > resp_result = #{respResult}, </if>
+      <if test="respTime != null" > resp_time = #{respTime}, </if>
+      <if test="evaluation != null" > evaluation = #{evaluation}, </if>
+      <if test="answerStartTime != null" > answer_start_time = #{answerStartTime}, </if>
+      <if test="serviceUseRecordId != null" > service_use_record_id = #{serviceUseRecordId}, </if>
+      <if test="assistantRecordId != null" > assistant_record_id = #{assistantRecordId}, </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <insert id="batchSave" parameterType="java.util.List">
+    insert into  repst_questionnaire_record (
+      id, questionnaire_id, order_item_id, sys_user_id, user_id,
+      status, create_date, order_id, resp_result, resp_time,
+      evaluation, answer_start_time, service_use_record_id, assistant_record_id
+      )
+    values
+    <foreach item="item" collection="list" separator=",">
+      (
+      #{item.id}, #{item.questionnaireId}, #{item.orderItemId}, #{item.sysUserId}, #{item.userId},
+      #{item.status}, #{item.createDate}, #{item.orderId}, #{item.respResult}, #{item.respTime},
+      #{item.evaluation}, #{item.answerStartTime}, #{item.serviceUseRecordId}, #{item.assistantRecordId}
+      )
+    </foreach>
+  </insert>
+
+</mapper>

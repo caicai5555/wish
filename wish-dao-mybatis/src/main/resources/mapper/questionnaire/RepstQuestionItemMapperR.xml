@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.read.questionnaire.RepstQuestionItemDaoR" >
+
+  <resultMap id="BaseResultMap" type="com.foundation.dao.entity.questionnaire.RepstQuestionItem" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="parent_item_id" property="parentItemId"/>
+    <result column="question_id" property="questionId"/>
+    <result column="item_type" property="itemType"/>
+    <result column="item_name" property="itemName"/>
+    <result column="item_desc" property="itemDesc"/>
+    <result column="item_score" property="itemScore"/>
+    <result column="is_compute_score" property="isComputeScore"/>
+    <result column="order_id" property="orderId"/>
+    <result column="item_limited" property="itemLimited"/>
+    <result column="item_id_dis" property="itemIdDis"/>
+    <result column="e_item_ids" property="eIitemIds"/>
+    <result column="q_limited" property="qLimited"/>
+    <result column="q_ids" property="qIds"/>
+    <result column="q_enable" property="qEnable"/>
+    <result column="operation_id" property="operationId"/>
+    <result column="is_control_quest" property="isControlQuest"/>
+    <result column="mark" property="mark"/>
+    <result column="type_encoding" property="typeEncoding"/>
+    <result column="archive_type" property="archiveType"/>
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, parent_item_id, question_id, item_type,  item_name,  item_desc,  item_score,
+      is_compute_score,  order_id,  item_limited,  item_id_dis,  e_item_ids,  q_limited,
+      q_ids,  q_enable,  operation_id,  is_control_quest,  mark,
+      type_encoding, archive_type
+  </sql>
+
+  <select id="queryById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from repst_question_item
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="queryPageList" resultType="com.foundation.dao.entity.questionnaire.RepstQuestionItem" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM repst_question_item
+    <where>
+      <if test="map.ids != null">
+        AND id IN
+        <foreach collection="map.ids" item="item" index="index" open="(" separator="," close=")">
+          '${item}'
+        </foreach>
+      </if>
+      <if test="map.questionId != null">
+        AND question_id = ${map.questionId}
+      </if>
+    </where>
+    <if test="map.orders != null">
+      ORDER BY
+      <foreach collection="map.orders" item="item" index="index" open="" separator="," close="">
+        ${index} ${item}
+      </foreach>
+    </if>
+  </select>
+
+<select id="getCount" parameterType="map" resultType="int">
+  select
+  count(0)
+  from repst_question_item
+  <where>
+    <if test="map != null">
+      <if test="map.id != null">id = #{map.id} </if>
+      <if test="map.questionId != null">
+        AND question_id = ${map.questionId}
+      </if>
+    </if>
+  </where>
+</select>
+
+</mapper>

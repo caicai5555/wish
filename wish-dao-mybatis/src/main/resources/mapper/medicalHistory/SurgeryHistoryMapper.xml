@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.write.medicalHistory.SurgeryHistoryDao">
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.foundation.dao.entity.medicalHistory.SurgeryHistory">
+		insert into surgery_history
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="createBy != null">
+				create_by,
+			</if>
+			create_date,
+			<if test="updateBy != null">
+				update_by,
+			</if>
+			update_date,
+			<if test="delFlag != null">
+				del_flag,
+			</if>
+			<if test="delDate != null">
+				del_date,
+			</if>
+			<if test="remarks != null">
+				remarks,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="userId != null">
+				#{userId},
+			</if>
+			<if test="createBy != null">
+				#{createBy.id},
+			</if>
+			<choose>
+				<when test="createDate != null">
+					#{createDate},
+				</when>
+				<otherwise>
+					now(),
+				</otherwise>
+			</choose>
+			<if test="updateBy != null">
+				#{updateBy.id},
+			</if>
+			<choose>
+				<when test="updateDate != null">
+					#{updateDate},
+				</when>
+				<otherwise>
+					now(),
+				</otherwise>
+			</choose>
+			<if test="delFlag != null">
+				#{delFlag},
+			</if>
+			<if test="delDate != null">
+				#{delDate},
+			</if>
+			<if test="remarks != null">
+				#{remarks},
+			</if>
+		</trim>
+	</insert>
+	<!-- 更新 -->
+	<update id="update" parameterType="com.foundation.dao.entity.medicalHistory.SurgeryHistory">
+		update surgery_history
+		<set>
+			<if test="userId != null">
+				user_id = #{userId},
+			</if>
+			<if test="createBy != null">
+				create_by = #{createBy.id},
+			</if>	
+			<if test="createDate != null">
+				create_date = #{createDate},
+			</if>		
+			<if test="updateBy != null">
+				update_by = #{updateBy.id},
+			</if>		
+			<choose>
+				<when test="updateDate != null">
+					update_date = #{updateDate},
+				</when>
+				<otherwise>
+					update_date = now(),
+				</otherwise>
+			</choose>
+			<if test="delFlag != null">
+				del_flag = #{delFlag},
+			</if>	
+			<if test="delDate != null">
+				del_Date = #{delDate},
+			</if>	
+			<if test="remarks != null">
+				remarks = #{remarks},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+    <!-- 删除 -->
+    <delete id="delete" parameterType="java.lang.String">
+        delete from surgery_history where id=#{id}
+    </delete>
+</mapper>

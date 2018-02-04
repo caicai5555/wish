@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.write.subsystem.SubsystemPlatformUserDao" >
+
+  <delete id="deleteByMap" parameterType="java.util.Map" >
+    DELETE FROM subsystem_platform_user
+    WHERE sid = #{sid,jdbcType=VARCHAR}
+    AND uid = #{uid,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="save" parameterType="com.foundation.dao.entity.subsystem.SubsystemPlatformUser" >
+    insert into subsystem_platform_user ( sid, uid )
+    values ( #{sid}, #{uid} )
+  </insert>
+
+  <insert id="batchSave" parameterType="java.util.List">
+    insert into  subsystem_platform_user ( sid, uid )
+    values
+    <foreach item="item" collection="list" separator=",">
+      ( #{item.sid}, #{item.uid} )
+    </foreach>
+  </insert>
+
+</mapper>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PDF浏览器</title>
+  <style>
+    canvas, body, html, .pdf-wrapper, canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    .pdf-wrapper {
+      min-height: 800px;
+      background: #fff;
+    }
+    #prev, #next, .pages{
+      float: left;
+      font-size: 23px;
+      border: none;
+      padding: 3px 30px;
+      background: none;
+      line-height: 50px;
+    }
+    .close {
+      float: right;
+      padding-right: 30px;
+      font-size: 23px;
+      line-height: 50px;
+    }
+  </style>
+</head>
+<body>
+<div class="controler">
+  <button id="prev">上一页</button>
+  <button id="next">下一页</button>
+  <div class="pages">页: <span id="page_num"></span> / <span id="page_count"></span></div>
+</div>
+<div class="pdf-wrapper">
+  <canvas id="the-canvas" style="border:1px solid black"></canvas>
+</div>
+<script src="jquery.js"></script>
+<script type="text/javascript" src="pdf2.js"></script>
+<script>
+  function viewPdf(url) {
+
+    //
+    // If absolute URL from the remote server is provided, configure the CORS
+    // header on that server.
+    //
+
+    //
+    // Disable workers to avoid yet another cross-origin issue (workers need
+    // the URL of the script to be loaded, and dynamically loading a cross-origin
+    // script does not work).
+    //
+    PDFJS.disableWorker = true;
+
+    //
+    // In cases when the pdf.worker.js is located at the different folder than the
+    // pdf.js's one, or the pdf.js is executed via eval(), the workerSrc property
+    // shall be specified.
+    //
+    // PDFJS.workerSrc = '../../build/pdf.worker.js';
+
+    var pdfDoc = null,
+        pageNum = 1,
+        pageRendering = false,
+        pageNumPending = null,
+        scale = 0.8,
+        canvas = document.getElementById('the-canvas'),
+        ctx = canvas.getContext('2d');
+
+    /**
+     * Get page info from document, resize canvas accordingly, and render page.
+     * @param num Page number.
+     */
+    function renderPage(num) {
+      pageRendering = true;
+      // Using promise to fetch the page
+      pdfDoc.getPage(num).then(function (page) {
+        var viewport = page.getViewport(scale);
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        // Render PDF page into canvas context
+        var renderContext = {
+          canvasContext: ctx,
+          viewport: viewport
+        };
+        var renderTask = page.render(renderContext);
+
+        // Wait for rendering to finish
+        renderTask.promise.then(function () {
+          pageRendering = false;
+          if (pageNumPending !== null) {
+            // New page rendering is pending
+            renderPage(pageNumPending);
+            pageNumPending = null;
+          }
+        });
+      });
+
+      // Update page counters
+      document.getElementById('page_num').textContent = pageNum;
+    }
+
+    /**
+     * If another page rendering in progress, waits until the rendering is
+     * finised. Otherwise, executes rendering immediately.
+     */
+    function queueRenderPage(num) {
+      if (pageRendering) {
+        pageNumPending = num;
+      } else {
+        renderPage(num);
+      }
+    }
+
+    /**
+     * Displays previous page.
+     */
+    function onPrevPage() {
+      if (pageNum <= 1) {
+        return;
+      }
+      pageNum--;
+      queueRenderPage(pageNum);
+    }
+
+    document.getElementById('prev').addEventListener('click', onPrevPage);
+
+    /**
+     * Displays next page.
+     */
+    function onNextPage() {
+      if (pageNum >= pdfDoc.numPages) {
+        return;
+      }
+      pageNum++;
+      queueRenderPage(pageNum);
+    }
+
+    document.getElementById('next').addEventListener('click', onNextPage);
+
+    /**
+     * Asynchronously downloads PDF.
+     */
+    PDFJS.getDocument(url).then(function (pdfDoc_) {
+      pdfDoc = pdfDoc_;
+      document.getElementById('page_count').textContent = pdfDoc.numPages;
+
+      // Initial/first page rendering
+      renderPage(pageNum);
+    });
+
+  }
+  //  $(function(){
+  ////    var hash = window.location.hash;
+  ////    console.log('hash'+hash);
+  ////    $0.contentWindow.onhashchange = function(){console.log(87878787)}
+  //  });
+  window.onload = function (event) {
+    var url = window.location.hash.replace(/^#/, '');
+    viewPdf(url);
+  };
+</script>
+</body>
+</html>

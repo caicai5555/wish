@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.read.disease.SymptomDaoR">
+    <resultMap id="BaseResultMap" type="com.foundation.dao.entity.disease.Symptom">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="phenomenon" property="phenomenon"/>
+        <result column="intensity" property="intensity"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+    <!-- 列-基础查询用-->
+    <sql id="Base_Column_List">
+    id, name, phenomenon, intensity, remark
+    </sql>
+    <!-- 列-级联查询用-->
+    <sql id="Cascade_Query_Column">
+    s.id, s.name, s.phenomenon, s.intensity, s.remark
+    </sql>
+    <!--根据id查询-->
+    <select id="queryById" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from symptom
+        where id = #{id}
+    </select>
+    <!--可变参数查询列表-->
+    <select id="queryList" resultMap="BaseResultMap" parameterType="map">
+        select
+        <include refid="Base_Column_List"/>
+        from symptom
+        <where>
+            <if test="name!=null">
+                and name= #{name}
+            </if>
+            <if test="phenomenon!=null">
+                and phenomenon= #{phenomenon}
+            </if>
+            <if test="intensity!=null">
+                and intensity= #{intensity}
+            </if>
+        </where>
+    </select>
+    <!--根据疾病id查询列表-->
+    <select id="queryByDiseaseId" resultType="com.foundation.dao.entity.disease.Symptom" parameterType="String">
+        select
+        s.id, s.name, s.phenomenon, s.intensity, s.remark
+        ,r.category_id categoryId
+        from
+        disease_symptom_rel r
+        LEFT JOIN
+        symptom s
+        on r.symptom_id=s.id
+        WHERE
+        r.disease_id=#{deseaseId}
+    </select>
+</mapper>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.read.questionnaire.RepstQuestionnaireCtgrDaoR" >
+
+  <resultMap id="BaseResultMap" type="com.foundation.dao.entity.questionnaire.RepstQuestionnaireCtgr" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="questionnaire_ctgr" property="questionnaireCtgr"/>
+    <result column="questionnaire_ctgr_name" property="questionnaireCtgrName"/>
+    <result column="sys_user_id" property="sysUserId"/>
+    <result column="create_date" property="createDate"/>
+    <result column="update_date" property="updateDate"/>
+    <result column="remark" property="remark"/>
+    <result column="order_id" property="orderId"/>
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+      id, questionnaire_ctgr, questionnaire_ctgr_name, sys_user_id,
+      create_date,  update_date,  remark, order_id
+  </sql>
+
+  <select id="queryById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from repst_questionnaire_ctgr
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="queryPageList" resultType="com.foundation.dao.entity.questionnaire.RepstQuestionnaireCtgr" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM repst_questionnaire_ctgr
+    <where>
+      <if test="map.ids != null">
+        AND id IN
+        <foreach collection="map.ids" item="item" index="index" open="(" separator="," close=")">
+          '${item}'
+        </foreach>
+      </if>
+      <if test="map.questionnaireCtgr != null">
+        AND questionnaire_ctgr = ${map.questionnaireCtgr}
+      </if>
+    </where>
+    <if test="map.orders != null">
+      ORDER BY
+      <foreach collection="map.orders" item="item" index="index" open="" separator="," close="">
+        ${index} ${item}
+      </foreach>
+    </if>
+  </select>
+
+<select id="getCount" parameterType="map" resultType="int">
+  select
+  count(0)
+  from repst_questionnaire_ctgr
+  <where>
+    <if test="map != null">
+      <if test="map.id != null">id = #{map.id} </if>
+      <if test="map.questionnaireCtgr != null">
+        AND questionnaire_ctgr = ${map.questionnaireCtgr}
+      </if>
+    </if>
+  </where>
+</select>
+
+</mapper>

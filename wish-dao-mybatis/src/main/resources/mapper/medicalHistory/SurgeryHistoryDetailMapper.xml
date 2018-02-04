@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.write.medicalHistory.SurgeryHistoryDetailDao">
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.foundation.dao.entity.medicalHistory.SurgeryHistoryDetail">
+		insert into surgery_history_detail
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="surgeryHistoryId != null">
+				surgery_history_id,
+			</if>
+			<if test="surgeryCode != null">
+				surgery_code,
+			</if>
+			<if test="surgeryName != null">
+				surgery_name,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="userId != null">
+				#{userId},
+			</if>
+			<if test="surgeryHistoryId != null">
+				#{surgeryHistoryId},
+			</if>
+			<if test="surgeryCode != null">
+				#{surgeryCode},
+			</if>
+			<if test="surgeryName != null">
+				#{surgeryName},
+			</if>
+		</trim>
+	</insert>
+	<!-- 更新 -->
+	<update id="update" parameterType="com.foundation.dao.entity.evaluate.EvaluateInfo">
+		update surgery_history_detail
+		<set>
+			<if test="userId != null">
+				user_id = #{userId},
+			</if>
+			<if test="surgeryHistoryId != null">
+				surgery_history_id = #{surgeryHistoryId},
+			</if>
+			<if test="surgeryCode != null">
+				surgery_code = #{surgeryCode},
+			</if>
+			<if test="surgeryName != null">
+				surgery_name = #{surgeryName},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+    <!-- 删除 -->
+    <delete id="delete" parameterType="java.lang.String">
+        delete from surgery_history_detail where id=#{id}
+    </delete>
+    <!-- 删除 -->
+    <delete id="deleteByMap" parameterType="java.lang.String">
+        delete from surgery_history_detail where surgery_history_id=#{surgeryHistoryId}
+    </delete>
+</mapper>

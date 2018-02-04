@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.foundation.dao.modules.write.sys.UserDao">
+	
+
+
+    <sql id="userColumns">
+    	a.id,
+    	a.company_id AS "company.id",
+    	a.office_id AS "office.id",
+    	a.login_name,
+		a.password,
+		a.name,
+		cast(AES_DECRYPT(a.card_no,#{DBKEY}) as CHAR) as cardNo,
+		cast(AES_DECRYPT(a.email,#{DBKEY}) as CHAR) as email,
+		cast(AES_DECRYPT(a.phone,#{DBKEY}) as CHAR) as phone,
+		cast(AES_DECRYPT(a.mobile,#{DBKEY}) as CHAR) as mobile,
+		cast(AES_DECRYPT(a.address,#{DBKEY}) as CHAR) as address,
+		a.user_type,
+		a.login_ip,
+		a.login_date,
+		a.remarks,
+		a.login_flag,
+		a.photo,
+		a.create_by AS "createBy.id",
+		a.create_date,
+		a.update_by AS "updateBy.id",
+		a.update_date,
+		a.del_flag,
+    	c.name AS "company.name",
+    	c.parent_id AS "company.parent.id",
+    	c.parent_ids AS "company.parentIds",
+    	ca.id AS "company.area.id",
+    	ca.name AS "company.area.name",
+    	ca.parent_id AS "company.area.parent.id",
+    	ca.parent_ids AS "company.area.parentIds",
+    	o.name AS "office.name",
+    	o.parent_id AS "office.parent.id",
+    	o.parent_ids AS "office.parentIds",
+    	oa.id AS "office.area.id",
+    	oa.name AS "office.area.name",
+    	oa.parent_id AS "office.area.parent.id",
+    	oa.parent_ids AS "office.area.parentIds",
+    	cu.id AS "company.primaryPerson.id",
+    	cu.name AS "company.primaryPerson.name",
+    	cu2.id AS "company.deputyPerson.id",
+    	cu2.name AS "company.deputyPerson.name",
+    	ou.id AS "office.primaryPerson.id",
+    	ou.name AS "office.primaryPerson.name",
+    	ou2.id AS "office.deputyPerson.id",
+    	ou2.name AS "office.deputyPerson.name"<!-- ,
+        r.id AS "roleList.id",
+        r.office_id AS "roleList.office.id",
+        r.name AS "roleList.name",
+        r.enname AS "roleList.enname",
+        r.role_type AS "roleList.roleType",
+        r.data_scope AS "roleList.dataScope" -->
+    </sql>
+
+    
+    <sql id="userJoins">
+		LEFT JOIN sys_office c ON c.id = a.company_id
+		LEFT JOIN sys_area ca ON ca.id = c.area_id
+		LEFT JOIN sys_office o ON o.id = a.office_id
+		LEFT JOIN sys_area oa ON oa.id = o.area_id
+		LEFT JOIN sys_user cu ON cu.id = c.primary_person
+		LEFT JOIN sys_user cu2 ON cu2.id = c.deputy_person
+		LEFT JOIN sys_user ou ON ou.id = o.primary_person
+		LEFT JOIN sys_user ou2 ON ou2.id = o.deputy_person
+    </sql>
+
+
+	<!-- 插入用户 -->
+	<insert id="insertUser">
+		INSERT INTO sys_user(
+			id
+		<if test="company != null and company.id != null and company.id != ''">
+			,company_id
+		</if>
+		<if test="office != null and office.id != null and office.id != ''">
+			,office_id
+		</if>
+		<if test="password != null and password != ''">
+			,password
+		</if>
+		<if test="loginName != null and loginName != ''">
+			,login_name
+		</if>
+		<if test="name != null and name != ''">
+			,name
+		</if>
+		<if test="cardNo != null and cardNo != ''">
+			,card_no
+		</if>
+		<if test="email != null and email != ''">
+			,email
+		</if>
+		<if test="phone != null and phone != ''">
+			,phone
+		</if>
+		<if test="mobile != null and mobile != ''">
+			,mobile
+		</if>
+		<if test="address != null and address != ''">
+			,address
+		</if>
+		<if test="userType != null">
+			,user_type
+		</if>
+		<if test="photo != null and photo != ''">
+			,photo
+		</if>
+		<if test="birthday != null">
+			,birthday
+		</if>
+		<!--<if test="loginDate != null and loginDate != ''">-->
+			<!--,login_date-->
+		<!--</if>-->
+		<if test="loginFlag != null and loginFlag != ''">
+			,login_flag
+		</if>
+		<if test="createBy != null and createBy.id != null and createBy.id != ''">
+			,create_by
+		</if>
+		<if test="createDate != null">
+			,create_date
+		</if>
+		<if test="updateBy != null and updateBy.id != null and updateBy.id != ''">
+			,update_by
+		</if>
+		<if test="remarks != null and remarks != ''">
+			,remarks
+		</if>
+		<if test="delFlag != null">
+			,del_flag
+		</if>
+		<if test="age != null">
+			,age
+		</if>
+		<if test="sex != null">
+			,sex
+		</if>
+		<if test="nation != null and nation != ''">
+			,nation
+		</if>
+		<if test="education != null">
+			,education
+		</if>
+		<if test="certificateType != null">
+			,certificate_type
+		</if>
+		<if test="certificateNumber != null and certificateNumber != ''">
+			,certificate_number
+		</if>
+		<if test="occupation != null">
+			,occupation
+		</if>
+		<if test="occupationOthers != null">
+			,occupation_others
+		</if>
+		<if test="postCode != null and postCode != ''">
+			,post_code
+		</if>
+		<if test="followupType != null and followupType != ''">
+			,followup_type
+		</if>
+		<if test="hukouType != null ">
+			,hukou_type
+		</if>
+		<if test="addressProvince != null and addressProvince != ''">
+			,address_province
+		</if>
+		<if test="addressCity != null and addressCity != ''">
+			,address_city
+		</if>
+		<if test="addressCounty != null and addressCounty != ''">
+			,address_county
+		</if>
+		<if test="addressTown != null and addressTown != ''">
+			,address_town
+		</if>
+		<if test="addressVillage != null and addressVillage != ''">
+			,address_village
+		</if>
+		<if test="hukouProvince != null and hukouProvince != ''">
+			,hukou_province
+		</if>
+		<if test="hukouCity != null and hukouCity != ''">
+			,hukou_city
+		</if>
+		<if test="hukouCounty != null and hukouCounty != ''">
+			,hukou_county
+		</if>
+		<if test="hukouTown != null and hukouTown != ''">
+			,hukou_town
+		</if>
+		<if test="hukouVillage != null and hukouVillage != ''">
+			,hukou_village
+		</if>
+		<if test="marryDate != null ">
+			,marry_date
+		</if>
+		<if test="pregnancyArchiveId != null">
+			,pregnancy_archive_id
+		</if>
+		) VALUES (
+
+		#{id}
+		<if test="company != null and company.id != null and company.id != ''">
+			, #{company.id}
+		</if>
+		<if test="office != null and office.id != null and office.id != ''">
+			, #{office.id}
+		</if>
+		<if test="password != null and password != ''">
+			, #{password}
+		</if>
+		<if test="loginName != null and loginName != ''">
+			, #{loginName}
+		</if>
+		<if test="name != null and name != ''">
+			, #{name}
+		</if>
+		<if test="cardNo != null and cardNo != ''">
+			, AES_ENCRYPT(#{cardNo},#{DBKEY})
+		</if>
+		<if test="email != null and email != ''">
+			, AES_ENCRYPT(#{email},#{DBKEY})
+		</if>
+		<if test="phone != null and phone != ''">
+			,AES_ENCRYPT(#{phone},#{DBKEY})
+		</if>
+		<if test="mobile != null and mobile != ''">
+			, AES_ENCRYPT(#{mobile},#{DBKEY})
+		</if>
+		<if test="address != null and address != ''">
+			, AES_ENCRYPT(#{address},#{DBKEY})
+		</if>
+		<if test="userType != null">
+			, #{userType}
+		</if>
+		<if test="photo != null and photo != ''">
+			, #{photo}
+		</if>
+		<if test="birthday != null">
+			,#{birthday}
+		</if>
+		<if test="loginFlag != null and loginFlag != ''">
+			, #{loginFlag}
+		</if>
+		<if test="createBy != null and createBy.id != null and createBy.id != ''">
+			, #{createBy.id}
+		</if>
+		<if test="createDate != null">
+			, #{createDate}
+		</if>
+		<if test="updateBy != null and updateBy.id != null and updateBy.id != ''">
+			, #{updateBy.id}
+		</if>
+		<if test="remarks != null and remarks != ''">
+			, #{remarks}
+		</if>
+		<if test="delFlag != null">
+			, #{delFlag}
+		</if>
+		<if test="age != null">
+			, #{age}
+		</if>
+		<if test="sex != null">
+			, #{sex}
+		</if>
+		<if test="nation != null and nation != ''">
+			, #{nation}
+		</if>
+		<if test="education != null ">
+			, #{education}
+		</if>
+		<if test="certificateType != null">
+			, #{certificateType}
+		</if>
+		<if test="certificateNumber != null and certificateNumber != ''">
+			, #{certificateNumber}
+		</if>
+		<if test="occupation != null">
+			, #{occupation}
+		</if>
+		<if test="occupationOthers != null">
+			, #{occupationOthers}
+		</if>
+		<if test="postCode != null and postCode != ''">
+			, #{postCode}
+		</if>
+		<if test="followupType != null and followupType != ''">
+			, #{followupType}
+		</if>
+		<if test="hukouType != null">
+			, #{hukouType}
+		</if>
+		<if test="addressProvince != null and addressProvince != ''">
+			, #{addressProvince}
+		</if>
+		<if test="addressCity != null and addressCity != ''">
+			, #{addressCity}
+		</if>
+		<if test="addressCounty != null and addressCounty != ''">
+			, #{addressCounty}
+		</if>
+		<if test="addressTown != null and addressTown != ''">
+			, #{addressTown}
+		</if>
+		<if test="addressVillage != null and addressVillage != ''">
+			, #{addressVillage}
+		</if>
+		<if test="hukouProvince != null and hukouProvince != ''">
+			, #{hukouProvince}
+		</if>
+		<if test="hukouCity != null and hukouCity != ''">
+			, #{hukouCity}
+		</if>
+		<if test="hukouCounty != null and hukouCounty != ''">
+			, #{hukouCounty}
+		</if>
+		<if test="hukouTown != null and hukouTown != ''">
+			, #{hukouTown}
+		</if>
+		<if test="hukouVillage != null and hukouVillage != ''">
+			, #{hukouVillage}
+		</if>
+		<if test="marryDate != null ">
+			, #{marryDate}
+		</if>
+		<if test="pregnancyArchiveId != null">
+			,#{pregnancyArchiveId}
+		</if>
+		)
+	</insert>
+
+	<!-- 插入用户 -->
+	<insert id="insert">
+		INSERT INTO sys_user(
+			id, 
+			company_id, 
+			office_id, 
+			login_name, 
+			password, 
+			card_no,
+			name, 
+			email, 
+			phone, 
+			mobile,
+			address,
+			user_type, 
+			create_by, 
+			create_date, 
+			update_by, 
+			update_date, 
+			remarks, 
+			login_flag, 
+			photo, 
+			del_flag
+		<if test="pregnancyArchiveId != null">
+			,pregnancy_archive_id
+		</if>
+		) VALUES (
+			#{id}, 
+			#{company.id}, 
+			#{office.id}, 
+			#{loginName}, 
+			#{password}, 
+			AES_ENCRYPT(#{cardNo},#{DBKEY}),
+			#{name},
+			AES_ENCRYPT(#{email},#{DBKEY}),
+			AES_ENCRYPT(#{phone},#{DBKEY}),
+			AES_ENCRYPT(#{mobile},#{DBKEY}),
+			AES_ENCRYPT(#{address},#{DBKEY}),
+			#{userType}, 
+			#{createBy.id}, 
+			#{createDate}, 
+			#{updateBy.id}, 
+			#{updateDate}, 
+			#{remarks}, 
+			#{loginFlag}, 
+			#{photo}, 
+			#{delFlag}
+		<if test="pregnancyArchiveId != null">
+			,#{pregnancyArchiveId}
+		</if>
+		)
+	</insert>
+	
+	<!-- 更新用户 -->
+	<update id="update">
+		UPDATE sys_user SET 
+			company_id = #{company.id}, 
+			office_id = #{office.id}, 
+			login_name = #{loginName}, 
+			password = #{password},
+			card_no= AES_ENCRYPT(#{cardNo},#{DBKEY}),
+			name= #{name},
+			email= AES_ENCRYPT(#{email},#{DBKEY}),
+			phone= AES_ENCRYPT(#{phone},#{DBKEY}),
+			mobile =AES_ENCRYPT(#{mobile},#{DBKEY}),
+			address= AES_ENCRYPT(#{address},#{DBKEY}),
+			user_type = #{userType}, 
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}, 
+			remarks = #{remarks},
+			login_flag = #{loginFlag},
+			photo = #{photo}
+			<if test="pregnancyArchiveId != null and pregnancyArchiveId !='' ">
+				,pregnancy_archive_id = #{pregnancyArchiveId}
+			</if>
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 删除用户和角色关联表数据 -->
+	<delete id="deleteUserRole">
+		DELETE FROM sys_user_role WHERE user_id = #{id}
+	</delete>
+	
+	<!-- 插入用户和角色关联表数据 -->
+	<insert id="insertUserRole">
+		INSERT INTO sys_user_role(user_id, role_id)
+		<foreach collection="roleList" item="role" separator=" union all ">
+			SELECT #{id}, #{role.id} FROM dual
+		</foreach>
+	</insert>
+	
+	<!-- 更新用户信息  -->
+	<update id="updateUserInfo">
+		UPDATE sys_user SET 
+			card_no= AES_ENCRYPT(#{cardNo},#{DBKEY}),
+			email= AES_ENCRYPT(#{email},#{DBKEY}),
+			phone= AES_ENCRYPT(#{phone},#{DBKEY}),
+			mobile =AES_ENCRYPT(#{mobile},#{DBKEY}),
+			address= AES_ENCRYPT(#{address},#{DBKEY}),
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}, 
+			remarks = #{remarks},
+			photo = #{photo}
+		<if test="pregnancyArchiveId != null and pregnancyArchiveId !='' ">
+			,pregnancy_archive_id = #{pregnancyArchiveId}
+		</if>
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 更新用户密码 -->
+	<update id="updatePasswordById">
+		UPDATE sys_user SET 
+			password = #{password} 
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 更新登录信息，如登录IP、登录时间 -->
+	<update id="updateLoginInfo">
+		UPDATE sys_user SET 
+			login_ip = #{loginIp}, 
+			login_Date = #{loginDate} 
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 逻辑删除用户 -->
+	<update id="delete">
+		UPDATE sys_user SET 
+			<![CDATA[
+				del_flag = ${@com.foundation.common.bean.Constants@DEL_FLAG_DELETE}
+			]]>
+		WHERE id = #{id}
+	</update>
+
+	<!-- 更新用户信息  -->
+	<update id="updatePerInfo" parameterType="map">
+		UPDATE sys_user SET
+		name = #{name},
+		card_no= AES_ENCRYPT(#{cardNo},#{DBKEY}),
+		email= AES_ENCRYPT(#{email},#{DBKEY}),
+		phone= AES_ENCRYPT(#{phone},#{DBKEY}),
+		mobile =AES_ENCRYPT(#{mobile},#{DBKEY}),
+		address_province = #{addressProvince},
+		address_city = #{addressCity},
+		address_county = #{addressCounty},
+		address_town = #{addressTown},
+		address_village = #{addressVillage},
+		hukou_province = #{hukouProvince},
+		hukou_city = #{hukouCity},
+		hukou_county = #{hukouCounty},
+		hukou_town = #{hukouTown},
+		hukou_village = #{hukouVillage},
+		update_by = #{updateBy},
+		update_date = now()
+
+		<if test="pregnancyArchiveId != null and pregnancyArchiveId !='' ">
+			,pregnancy_archive_id = #{pregnancyArchiveId}
+		</if>
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

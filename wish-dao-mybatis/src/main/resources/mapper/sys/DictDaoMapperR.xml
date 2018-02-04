@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.foundation.dao.modules.read.sys.DictDaoR">
+    
+	<select id="get" resultType="com.foundation.dao.entity.sys.Dict">
+		SELECT 
+			* 
+		FROM sys_dict 
+		WHERE id = #{id}
+	</select>
+	
+	<select id="findList" resultType="com.foundation.dao.entity.sys.Dict">
+		SELECT 
+			* 
+		FROM sys_dict 
+		WHERE <![CDATA[
+				del_flag = ${@com.foundation.common.bean.Constants@DEL_FLAG_NORMAL}
+			]]>
+		<if test="type != null and type != ''">
+			AND type = #{type}
+		</if>
+		<if test="description != null and description != ''">
+			AND description LIKE CONCAT('%', #{description}, '%')
+		</if>
+		ORDER BY type, sort, update_date DESC
+	</select>
+	
+	<select id="findAllList" resultType="com.foundation.dao.entity.sys.Dict">
+		SELECT * FROM sys_dict
+		WHERE <![CDATA[
+				del_flag = ${@com.foundation.common.bean.Constants@DEL_FLAG_NORMAL}
+			]]>
+		ORDER BY type, sort, update_date DESC
+	</select>
+	
+	<select id="findTypeList" resultType="string">
+		SELECT 
+			type 
+		FROM sys_dict 
+		WHERE <![CDATA[
+				del_flag = ${@com.foundation.common.bean.Constants@DEL_FLAG_NORMAL}
+			]]>
+		GROUP BY type
+		ORDER BY type
+	</select>
+	
+</mapper>

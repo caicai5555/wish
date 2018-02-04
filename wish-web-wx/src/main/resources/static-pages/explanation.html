@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>预约解读</title>
+  <meta name="viewport" content="width=device-width, initial-scale=0.35, maximum-scale=0.35, minimum-scale=0.35, user-scalable=no">
+  <link rel="stylesheet" type="text/css" href="../../webapp/styles/base.css"/>
+  <link rel="stylesheet" type="text/css" href="../../webapp/styles/clean.css"/>
+  <link rel="stylesheet" type="text/css" href="../../webapp/styles/common.css"/>
+  <link rel="stylesheet" type="text/css" href="../../webapp/styles/jquery.datetimepicker.css">
+  <style type="text/css">
+    .label-group {
+      padding-bottom: 1rem;
+      margin-bottom: 3rem;
+      font-size: 2rem;
+    }
+
+    .label-group label {
+      display: block;
+      width: 100%;
+      height: 5rem;
+      vertical-align: bottom;
+      color: #60B763;
+      font-size: 2.3rem;
+    }
+    .label-group label span{
+      color: #999;
+      font-size: 2rem;
+    }
+    .label-group input {
+      width: calc(100% - 2rem);
+      height: 5rem;
+      font-size: 2.3rem;
+      border: none;
+      padding: 0 1rem;
+      background: #E5F3E6;
+    }
+
+    .label-group input:focus {
+      border: none;
+      outline: hidden;
+    }
+
+    .error-message {
+      color: red;
+      padding-left: 3rem;
+      background: url('../../webapp/images/error.png') no-repeat left center;
+      display: none;
+      margin: 1rem 0 1rem 6.5rem;
+      font-size: 2rem;
+    }
+
+    .mobile-num label {
+      background: url('../../webapp/images/mobile.png') no-repeat center center;
+    }
+
+    .verification-num label {
+      background: url('../../webapp/images/verification.png') no-repeat center center;
+    }
+
+    .button-group {
+      width: 100%;
+      height: auto;
+      margin: 7rem 0;
+      clear: both;
+    }
+
+    .button-group .submit {
+      width: 100%;
+      background: #4CB050;
+      color: #fff;
+      height: auto;
+      border: none;
+      padding: 2rem;
+      font-size: 2.6rem;
+    }
+
+    .checkbox-list, .radio-list {
+      background: #E5F3E6;
+      padding: 3rem 2rem;
+      margin: 0;
+    }
+
+    .checkbox-list li, .radio-list li {
+      padding: 1rem 0;
+      line-height: 3rem;
+      font-size: 2rem;
+      border-bottom: 1px solid #C9E6C9;
+      list-style-image: url('../../webapp/images/circle.png');
+      list-style-position: inside;
+    }
+
+    .checkbox-list li.checked, .radio-list li.checked{
+      list-style-image: url('../../webapp/images/finish.png');
+      list-style-position: inside;
+    }
+
+    .input-wrapper {
+      width: 100%;
+      height: 5rem;
+      position: relative;
+    }
+
+    .date-picker {
+      width: 115px;
+      height: 5rem;
+      background: url('../../webapp/images/date-picker.png') no-repeat right center;
+      position: absolute;
+      right: 20px;
+      top: 0;
+      z-index: 9999;
+    }
+
+    .datepicker {
+      top: 20% !important;
+      left: 20% !important;
+      width: 500px !important;
+      height: 500px !important;
+      background: none;
+      border: none;
+      position: fixed !important;
+    }
+
+    .datepickerDays a {
+      width: auto;
+    }
+
+    .datepickerContainer {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    .datepickerContainer table {
+      width: 100% !important;
+      height: 100% !important;
+      font-size: 2rem;
+    }
+
+    div.datepicker th a.datepickerGoNext, div.datepicker th a.datepickerGoPrev {
+      width: 107px;
+      height: 80px;
+      line-height: 80px;
+    }
+
+    div.datepicker th a.datepickerMonth {
+      width: 280px;
+      height: 80px;
+      line-height: 80px;
+    }
+
+    .time-picker {
+      position: absolute;
+      bottom: -139px;
+      font-size: 2.6rem;
+      margin-top: 2rem;
+      border-top: 2px solid #ccc;
+      background: #fff;
+      padding: 10px;
+    }
+
+    .time-picker [name=timeRange], .time-picker option {
+      font-size: 2.6rem;
+    }
+    .date-wrapper{
+      position: relative;
+    }
+    .label-group input.time-range-input{
+      position: absolute;
+      width: calc(100% - 17rem);
+      left: 15rem;
+      top: 0;
+    }
+    .xdsoft_noselect{
+      transform: scale(2.5);
+      left: 300px !important;
+    }
+
+  </style>
+</head>
+<body>
+<div class="viewport">
+<section class="main-content">
+  <form method="post" action="/">
+    <div class="label-group">
+      <label>＊姓名</label>
+      <input class="text-input" name="name" type="text"/>
+    </div>
+    <div class="label-group name">
+      <label>＊手机号<span>（请确保该手机可以联系到您）</span></label>
+      <input class="text-input" name="name" type="text"/>
+    </div>
+    <div class="label-group">
+      <label>＊检测套餐<span>（请选择需解读的检测套餐）</span></label>
+      <ul class="radio-list">
+        <li class="radio-list-item checked"> 1111003T-高发肿瘤易感基因检测（男项）
+          <input type="checkbox" checked="checked" name="detectionPackage" value="detection1" style="display: none;"></li>
+        <li class="radio-list-item"> 1111003T-高发肿瘤易感基因检测（男项）
+          <input type="checkbox" name="detectionPackage" value="detection2" style="display: none;"></li>
+        <li class="radio-list-item"> 1111003T-高发肿瘤易感基因检测（男项）
+          <input type="checkbox" name="detectionPackage" value="detection3" style="display: none;"></li>
+      </ul>
+    </div>
+    <div class="label-group">
+      <label>＊期望解读日期<span>（点击选择日期）</span></label>
+
+      <div class="input-wrapper date-wrapper">
+        <input class="date-picker-input text-input" name="date" type="text" disabled="disabled"/>
+        <!--<input class="time-range-input text-input" name="time" type="text"/>-->
+        <div class="date-picker"></div>
+      </div>
+    </div>
+    <div class="label-group">
+      <label>与检测人关系</label>
+      <ul class="radio-list">
+        <li class="radio-list-item checked">本人<input type="radio" checked="true" name="relationship"
+                                                        value="self"
+                                                        style="display: none;"></li>
+        <li class="radio-list-item">其它<input type="radio" name="relationship" value="other"
+                                                style="display: none;"></li>
+      </ul>
+    </div>
+    <div class="button-group">
+      <button class="submit" type="submit">提交</button>
+    </div>
+  </form>
+</section>
+</div>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="../../webapp/viewjs/common/common.js"></script>
+<script type="text/javascript" src="../../webapp/viewjs/lib/jquery.datetimepicker.full.min.js"></script>
+<script id="dialogTemplate" type="text/html">
+  <div class="shade">
+  </div>
+  <div class="dialog">
+    <div class="content" data-bind="html:$root.content"></div>
+    <div class="button-group">
+      <button class="confirm" data-bind="click:$root.onConfirm" data-if="$root.isShowConfirm">确定</button>
+    </div>
+  </div>
+</script>
+<script type="text/javascript">
+  $(function () {
+    $.curCSS = $.css;
+    var dateTrigger = '.date-picker';
+    var datePicker = '.date-picker-input';
+    $(dateTrigger).click(function () {
+      $(datePicker).trigger('touchstart');
+    });
+    $.datetimepicker.setLocale('zh');
+    var date = new Date();
+    var today = date.toISOString().match(/\d{4}-\d{2}-\d{2}/)[0];
+    $(datePicker).datetimepicker({
+      dayOfWeekStart : 1,
+      lang:'zh',
+      disabledDates:[today],
+      startDate:	today
+    });
+    $(datePicker).datetimepicker({value:today + ' 00:00',step:10});
+    $('.viewport').click(function (event) {
+      var target = $(event.target);
+      if (target.hasClass('checkbox-list-item')) {
+        if (target.hasClass('checked')) {
+          target.removeClass('checked');
+          target.find(':checkbox')[0].checked = false;
+        } else {
+          target.addClass('checked');
+          target.find(':checkbox')[0].checked = true;
+        }
+      }
+      if (target.hasClass('radio-list-item')) {
+          target.addClass('checked');
+        target.find(':radio').attr('checked', true);
+          target.siblings().removeClass('checked');
+        target.siblings().find(':radio').attr('checked', false);
+      }
+    });
+    $('form').submit(function(event){
+      var form = $(this);
+      var postData = form.serializeArray();
+      var url = form.attr('action');
+      function showDialog(content){
+        var dataModel = {
+          content: content,
+          onCancel: function () {
+            $('.shade, .dialog').remove();
+          },
+          onConfirm: function (data, event) {
+            $('.shade, .dialog').remove();
+          },
+          isShowConfirm: true
+        };
+        new Component(null, dataModel, '#dialogTemplate');
+      }
+      $.ajax({
+        url: url,
+        data: postData,
+        type: 'post',
+        success: function(data){
+          showDialog('<h3 style="text-align: center;color:#3BAF3D">提交成功！</h3><p>客服将在1个工作日与您联系，请注意接听来电: 010-807212138/807711387</p>');
+        },
+        error: function(ex){
+          showDialog('<h3 style="text-align: center;color:#3BAF3D">数据有误！</h3>');
+          throw ex;
+        }
+      });
+      event.preventDefault();
+      event.stopPropagation();
+      return false;
+    });
+    $('button.submit').click(function(event){
+      $('form').submit();
+      event.preventDefault();
+      event.stopPropagation();
+      return false;
+    });
+  });
+</script>
+</body>
+</html>

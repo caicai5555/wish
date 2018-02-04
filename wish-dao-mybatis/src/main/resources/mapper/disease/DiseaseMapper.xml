@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.write.disease.DiseaseDao" >
+
+  <insert id="save" parameterType="com.foundation.dao.entity.disease.Disease" >
+    insert into disease
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="pid != null" >
+        pid,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="diseaseCategoryId != null" >
+        disease_category_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="englishName != null" >
+        english_name,
+      </if>
+      <if test="alias != null" >
+        alias,
+      </if>
+      <if test="info != null" >
+        info,
+      </if>
+      <if test="hint != null" >
+        hint,
+      </if>
+      <if test="medicalDepartment != null" >
+        medical_department,
+      </if>
+      <if test="infectiousness != null" >
+        infectiousness,
+      </if>
+      <if test="commonSite != null" >
+        common_site,
+      </if>
+      <if test="commonCause != null" >
+        common_cause,
+      </if>
+      <if test="symptom != null" >
+        symptom,
+      </if>
+      <if test="inspect != null" >
+        inspect,
+      </if>
+      <if test="cure != null" >
+        cure,
+      </if>
+      <if test="dietericTreatment != null" >
+        dieteric_treatment,
+      </if>
+      <if test="expertInterpretation != null" >
+        expert_interpretation,
+      </if>
+      <if test="antidiastole != null" >
+        antidiastole,
+      </if>
+      <if test="medicalInsurance != null" >
+        medical_insurance,
+      </if>
+      <if test="treatmentCost != null" >
+        treatment_cost,
+      </if>
+      <if test="treatmentRate != null" >
+        treatment_rate,
+      </if>
+      <if test="multiplePopulation != null" >
+        multiple_population,
+      </if>
+      <if test="neopathy != null" >
+        neopathy,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="activeFlag != null" >
+        active_flag,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="dieaseTypeId != null" >
+        diease_type_id,
+      </if>
+      <if test="dieaseId != null" >
+        diease_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id},
+      </if>
+      <if test="pid != null" >
+        #{pid},
+      </if>
+      <if test="type != null" >
+        #{type},
+      </if>
+      <if test="diseaseCategoryId != null" >
+        #{diseaseCategoryId},
+      </if>
+      <if test="name != null" >
+        #{name},
+      </if>
+      <if test="englishName != null" >
+        #{englishName},
+      </if>
+      <if test="alias != null" >
+        #{alias},
+      </if>
+      <if test="info != null" >
+        #{info},
+      </if>
+      <if test="hint != null" >
+        #{hint},
+      </if>
+      <if test="medicalDepartment != null" >
+        #{medicalDepartment},
+      </if>
+      <if test="infectiousness != null" >
+        #{infectiousness},
+      </if>
+      <if test="commonSite != null" >
+        #{commonSite},
+      </if>
+      <if test="commonCause != null" >
+        #{commonCause},
+      </if>
+      <if test="symptom != null" >
+        #{symptom},
+      </if>
+      <if test="inspect != null" >
+        #{inspect},
+      </if>
+      <if test="cure != null" >
+        #{cure},
+      </if>
+      <if test="dietericTreatment != null" >
+        #{dietericTreatment},
+      </if>
+      <if test="expertInterpretation != null" >
+        #{expertInterpretation},
+      </if>
+      <if test="antidiastole != null" >
+        #{antidiastole},
+      </if>
+      <if test="medicalInsurance != null" >
+        #{medicalInsurance},
+      </if>
+      <if test="treatmentCost != null" >
+        #{treatmentCost},
+      </if>
+      <if test="treatmentRate != null" >
+        #{treatmentRate},
+      </if>
+      <if test="multiplePopulation != null" >
+        #{multiplePopulation},
+      </if>
+      <if test="neopathy != null" >
+        #{neopathy},
+      </if>
+      <if test="sort != null" >
+        #{sort},
+      </if>
+      <if test="activeFlag != null" >
+        #{activeFlag},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag},
+      </if>
+      <if test="createDate != null" >
+        #{createDate},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate},
+      </if>
+      <if test="remark != null" >
+        #{remark},
+      </if>
+      <if test="dieaseTypeId != null" >
+        #{dieaseTypeId},
+      </if>
+      <if test="dieaseId != null" >
+        #{dieaseId},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.foundation.dao.entity.disease.Disease" >
+    update disease
+    <set >
+      <if test="pid != null" >
+        pid = #{pid},
+      </if>
+      <if test="type != null" >
+        type = #{type},
+      </if>
+      <if test="diseaseCategoryId != null" >
+        disease_category_id = #{diseaseCategoryId},
+      </if>
+      <if test="name != null" >
+        name = #{name},
+      </if>
+      <if test="englishName != null" >
+        english_name = #{englishName},
+      </if>
+      <if test="alias != null" >
+        alias = #{alias},
+      </if>
+      <if test="info != null" >
+        info = #{info},
+      </if>
+      <if test="hint != null" >
+        hint = #{hint},
+      </if>
+      <if test="medicalDepartment != null" >
+        medical_department = #{medicalDepartment},
+      </if>
+      <if test="infectiousness != null" >
+        infectiousness = #{infectiousness},
+      </if>
+      <if test="commonSite != null" >
+        common_site = #{commonSite},
+      </if>
+      <if test="commonCause != null" >
+        common_cause = #{commonCause},
+      </if>
+      <if test="symptom != null" >
+        symptom = #{symptom},
+      </if>
+      <if test="inspect != null" >
+        inspect = #{inspect},
+      </if>
+      <if test="cure != null" >
+        cure = #{cure},
+      </if>
+      <if test="dietericTreatment != null" >
+        dieteric_treatment = #{dietericTreatment},
+      </if>
+      <if test="expertInterpretation != null" >
+        expert_interpretation = #{expertInterpretation},
+      </if>
+      <if test="antidiastole != null" >
+        antidiastole = #{antidiastole},
+      </if>
+      <if test="medicalInsurance != null" >
+        medical_insurance = #{medicalInsurance},
+      </if>
+      <if test="treatmentCost != null" >
+        treatment_cost = #{treatmentCost},
+      </if>
+      <if test="treatmentRate != null" >
+        treatment_rate = #{treatmentRate},
+      </if>
+      <if test="multiplePopulation != null" >
+        multiple_population = #{multiplePopulation},
+      </if>
+      <if test="neopathy != null" >
+        neopathy = #{neopathy},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort},
+      </if>
+      <if test="activeFlag != null" >
+        active_flag = #{activeFlag},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark},
+      </if>
+      <if test="dieaseTypeId != null" >
+        diease_type_id = #{dieaseTypeId},
+      </if>
+      <if test="dieaseId != null" >
+        diease_id = #{dieaseId},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+</mapper>

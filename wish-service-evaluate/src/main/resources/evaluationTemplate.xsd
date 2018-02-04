@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2013 (http://www.altova.com) by  () -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="ruleModel">
+		<xs:annotation>
+			<xs:documentation>规则模型</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="params"/>
+				<xs:element ref="rules"/>
+			</xs:all>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+			<xs:attribute name="description" type="xs:string"/>
+			<xs:attribute name="enName" type="enNameType" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="params">
+		<xs:annotation>
+			<xs:documentation>入参集合</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="param" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="param">
+		<xs:annotation>
+			<xs:documentation>入参，enName需是字典数据</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+			<xs:attribute name="enName" type="enNameType" use="required"/>
+			<xs:attribute name="type" type="typeType" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="rules">
+		<xs:annotation>
+			<xs:documentation>规则集合</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="rule" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="ruleGroup" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="mode" type="modeType" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ruleGroup">
+		<xs:annotation>
+			<xs:documentation>规则组</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="rule" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="rule">
+		<xs:annotation>
+			<xs:documentation>规则</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="exps"/>
+				<xs:element ref="result"/>
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="result">
+		<xs:annotation>
+			<xs:documentation>结果</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="value" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="exps">
+		<xs:annotation>
+			<xs:documentation>表达式集合</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="exp" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="expGroup" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="expGroup">
+		<xs:annotation>
+			<xs:documentation>表达式组</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="exp" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="expGroup" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="rel" type="relType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="exp">
+		<xs:annotation>
+			<xs:documentation>表达式，关系用“且，或”表示，运算符用“等于，不等于，大于，小于，大于等于，小于等于”表示</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="expParam"/>
+				<xs:element ref="expOper"/>
+				<xs:element ref="expValue"/>
+			</xs:all>
+			<xs:attribute name="rel" type="relType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="expParam">
+		<xs:annotation>
+			<xs:documentation>运算参数</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="value" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="expOper">
+		<xs:annotation>
+			<xs:documentation>运算符</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="value" type="operType" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="expValue">
+		<xs:annotation>
+			<xs:documentation>比较值</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="value" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="operType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="等于"/>
+			<xs:enumeration value="不等于"/>
+			<xs:enumeration value="大于"/>
+			<xs:enumeration value="大于等于"/>
+			<xs:enumeration value="小于"/>
+			<xs:enumeration value="小于等于"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="enNameType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="([a-zA-Z\d_])+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="typeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="int"/>
+			<xs:enumeration value="double"/>
+			<xs:enumeration value="string"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="modeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="结论"/>
+			<xs:enumeration value="求和"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="relType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="且"/>
+			<xs:enumeration value="或"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

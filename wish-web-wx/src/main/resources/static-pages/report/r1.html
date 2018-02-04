@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>查看报告1</title>
+  <meta name="viewport"
+        content="width=device-width, initial-scale=0.35, maximum-scale=0.35, minimum-scale=0.35, user-scalable=no">
+  <link rel="stylesheet" type="text/css" href="../../../webapp/styles/common.css"/>
+  <link rel="stylesheet" type="text/css" href="../../../webapp/styles/jquery.datetimepicker.css">
+  <style>
+    body {
+      background: #fff;
+    }
+
+    header {
+      height: 6rem;
+      background: #fff;
+      line-height: 6rem;
+    }
+
+    header b {
+      float: left;
+      padding-left: 3rem;
+      font-size: 3rem;
+      margin-right: 5rem;
+    }
+
+    header span {
+      font-size: 3.2rem;
+    }
+
+    .content {
+
+    }
+
+    .content .title span, .content .title a {
+      font-size: 3rem;
+      line-height: 3rem;
+      padding: 0 3rem;
+      text-decoration: none;
+    }
+
+    .content .title a {
+      font-size: 2.5rem;
+      color: #999;
+      padding-left: 5rem;
+      background: url('../../../webapp/images/write.png') no-repeat 40px 2px;
+    }
+
+    .item {
+      display: block;
+      padding: 0 3rem;
+      clear: both;
+      height: 10rem;
+    }
+
+
+    .item b {
+      font-size: 3rem;
+      display: block;
+      float: left;
+      width: 8rem;
+    }
+
+    .item .progressbar-wrapper {
+      float: left;
+      width: calc(100% - 12rem);
+      position: relative;
+      height: 3.5rem;
+      border-bottom: 2px solid #ccc;
+    }
+
+    .progressbar {
+      min-width: 1%;
+      height: 2.5rem;
+      border-radius: 1.5rem;
+      border: 1px solid transparent;
+      background: #ccc;
+      position: absolute;
+      top: 0.3rem;
+      left: 0rem;
+    }
+
+    .progressbar-wrapper .text {
+      background: url('../../../webapp/images/progress-bg.png') no-repeat center center;
+      font-size: 2.5rem;
+      color: #999;
+      position: absolute;
+      z-index: 9;
+      width: 465px;
+      height: 80px;
+      right: 60px;
+      top: 19px;
+      padding: 50px 0;
+      text-align: center;
+    }
+
+    .progressbar-wrapper .zoom {
+      background-image: url('../../../webapp/images/zoom-icon.png');
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-color: #ccc;
+      width: 5.5rem;
+      height: 5.5rem;
+      text-align: center;
+      position: absolute;
+      right: -5rem;
+      top: 0rem;
+      border-radius: 3rem;
+    }
+
+    dl {
+      margin: 5rem 2rem 15rem 2rem;
+      padding: 5rem 0;
+      border-bottom: 2px solid #ccc;
+    }
+
+    dl dd {
+      float: left;
+      margin: 0 1rem;
+      font-size: 3rem;
+    }
+
+    dl dd i {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      background: #ccc;
+      border: 1px solid transparent;
+      border-radius: 5rem;
+      margin: 0 1rem;
+    }
+
+    .button {
+      width: 38%;
+      margin: 0 3rem;
+      color: #fff;
+      text-align: center;
+      font-size: 3rem;
+      background: #1B8BF1;
+      height: 6rem;
+      border-radius: 1rem;
+    }
+
+    hr {
+      display: block;
+      height: 3rem;
+      width: 100%;
+      border-top: 2px solid #ccc;
+      border-bottom: 2px solid #ccc;
+      background: #f9f9f9;
+    }
+
+    .title {
+      height: 9rem;
+      line-height: 9rem;
+    }
+
+    dd.green i, .item.green .progressbar, .item.green .zoom{
+      background-color: #7FCE92;
+    }
+
+    dd.orange i, .item.orange .progressbar, .item.orange .zoom{
+      background-color: #FFAE00;
+    }
+
+    dd.red i, .item.red .progressbar, .item.red .zoom{
+      background-color: #FF7F7E;
+    }
+    .item.green b {
+      color: #7FCE92;
+    }
+    .item.orange b {
+      color: #FFAE00;
+    }
+    .item.red b {
+      color: #FF7F7E;
+    }
+  </style>
+</head>
+<body>
+<header><b><</b><span>血栓性疾病基因检测2.0</span></header>
+<hr>
+<section class="content">
+  <div class="title"><span>您的疾病风险数量分布</span><a href="#">阅读指南</a></div>
+  <ul>
+    <li class="item green">
+      <b>0级</b>
+
+      <div class="progressbar-wrapper">
+        <div class="progressbar" style="width: 20%"></div>
+        <div class="text">12种疾病</div>
+        <div class="zoom green">
+        </div>
+      </div>
+    </li>
+    <li class="item orange">
+      <b>0级</b>
+
+      <div class="progressbar-wrapper">
+        <div class="progressbar" style="width: 20%"></div>
+        <div class="text">12种疾病</div>
+        <div class="zoom green">
+        </div>
+      </div>
+    </li>
+  </ul>
+  <dl>
+    <dd class="green"><i></i>低风险</dd>
+    <dd class="orange"><i></i>中度风险</dd>
+    <dd class="red"><i></i>高风险</dd>
+  </dl>
+</section>
+<footer>
+  <button class="button">报告详情</button>
+  <button class="button">健康建议</button>
+</footer>
+</body>
+</html>

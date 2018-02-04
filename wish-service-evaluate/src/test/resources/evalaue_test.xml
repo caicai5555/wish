@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleModel name="test" enName="test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		   xsi:noNamespaceSchemaLocation="evaluationTemplate_test.xsd">
+	<params>
+		<param name="a" enName="a" type="int"/>
+		<param name="b" enName="b" type="int"/>
+		<param name="c" enName="c" type="int"/>
+	</params>
+	<rules mode="结论">
+		<rule>
+			<exps>
+				<exp>
+					<expParam value="c"></expParam>
+					<expOper value="等于"></expOper>
+					<expValue value="null"></expValue>
+				</exp>
+				<expGroup>
+					<expGroup>
+						<exp>
+							<expParam value="a"></expParam>
+							<expOper value="大于等于"></expOper>
+							<expValue value="1"></expValue>
+						</exp>
+						<exp>
+							<expParam value="a"></expParam>
+							<expOper value="小于等于"></expOper>
+							<expValue value="2"></expValue>
+						</exp>
+					</expGroup>
+					<expGroup rel="或">
+						<exp>
+							<expParam value="b"></expParam>
+							<expOper value="大于等于"></expOper>
+							<expValue value="1"></expValue>
+						</exp>
+						<exp>
+							<expParam value="b"></expParam>
+							<expOper value="小于等于"></expOper>
+							<expValue value="2"></expValue>
+						</exp>
+					</expGroup>
+				</expGroup>
+				<expGroup>
+					<expGroup>
+					<exp>
+						<expParam value="a"></expParam>
+						<expOper value="大于等于"></expOper>
+						<expValue value="3"></expValue>
+					</exp>
+					<exp>
+						<expParam value="a"></expParam>
+						<expOper value="小于等于"></expOper>
+						<expValue value="4"></expValue>
+					</exp>
+					</expGroup>
+					<expGroup rel="或">
+						<exp>
+							<expParam value="b"></expParam>
+							<expOper value="大于等于"></expOper>
+							<expValue value="3"></expValue>
+						</exp>
+						<exp>
+							<expParam value="b"></expParam>
+							<expOper value="小于等于"></expOper>
+							<expValue value="4"></expValue>
+						</exp>
+					</expGroup>
+				</expGroup>
+			</exps>
+			<result value="成功了"></result>
+		</rule>
+	</rules>
+</ruleModel>

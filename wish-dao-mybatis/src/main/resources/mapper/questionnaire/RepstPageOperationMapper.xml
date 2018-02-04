@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.write.questionnaire.RepstPageOperationDao" >
+
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from repst_page_operation
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="save" parameterType="com.foundation.dao.entity.questionnaire.RepstPageOperation" >
+    insert into repst_page_operation (
+      id, operation_type, vali_rule, vali_success, vali_fail
+      )
+    values (
+      #{id}, #{operationType}, #{valiRule}, #{valiSuccess}, #{valiFail}
+      )
+  </insert>
+
+
+  <update id="update" parameterType="com.foundation.dao.entity.questionnaire.RepstPageOperation" >
+    update repst_page_operation
+    <set >
+      <if test="operationType != null" > operation_type = #{operationType}, </if>
+      <if test="valiRule != null" > vali_rule = #{valiRule}, </if>
+      <if test="valiSuccess != null" > vali_success = #{valiSuccess}, </if>
+      <if test="valiFail != null" > vali_fail = #{valiFail}, </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateById" parameterType="java.util.Map" >
+    update repst_page_operation
+    <set >
+      <if test="operationType != null" > operation_type = #{operationType}, </if>
+      <if test="valiRule != null" > vali_rule = #{valiRule}, </if>
+      <if test="valiSuccess != null" > vali_success = #{valiSuccess}, </if>
+      <if test="valiFail != null" > vali_fail = #{valiFail}, </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <insert id="batchSave" parameterType="java.util.List">
+    insert into  repst_page_operation (
+      id, operation_type, vali_rule, vali_success, vali_fail
+      )
+    values
+    <foreach item="item" collection="list" separator=",">
+      (
+        #{item.id}, #{item.operationType}, #{item.valiRule}, #{item.valiSuccess}, #{item.valiFail}
+      )
+    </foreach>
+  </insert>
+
+</mapper>

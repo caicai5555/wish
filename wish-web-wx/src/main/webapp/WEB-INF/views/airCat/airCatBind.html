@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>设备绑定</title>
+  <style type="text/css">
+    body {
+      padding: 2rem;
+      color: #3BAF3D;
+      font-size: 62.5%;
+    }
+
+    header, section {
+      width: 100%;
+      min-height: 10rem;
+      height: auto;
+    }
+
+    header {
+      text-align: center;
+    }
+
+    header img {
+      width: 13rem;
+      height: 26rem;
+    }
+
+    .label-group {
+      width: 100%;
+      min-height: 8rem;
+      height: auto;
+      margin: 5rem 0;
+    }
+
+    .label-group label {
+      margin-bottom: 2rem;
+      display: block;
+      font-size: 2.6rem;
+    }
+
+    .label-group label .label-description {
+      font-size: 2.3rem;
+      color: #818181;
+    }
+
+    .label-group .text-input {
+      width: 90%;
+      width: -moz-calc(100% - 4rem);
+      width: -webkit-calc(100% - 4rem);
+      width: calc(100% - 4rem);
+      height: auto;
+      background: #E5F3E6;
+      border: none;
+      padding: 2rem;
+      font-size: 2.6rem;
+    }
+
+    .button-group {
+      width: 100%;
+      height: auto;
+      margin: 7rem 0;
+      clear: both;
+    }
+
+    .button-group .submit {
+      width: 100%;
+      background: #4CB050;
+      color: #fff;
+      height: auto;
+      border: none;
+      padding: 2rem;
+      font-size: 2.6rem;
+    }
+
+    .mytip {
+      width: 34rem;
+      height: auto;
+      left: 50%;
+      top: 29%;
+      margin-left: -19rem;
+      background: #fff;
+      line-height: 3rem;
+      position: fixed;
+      z-index: 10000;
+      padding: 2rem;
+      text-align: center;
+      font-size: 2rem;
+      color: #fff;
+      opacity: 0;
+      background: #000;
+    }
+
+    .mytip .content {
+      font-size: 2rem;
+      text-align: left;
+    }
+    .xdsoft_noselect{
+      transform: scale(2.5);
+      left: 300px !important;
+    }
+  </style>
+  #parse("common/header.html")
+</head>
+<body>
+<header>
+  <img src="${content.contextPath}/images/airCat.png"/>
+</header>
+<section class="main-content">
+  <form>
+    <input type="hidden" name="openId" id="openId" value="${openId}"/>
+    <div class="label-group">
+      <label>* 设备ID</label>
+      <input class="text-input" name="mac" id="mac" type="text"/>
+    </div>
+    <div class="label-group">
+      <label>* 设备位置<span class="label-description">（如：客厅、卧室）</span></label>
+      <input class="text-input" name="position" id="position" type="text"/>
+    </div>
+    <div class="button-group">
+      <button class="submit">提交</button>
+    </div>
+  </form>
+</section>
+</body>
+<script src="${content.contextPath}/viewjs/airCat/airCatBind.js"></script>
+</html>

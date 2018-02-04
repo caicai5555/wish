@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.read.evaluate.EvaluateCategoryDaoR">
+	<!-- 查询字段 -->
+	<sql id="Base_Column_List">
+		id, 
+		name, 
+		enname, 
+		pid, 
+		type,
+		create_by as createBy,
+		create_date as createDate, 
+		update_by as updateBy,
+		update_date as updateDate, 
+		del_flag as delFlag, 
+		del_date as delDate,
+		remarks
+	</sql>
+	<!-- 根据id查询 -->
+	<select id="queryById" parameterType="java.lang.String"
+		resultType="com.foundation.dao.entity.evaluate.EvaluateCategory">
+		select
+		<include refid="Base_Column_List" />
+		from evaluate_category
+		where id=#{id}
+	</select>
+	<!-- 查询 -->
+	<select id="queryList" parameterType="map"
+		resultType="com.foundation.dao.entity.evaluate.EvaluateCategory">
+		select
+		<include refid="Base_Column_List" />
+		from evaluate_category
+		<where>
+			<![CDATA[
+				del_flag = ${@com.foundation.common.bean.Constants@DEL_FLAG_NORMAL}
+			]]>
+			<if test="type != null">
+				and type=#{type}
+			</if>
+			<if test="pid != null">
+				and pid=#{pid}
+			</if>
+			<if test="enname != null">
+				and enname=#{enname}
+			</if>
+		</where>
+	</select>
+	<!-- 获取数量 -->
+	<select id="getCount" parameterType="map"
+		resultType="java.lang.Integer">
+		select count(1) from evaluate_category
+		<where>
+			<![CDATA[
+				del_flag = ${@com.foundation.common.bean.Constants@DEL_FLAG_NORMAL}
+			]]>
+			<if test="type != null">
+				and type=#{type}
+			</if>
+			<choose>
+				<when test="pid != null">
+					and pid = #{pid}
+				</when>
+				<when test="pid == null">
+					and pid is null
+				</when>
+			</choose>
+		</where>
+	</select>
+</mapper>

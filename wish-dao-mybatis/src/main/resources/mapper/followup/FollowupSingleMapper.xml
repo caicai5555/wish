@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.write.followup.FollowupSingleDao" >
+
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from followup_single
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="save" parameterType="com.foundation.dao.entity.followup.FollowupSingle" >
+    insert into followup_single (
+      id, followup_id, quest_id, record_id, quest_name,
+      name, type, status, del_flag, followup_date,
+      complete_date, complete_by
+      )
+    values (
+      #{id}, #{followupId}, #{questId}, #{recordId}, #{questName},
+      #{name}, #{type}, #{status}, #{delFlag}, #{followupDate},
+      #{completeDate}, #{completeBy.id}
+      )
+  </insert>
+
+
+  <update id="update" parameterType="com.foundation.dao.entity.followup.FollowupSingle" >
+    update followup_single
+    <set >
+      <if test="followupId != null and followupId != '' " > followup_id = #{followupId}, </if>
+      <if test="questId != null and questId != '' " > quest_id = #{questId}, </if>
+      <if test="recordId != null and recordId != '' " > record_id = #{recordId}, </if>
+      <if test="questName != null and questName != '' " > quest_name = #{questName}, </if>
+      <if test="name != null and name != '' " > name = #{name}, </if>
+      <if test="type != null" > type = #{type}, </if>
+      <if test="status != null" > status = #{status}, </if>
+      <if test="delFlag != null and delFlag != '' " > del_flag = #{delFlag}, </if>
+      <if test="completeDate != null" > complete_date = #{completeDate}, </if>
+      <if test="completeBy != null" > complete_by = #{completeBy.id}, </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <insert id="batchSave" parameterType="java.util.List">
+    insert into  followup_single (
+      id, followup_id, quest_id, record_id, quest_name,
+      name, type, status, del_flag, followup_date,
+      complete_date, complete_by
+      )
+    values
+    <foreach item="item" collection="list" separator=",">
+      (
+        #{item.id}, #{item.followupId}, #{item.questId}, #{item.recordId}, #{item.questName},
+        #{item.name}, #{item.type}, #{item.status}, #{item.delFlag}, #{item.followupDate},
+        #{item.completeDate}, #{item.completeBy.id}
+      )
+    </foreach>
+  </insert>
+
+</mapper>

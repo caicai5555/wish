@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.write.questionnaire.RepstUserQuestionDao" >
+
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from repst_user_question
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="save" parameterType="com.foundation.dao.entity.questionnaire.RepstUserQuestion" >
+    insert into repst_user_question (
+      id, record_id, user_id, questionnaire_id, question_id,
+      suit_sex, fill_type, item_id, item_type, item_name,
+      item_desc, item_score, result, create_date, order_id,
+      mark, type_encoding, archive_type
+      )
+    values (
+      #{id}, #{recordId}, #{userId}, #{questionnaireId}, #{questionId},
+      #{suitSex}, #{fillType}, #{itemId}, #{itemType}, #{itemName},
+      #{itemDesc}, #{itemScore}, #{result}, #{createDate}, #{orderId},
+      #{mark},#{typeEncoding}, #{archiveType}
+      )
+  </insert>
+
+  <update id="update" parameterType="com.foundation.dao.entity.questionnaire.RepstUserQuestion" >
+    update repst_user_question
+    <set >
+      <if test="recordId != null" > record_id = #{recordId}, </if>
+      <if test="userId != null" > user_id = #{userId}, </if>
+      <if test="questionnaireId != null" > questionnaire_id = #{questionnaireId}, </if>
+      <if test="questionId != null" > question_id = #{questionId}, </if>
+      <if test="suitSex != null" > suit_sex = #{suitSex}, </if>
+      <if test="fillType != null" > fill_type = #{fillType}, </if>
+      <if test="itemId != null" > item_id = #{itemId}, </if>
+      <if test="itemType != null" > item_type = #{itemType}, </if>
+      <if test="itemName != null" > item_name = #{itemName}, </if>
+      <if test="itemDesc != null" > item_desc = #{itemDesc}, </if>
+      <if test="itemScore != null" > item_score = #{itemScore}, </if>
+      <if test="result != null" > result = #{result}, </if>
+      <if test="createDate != null" > create_date = #{createDate}, </if>
+      <if test="orderId != null" > order_id = #{orderId}, </if>
+      <if test="mark != null" > mark = #{mark}, </if>
+      <if test="typeEncoding != null" > type_encoding = #{typeEncoding}, </if>
+      <if test="archiveType != null" > archive_type = #{archiveType}, </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateById" parameterType="java.util.Map" >
+    update repst_user_question
+    <set >
+      <if test="recordId != null" > record_id = #{recordId}, </if>
+      <if test="userId != null" > user_id = #{userId}, </if>
+      <if test="questionnaireId != null" > questionnaire_id = #{questionnaireId}, </if>
+      <if test="questionId != null" > question_id = #{questionId}, </if>
+      <if test="suitSex != null" > suit_sex = #{suitSex}, </if>
+      <if test="fillType != null" > fill_type = #{fillType}, </if>
+      <if test="itemId != null" > item_id = #{itemId}, </if>
+      <if test="itemType != null" > item_type = #{itemType}, </if>
+      <if test="itemName != null" > item_name = #{itemName}, </if>
+      <if test="itemDesc != null" > item_desc = #{itemDesc}, </if>
+      <if test="itemScore != null" > item_score = #{itemScore}, </if>
+      <if test="result != null" > result = #{result}, </if>
+      <if test="createDate != null" > create_date = #{createDate}, </if>
+      <if test="orderId != null" > order_id = #{orderId}, </if>
+      <if test="mark != null" > mark = #{mark}, </if>
+      <if test="typeEncoding != null" > type_encoding = #{typeEncoding}, </if>
+      <if test="archiveType != null" > archive_type = #{archiveType}, </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <insert id="batchSave" parameterType="java.util.List">
+    insert into  repst_user_question (
+      id, record_id, user_id, questionnaire_id, question_id,
+      suit_sex, fill_type, item_id, item_type, item_name,
+      item_desc, item_score, result, create_date, order_id,
+      mark, type_encoding, archive_type
+      )
+    values
+    <foreach item="item" collection="list" separator=",">
+      (
+        #{item.id}, #{item.recordId}, #{item.userId}, #{item.questionnaireId}, #{item.questionId},
+        #{item.suitSex}, #{item.fillType}, #{item.itemId}, #{item.itemType}, #{item.itemName},
+        #{item.itemDesc}, #{item.itemScore}, #{item.result}, #{item.createDate}, #{item.orderId},
+        #{item.mark},#{item.typeEncoding}, #{item.archiveType}
+      )
+    </foreach>
+  </insert>
+
+</mapper>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.foundation.dao.modules.read.evaluate.EvaluateConclusionContentDaoR">
+	<sql id="Base_Column_List">
+		id,
+		evaluate_info_id as evaluateInfoId,
+		evaluate_rule_id as evaluateRuleId,
+		name,
+		enname,
+		conclusion,
+		result_tag as resultTag
+	</sql>
+	<!-- 根据id查询 -->
+	<select id="queryById" parameterType="java.lang.String"
+		resultType="com.foundation.dao.entity.evaluate.EvaluateConclusionContent">
+		select
+		<include refid="Base_Column_List" />
+		from evaluate_conclusion_content
+		where id = #{id}
+	</select>
+	<!-- 查询 -->
+	<select id="queryList" parameterType="map"
+		resultType="com.foundation.dao.entity.evaluate.EvaluateConclusionContent">
+		select
+		<include refid="Base_Column_List" />
+		from evaluate_conclusion_content
+		<where>
+			<if test="evaluateInfoId != null">
+				and evaluate_info_id = #{evaluateInfoId}
+			</if>
+			<if test="evaluateRuleId != null">
+				and evaluate_rule_id = #{evaluateRuleId}
+			</if>
+			<if test="resultTag != null">
+				and result_tag = #{resultTag}
+			</if>
+		</where>
+	</select>
+	<!-- 获取数量 -->
+	<select id="getCount" parameterType="map" resultType="java.lang.Integer">
+		select count(1) from evaluate_conclusion_content
+		<where>
+			<if test="evaluateInfoId != null">
+				and evaluate_info_id = #{evaluateInfoId}
+			</if>
+			<if test="evaluateRuleId != null">
+				and evaluate_rule_id = #{evaluateRuleId}
+			</if>
+		</where>
+	</select>
+</mapper>

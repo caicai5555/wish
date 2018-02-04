@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.lordofthejars:nosqlunit-core:0.8.1">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/lordofthejars/nosqlunit-core/0.8.1/nosqlunit-core-0.8.1.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/lordofthejars/nosqlunit-core/0.8.1/nosqlunit-core-0.8.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/lordofthejars/nosqlunit-core/0.8.1/nosqlunit-core-0.8.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

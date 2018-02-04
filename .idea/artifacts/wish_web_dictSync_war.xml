@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="wish-web-dictSync:war">
+    <output-path>$PROJECT_DIR$/../wish-module-sync/wish-web-dictSync/target</output-path>
+    <root id="archive" name="wish-web-dictSync.war">
+      <element id="artifact" artifact-name="wish-web-dictSync:war exploded" />
+    </root>
+  </artifact>
+</component>

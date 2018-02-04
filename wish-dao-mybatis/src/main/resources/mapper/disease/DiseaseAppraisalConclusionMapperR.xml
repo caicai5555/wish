@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.read.disease.DiseaseAppraisalConclusionDaoR">
+    <resultMap id="BaseResultMap" type="com.foundation.dao.entity.disease.DiseaseAppraisalConclusion">
+        <id column="id" property="id"/>
+        <result column="code" property="code"/>
+        <result column="type" property="type"/>
+        <result column="name" property="name"/>
+        <result column="remark" property="remark"/>
+        <result column="create_date" property="createDate"/>
+        <result column="update_date" property="updateDate"/>
+        <result column="del_flag" property="delFlag"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="archive_flag" property="archiveFlag"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, code, type, name, remark, create_date, update_date, del_flag, 
+    parent_id, archive_flag
+  </sql>
+
+    <select id="queryById" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from disease_appraisal_conclusion
+        where id = #{id}
+    </select>
+
+    <select id="queryList" resultMap="BaseResultMap" parameterType="map">
+        select
+        <include refid="Base_Column_List"/>
+        from disease_appraisal_conclusion
+        <where>
+            <![CDATA[
+				del_flag = ${@com.foundation.common.bean.Constants@DEL_FLAG_NORMAL}
+			]]>
+            <if test="parentId != null">
+                and parent_id=#{parentId}
+            </if>
+            <if test="code != null">
+                and code=#{code}
+            </if>
+            <if test="type != null">
+                and type=#{type}
+            </if>
+            <if test="archiveFlag != null">
+                and archive_flag=#{archiveFlag}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="queryPage" resultMap="BaseResultMap" parameterType="map">
+        select
+        <include refid="Base_Column_List"/>
+        from disease_appraisal_conclusion
+        <where>
+            <![CDATA[
+				del_flag = ${@com.foundation.common.bean.Constants@DEL_FLAG_NORMAL}
+			]]>
+            <if test="parentId != null">
+                and parent_id=#{parentId}
+            </if>
+            <if test="code != null">
+                and code=#{code}
+            </if>
+            <if test="type != null">
+                and type=#{type}
+            </if>
+            <if test="archiveFlag != null">
+                and archive_flag=#{archiveFlag}
+            </if>
+        </where>
+    </select>
+
+    <select id="getCount" parameterType="map"
+            resultType="java.lang.Integer">
+        select count(1) from disease_appraisal_conclusion
+        <where>
+            <![CDATA[
+				del_flag = ${@com.foundation.common.bean.Constants@DEL_FLAG_NORMAL}
+			]]>
+            <if test="parentId != null">
+                and parent_id=#{parentId}
+            </if>
+            <if test="code != null">
+                and code=#{code}
+            </if>
+            <if test="type != null">
+                and type=#{type}
+            </if>
+            <if test="archiveFlag != null">
+                and archive_flag=#{archiveFlag}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryByDeseaseInfoId" resultMap="BaseResultMap" parameterType="String">
+        select
+        i.*
+        from
+        diseaseinfo_appraisal_conclusion_rel r
+        LEFT JOIN
+        disease_appraisal_conclusion i
+        on r.appraisal_conclusion_id=i.id
+        WHERE
+        r.disease_info_id=#{diseaseInfoId}
+    </select>
+</mapper>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.read.questionnaire.RepstQuestionnaireCtgrRelDaoR" >
+
+  <resultMap id="BaseResultMap" type="com.foundation.dao.entity.questionnaire.RepstQuestionnaireCtgrRel" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="questionnaire_id" property="questionnaireId"/>
+    <result column="question_ctgr" property="questionCtgr"/>
+    <result column="is_show_flag" property="isShowFlag"/>
+    <result column="order_id" property="orderId"/>
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+       id, questionnaire_id, question_ctgr, is_show_flag, order_id
+  </sql>
+
+  <select id="queryById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from repst_questionnaire_ctgr_rel
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="queryPageList" resultType="com.foundation.dao.entity.questionnaire.RepstQuestionnaireCtgrRel" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM repst_questionnaire_ctgr_rel
+    <where>
+      <if test="map.ids != null">
+        AND id IN
+        <foreach collection="map.ids" item="item" index="index" open="(" separator="," close=")">
+          '${item}'
+        </foreach>
+      </if>
+      <if test="map.questionnaireId != null">
+        AND questionnaire_id = ${map.questionnaireId}
+      </if>
+    </where>
+    <if test="map.orders != null">
+      ORDER BY
+      <foreach collection="map.orders" item="item" index="index" open="" separator="," close="">
+        ${index} ${item}
+      </foreach>
+    </if>
+  </select>
+
+<select id="getCount" parameterType="map" resultType="int">
+  select
+  count(0)
+  from repst_questionnaire_ctgr_rel
+  <where>
+    <if test="map != null">
+      <if test="map.id != null">id = #{map.id} </if>
+      <if test="map.questionnaireId != null">
+        AND questionnaire_id = ${map.questionnaireId}
+      </if>
+    </if>
+  </where>
+</select>
+
+</mapper>

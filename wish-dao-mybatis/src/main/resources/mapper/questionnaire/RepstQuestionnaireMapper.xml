@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.write.questionnaire.RepstQuestionnaireDao" >
+
+  <resultMap id="BaseResultMap" type="com.foundation.dao.entity.questionnaire.RepstQuestionnaire" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="questionnaire_name" property="questionnaireName"/>
+    <result column="questionnaire_ctgr" property="questionnaireCtgr"/>
+    <result column="is_show_flag" property="isShowFlag"/>
+    <result column="sys_user_id" property="sysUserId"/>
+    <result column="create_date" property="createDate"/>
+    <result column="update_date" property="updateDate"/>
+    <result column="back_compute_class" property="backComputeClass"/>
+    <result column="result_url" property="resultUrl"/>
+    <result column="remark" property="remark"/>
+    <result column="order_id" property="orderId"/>
+    <result column="questionnaire_url" property="questionnaireUrl"/>
+    <result column="who_answer" property="whoAnswer"/>
+    <result column="conclusion_id" property="conclusionId"/>
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, questionnaire_name, questionnaire_ctgr, is_show_flag, sys_user_id, create_date, update_date,
+    back_compute_class, result_url, remark, order_id, questionnaire_url, who_answer, conclusion_id
+  </sql>
+
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from repst_questionnaire
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="save" parameterType="com.foundation.dao.entity.questionnaire.RepstQuestionnaire" >
+    insert into repst_questionnaire (
+      id, questionnaire_name, questionnaire_ctgr, is_show_flag, sys_user_id,
+      create_date, update_date, back_compute_class, result_url, remark,
+      order_id, questionnaire_url, who_answer, conclusion_id
+      )
+    values (
+      #{id}, #{questionnaireName}, #{questionnaireCtgr}, #{isShowFlag}, #{sysUserId},
+      #{createDate}, #{updateDate}, #{backComputeClass}, #{resultUrl}, #{remark},
+      #{orderId}, #{questionnaireUrl}, #{whoAnswer}, #{conclusionId}
+      )
+  </insert>
+
+  <insert id="saveSelective" parameterType="com.foundation.dao.entity.questionnaire.RepstQuestionnaire" >
+    insert into repst_questionnaire
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" > id, </if>
+      <if test="questionnaireName != null" >questionnaire_name,</if>
+      <if test="questionnaireCtgr != null" >questionnaire_ctgr,</if>
+      <if test="isShowFlag != null" >is_show_flag,</if>
+      <if test="sysUserId != null" >sys_user_id,</if>
+      <if test="createDate != null" >create_date,</if>
+      <if test="updateDate != null" >update_date,</if>
+      <if test="backComputeClass != null" >back_compute_class,</if>
+      <if test="resultUrl != null" >result_url,</if>
+      <if test="remark != null" >remark,</if>
+      <if test="orderId != null" >order_id,</if>
+      <if test="questionnaireUrl != null" >questionnaire_url,</if>
+      <if test="whoAnswer != null" >who_answer,</if>
+      <if test="conclusionId != null" >conclusion_id,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" > #{id},</if>
+      <if test="questionnaireName != null" >#{questionnaireName},</if>
+      <if test="questionnaireCtgr != null" >#{questionnaireCtgr},</if>
+      <if test="isShowFlag != null" >#{isShowFlag},</if>
+      <if test="sysUserId != null" >#{sysUserId},</if>
+      <if test="createDate != null" >#{createDate},</if>
+      <if test="updateDate != null" >#{updateDate},</if>
+      <if test="backComputeClass != null" >#{backComputeClass},</if>
+      <if test="resultUrl != null" >#{resultUrl},</if>
+      <if test="remark != null" >#{remark},</if>
+      <if test="orderId != null" >#{orderId},</if>
+      <if test="questionnaireUrl != null" >#{questionnaireUrl},</if>
+      <if test="whoAnswer != null" >#{whoAnswer},</if>
+      <if test="conclusionId != null" >#{conclusionId},</if>
+    </trim>
+  </insert>
+
+  <update id="update" parameterType="com.foundation.dao.entity.questionnaire.RepstQuestionnaire" >
+    update repst_questionnaire
+    <set >
+      <if test="questionnaireName != null" > questionnaire_name = #{questionnaireName}, </if>
+      <if test="questionnaireCtgr != null" > questionnaire_ctgr = #{questionnaireCtgr}, </if>
+      <if test="isShowFlag != null" > is_show_flag = #{isShowFlag}, </if>
+      <if test="sysUserId != null" > sys_user_id = #{sysUserId}, </if>
+      <if test="createDate != null" > create_date = #{createDate}, </if>
+      <if test="updateDate != null" > update_date = #{updateDate}, </if>
+      <if test="backComputeClass != null" > back_compute_class = #{backComputeClass}, </if>
+      <if test="resultUrl != null" > result_url = #{resultUrl}, </if>
+      <if test="remark != null" > remark = #{remark}, </if>
+      <if test="orderId != null" > order_id = #{orderId}, </if>
+      <if test="questionnaireUrl != null" > questionnaire_url = #{questionnaireUrl}, </if>
+      <if test="whoAnswer != null" > order_id = #{whoAnswer}, </if>
+      <if test="conclusionId != null" > conclusion_id = #{conclusionId}, </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateById" parameterType="java.util.Map" >
+    update repst_questionnaire
+    <set>
+      <if test="questionnaireName != null" > questionnaire_name = #{questionnaireName}, </if>
+      <if test="questionnaireCtgr != null" > questionnaire_ctgr = #{questionnaireCtgr}, </if>
+      <if test="isShowFlag != null" > is_show_flag = #{isShowFlag}, </if>
+      <if test="sysUserId != null" > sys_user_id = #{sysUserId}, </if>
+      <if test="createDate != null" > create_date = #{createDate}, </if>
+      <if test="updateDate != null" > update_date = #{updateDate}, </if>
+      <if test="backComputeClass != null" > back_compute_class = #{backComputeClass}, </if>
+      <if test="resultUrl != null" > result_url = #{resultUrl}, </if>
+      <if test="remark != null" > remark = #{remark}, </if>
+      <if test="orderId != null" > order_id = #{orderId}, </if>
+      <if test="questionnaireUrl != null" > questionnaire_url = #{questionnaireUrl}, </if>
+      <if test="whoAnswer != null" > order_id = #{whoAnswer}, </if>
+      <if test="conclusionId != null" > conclusion_id = #{conclusionId}, </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <insert id="batchSave" parameterType="java.util.List">
+    insert into  repst_questionnaire (
+        id, questionnaire_name, questionnaire_ctgr, is_show_flag, sys_user_id,
+        create_date, update_date, back_compute_class, result_url, remark,
+        order_id, questionnaire_url, who_answer, conclusion_id
+      )
+    values
+    <foreach item="item" collection="list" separator=",">
+      (
+        #{item.id}, #{item.questionnaireName}, #{item.questionnaireCtgr}, #{item.isShowFlag}, #{item.sysUserId},
+        #{item.createDate}, #{item.updateDate}, #{item.backComputeClass}, #{item.resultUrl}, #{item.remark},
+        #{item.orderId}, #{item.questionnaireUrl}, #{item.whoAnswer}, #{item.conclusionId}
+      )
+    </foreach>
+  </insert>
+
+</mapper>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>解绑手机号</title>
+	<meta name="viewport" content="width=device-width, initial-scale=0.35, maximum-scale=0.35, minimum-scale=0.35, user-scalable=no">
+	<style type="text/css">
+
+		body{
+			padding-top: 15rem;
+		}
+		.label-group {
+			border-bottom: 1px solid #72C075;
+			padding-bottom: 1rem;
+			margin-bottom: 3rem;
+			font-size: 2rem;
+		}
+
+		.label-group label {
+			display: inline-block;
+			width: 5rem;
+			height: 5rem;
+			vertical-align: bottom;
+		}
+
+		.label-group input {
+			width: 20rem;
+			height: 5rem;
+			font-size: 2.3rem;
+			border: none;
+			padding: 0 1rem;
+		}
+
+		.label-group input:focus{
+			border: none;
+			outline: hidden;
+		}
+
+		.error-message {
+			color: red;
+			padding-left: 3rem;
+			background: url('${content.contextPath}/images/error.png') no-repeat left center;
+			display: none;
+			margin: 1rem 0 1rem 6.5rem;
+			font-size: 2rem;
+		}
+
+		.mobile-num label {
+			background: url('${content.contextPath}/images/mobile.png') no-repeat center center;
+		}
+
+		.verification-num label {
+			background: url('${content.contextPath}/images/verification.png') no-repeat center center;
+		}
+
+		.button-group {
+			width: 100%;
+			height: auto;
+			margin: 7rem 0;
+			clear: both;
+		}
+
+		.button-group .submit {
+			width: 100%;
+			background: #4CB050;
+			color: #fff;
+			height: auto;
+			border: none;
+			padding: 2rem;
+			font-size: 2.6rem;
+		}
+		/**遮罩层*/
+		.shade {
+			width: 100%;
+			min-height: 700px;
+			height: 110%;
+			background: #000;
+			opacity: 0.6;
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: 9999;
+			width: calc(100% + 4rem);
+		}
+		.mytip {
+			width: 34rem;
+			height: auto;
+			left: 50%;
+			top: 29%;
+			margin-left: -19rem;
+			line-height: 3rem;
+			position: fixed;
+			z-index: 10000;
+			padding: 2rem;
+			text-align: center;
+			font-size: 2rem;
+			color: #fff;
+			opacity: 0;
+			background: #000;
+		}
+
+		.mytip .content {
+			font-size: 2rem;
+			text-align: left;
+		}
+	</style>
+	#parse("common/header.html")
+</head>
+<body>
+<article class="viewport">
+<section class="main-content">
+	<form>
+		<input type="hidden" name="openId" id="openId" value="${openId}"/>
+		<div class="label-group mobile-num">
+			<label> </label>
+			<input class="text-input" name="mobile" value="${mobile}" id="mobile" readonly="readonly" type="text" data-rule="mobile"/>
+		</div>
+		<div class="label-group verification-num">
+			<label> </label>
+			<input class="text-input" name="verificationNum" type="text" maxlength="6" id="verificationNum" placeholder="请输入验证码" data-rule="verification"/>
+			<a href="javascript:void(0)" id="getMessage">获取验证码</a>
+			<b class="error-message" style="display: none">验证码错误</b>
+		</div>
+		<div class="button-group">
+			<button class="submit">提交</button>
+		</div>
+	</form>
+</section>
+</article>
+</body>
+<script src="${content.contextPath}/viewjs/gene/reportUnBind.js"></script>
+</html>

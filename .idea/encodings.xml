@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/wish-dao-mongodb" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/wish-dao-mybatis" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/wish-parent" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/wish-service-archive" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/wish-service-clinic" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/wish-service-disease" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/wish-service-evaluate" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/wish-service-followup" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/wish-service-indicatorSys" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/wish-service-questionnaire" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/wish-service-record" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/wish-service-upload" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/wish-service-userCenter" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/wish-web-console" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/wish-web-restApi" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../wish-core/wish-core-cache" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../wish-core/wish-core-canal-client" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../wish-core/wish-core-common" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../wish-core/wish-core-elasticsearch" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../wish-core/wish-core-parent" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../wish-module-sync" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../wish-module-sync/wish-dao-sync-mybatis" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../wish-module-sync/wish-service-sync" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../wish-module-sync/wish-web-busiSync" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../wish-module-sync/wish-web-dictSync" charset="UTF-8" />
+  </component>
+</project>

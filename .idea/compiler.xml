@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="wish-core-cache" />
+        <module name="wish-core-canal-client" />
+        <module name="wish-core-common" />
+        <module name="wish-core-elasticsearch" />
+        <module name="wish-dao-mongodb" />
+        <module name="wish-dao-mybatis" />
+        <module name="wish-dao-sync-mybatis" />
+        <module name="wish-service-archive" />
+        <module name="wish-service-clinic" />
+        <module name="wish-service-disease" />
+        <module name="wish-service-evaluate" />
+        <module name="wish-service-followup" />
+        <module name="wish-service-indicatorSys" />
+        <module name="wish-service-questionnaire" />
+        <module name="wish-service-record" />
+        <module name="wish-service-sync" />
+        <module name="wish-service-upload" />
+        <module name="wish-service-userCenter" />
+        <module name="wish-web-busiSync" />
+        <module name="wish-web-console" />
+        <module name="wish-web-dictSync" />
+        <module name="wish-web-restApi" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Wish" target="1.5" />
+      <module name="wish-core" target="1.5" />
+      <module name="wish-core-cache" target="1.7" />
+      <module name="wish-core-canal-client" target="1.7" />
+      <module name="wish-core-common" target="1.7" />
+      <module name="wish-core-elasticsearch" target="1.7" />
+      <module name="wish-core-parent" target="1.5" />
+      <module name="wish-dao-mongodb" target="1.7" />
+      <module name="wish-dao-mybatis" target="1.7" />
+      <module name="wish-dao-sync-mybatis" target="1.7" />
+      <module name="wish-module-sync" target="1.5" />
+      <module name="wish-parent" target="1.5" />
+      <module name="wish-service-archive" target="1.7" />
+      <module name="wish-service-clinic" target="1.7" />
+      <module name="wish-service-disease" target="1.7" />
+      <module name="wish-service-evaluate" target="1.7" />
+      <module name="wish-service-followup" target="1.7" />
+      <module name="wish-service-indicatorSys" target="1.7" />
+      <module name="wish-service-questionnaire" target="1.7" />
+      <module name="wish-service-record" target="1.7" />
+      <module name="wish-service-sync" target="1.7" />
+      <module name="wish-service-upload" target="1.7" />
+      <module name="wish-service-userCenter" target="1.7" />
+      <module name="wish-web-busiSync" target="1.7" />
+      <module name="wish-web-console" target="1.7" />
+      <module name="wish-web-dictSync" target="1.7" />
+      <module name="wish-web-restApi" target="1.7" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

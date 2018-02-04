@@ -1,0 +1,146 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.wish</groupId>
+		<artifactId>wish-parent</artifactId>
+		<relativePath>../wish-parent</relativePath>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>wish-service-evaluate</artifactId>
+	<packaging>jar</packaging>
+
+
+	<dependencies>
+		<!--wish -->
+		<dependency>
+			<groupId>com.wish</groupId>
+			<artifactId>wish-core-common</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.wish</groupId>
+			<artifactId>wish-dao-mybatis</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+		</dependency>
+        <dependency>
+            <groupId>com.wish</groupId>
+            <artifactId>wish-service-record</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.wish</groupId>
+            <artifactId>wish-service-userCenter</artifactId>
+        </dependency>
+
+		<!--rpc and zk etc -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>dubbo</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>spring</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.zookeeper</groupId>
+			<artifactId>zookeeper</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.sgroschupf</groupId>
+			<artifactId>zkclient</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+		</dependency>
+		 <!-- rabbitMq begin -->
+        <dependency>
+            <groupId>com.rabbitmq</groupId>
+            <artifactId>amqp-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.amqp</groupId>
+            <artifactId>spring-rabbit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.amqp</groupId>
+            <artifactId>spring-amqp</artifactId>
+        </dependency>
+        <!-- rabbitMq end -->
+		<!--JUnit 单元测试断言推荐 AssertJ -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
+		<!-- simpleEl -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>SimpleEL</artifactId>
+			<version>0.1.7</version>
+		</dependency>
+		<dependency>
+ 			<groupId>com.sun</groupId>
+ 			<artifactId>tools</artifactId>
+ 			<version>1.6</version>
+ 			<scope>system</scope>
+ 			<systemPath>${JAVA_HOME}/lib/tools.jar</systemPath>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>${project.artifactId}-${project.version}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<configuration>
+					<attach>true</attach>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+		    	<groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-surefire-plugin</artifactId>
+		    	<configuration>
+		    		<skip>true</skip>
+		    	</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

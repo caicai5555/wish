@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>查看报告3</title>
+  <meta name="viewport"
+        content="width=device-width, initial-scale=0.35, maximum-scale=0.35, minimum-scale=0.35, user-scalable=no">
+  <link rel="stylesheet" type="text/css" href="../../../webapp/styles/common.css"/>
+  <link rel="stylesheet" type="text/css" href="../../../webapp/styles/jquery.datetimepicker.css">
+  <style>
+    body {
+      background: #fff;
+    }
+
+    header {
+      height: 6rem;
+      background: #fff;
+      line-height: 6rem;
+    }
+
+    header b {
+      float: left;
+      padding-left: 3rem;
+      font-size: 3rem;
+      margin-right: 5rem;
+    }
+
+    header span {
+      font-size: 3.2rem;
+    }
+
+    .report-box-list li{
+      display: block;
+      line-height: 7rem;
+      font-size: 2.5rem;
+      float: left;
+      width: 19rem;
+      height: 11rem;
+      border: 1px solid #ccc;
+      padding: 1rem;
+      margin: 1rem;
+    }
+    .report-box-list li a{
+      display: block;
+      color: #000;
+      text-decoration: none;
+      font-size: 2.5rem;
+    }
+    .report-box-list dl dd{
+      display: block;
+      float: left;
+      width: 2rem;
+      height: 2rem;
+      border: 1px solid #ccc;
+      margin-right: 1rem;
+      background: #ddd;
+    }
+    .content{
+      padding: 2rem 3rem;
+    }
+  </style>
+</head>
+<body>
+<header><b><</b><span>肿瘤疾病（32种）</span></header>
+<hr>
+<section class="content">
+<ul class="report-box-list">
+  <li>
+    <a href="#">角质瘤</a>
+    <dl>
+      <dd> </dd>
+      <dd> </dd>
+      <dd> </dd>
+      <dd> </dd>
+      <dd> </dd>
+    </dl>
+  </li>
+  <li>
+    <a href="#">脑脊髓膜瘤</a>
+    <dl>
+      <dd> </dd>
+      <dd> </dd>
+      <dd> </dd>
+      <dd> </dd>
+      <dd> </dd>
+    </dl>
+  </li>
+  <li>
+    <a href="#">脑脊髓膜瘤</a>
+    <dl>
+      <dd> </dd>
+      <dd> </dd>
+      <dd> </dd>
+      <dd> </dd>
+      <dd> </dd>
+    </dl>
+  </li>
+  <li>
+    <a href="#">脑脊髓膜瘤</a>
+    <dl>
+      <dd> </dd>
+      <dd> </dd>
+      <dd> </dd>
+      <dd> </dd>
+      <dd> </dd>
+    </dl>
+  </li>
+  <li>
+    <a href="#">脑脊髓膜瘤</a>
+    <dl>
+      <dd> </dd>
+      <dd> </dd>
+      <dd> </dd>
+      <dd> </dd>
+      <dd> </dd>
+    </dl>
+  </li>
+  <li>
+    <a href="#">脑脊髓膜瘤</a>
+    <dl>
+      <dd> </dd>
+      <dd> </dd>
+      <dd> </dd>
+      <dd> </dd>
+      <dd> </dd>
+    </dl>
+  </li>
+</ul>
+</section>
+<script type="text/javascript" src="../jquery.js"></script>
+<script>
+  var dummyData = [1, 3, 4, 2, 1, 2];
+  var elemList = $('.report-box-list');
+  $(function(){
+    dummyData.forEach(function(v, i){
+      var ddElem, color;
+      if(v < 2){
+        color = 'green';
+      }else if(v == 2){
+        color = 'orange';
+      }else{
+        color = 'red';
+      }
+      ddElem = elemList.find('li').eq(i).find('dd');
+      for(var n = 0; n <= v; n++){
+        ddElem.eq(n).css('background', color);
+      }
+    });
+  });
+</script>
+</body>
+</html>

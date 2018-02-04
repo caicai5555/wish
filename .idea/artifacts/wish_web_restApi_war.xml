@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="wish-web-restApi:war">
+    <output-path>$PROJECT_DIR$/wish-web-restApi/target</output-path>
+    <root id="archive" name="wish-web-restApi.war">
+      <element id="artifact" artifact-name="wish-web-restApi:war exploded" />
+    </root>
+  </artifact>
+</component>

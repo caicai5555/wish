@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.foundation.dao.modules.write.archive.DistArchiveIndicatorDao">
+
+
+  <sql id="Base_Column_List">
+    id, code, name, remark, unit, create_date, update_date,
+    parent_id, del_flag, added_rule_flag, archive_flag, min_value, max_value,
+    sex,table_name,column_name
+  </sql>
+
+  <!-- 非空插入 -->
+  <insert id="save" parameterType="com.foundation.dao.entity.archive.DistArchiveIndicator">
+    insert into dist_archive_indicator
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="unit != null">
+        unit,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="addedRuleFlag != null">
+        added_rule_flag,
+      </if>
+      <if test="archiveFlag != null">
+        archive_flag,
+      </if>
+      <if test="minValue != null">
+        min_value,
+      </if>
+      <if test="maxValue != null">
+        max_value,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="tableName != null">
+        table_name,
+      </if>
+      <if test="columnName != null">
+        column_name,
+      </if>
+      <if test="isChar != null">
+        is_char,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="code != null">
+        #{code},
+      </if>
+      <if test="name != null">
+        #{name},
+      </if>
+      <if test="remark != null">
+        #{remark},
+      </if>
+      <if test="type != null">
+        #{type},
+      </if>
+      <if test="unit != null">
+        #{unit},
+      </if>
+      <if test="createDate != null">
+        #{createDate},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate},
+      </if>
+      <if test="parentId != null">
+        #{parentId},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag},
+      </if>
+      <if test="addedRuleFlag != null">
+        #{addedRuleFlag},
+      </if>
+      <if test="archiveFlag != null">
+        #{archiveFlag},
+      </if>
+      <if test="minValue != null">
+        #{minValue},
+      </if>
+      <if test="maxValue != null">
+        #{maxValue},
+      </if>
+      <if test="sex != null">
+        #{sex},
+      </if>
+      <if test="tableName != null">
+        #{tableName},
+      </if>
+      <if test="columnName != null">
+        #{columnName},
+      </if>
+      <if test="isChar != null">
+        #{isChar},
+      </if>
+    </trim>
+  </insert>
+
+  <!-- 根据指标code选择性更新 -->
+  <update id="updateByCode" parameterType="com.foundation.dao.entity.archive.DistArchiveIndicator">
+    update dist_archive_indicator
+    <set>
+      <if test="name != null">
+        name = #{name},
+      </if>
+      <if test="remark != null">
+        remark = #{remark},
+      </if>
+      <if test="type != null">
+        type = #{type},
+      </if>
+      <if test="unit != null">
+        unit = #{unit},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag},
+      </if>
+      <if test="addedRuleFlag != null">
+        added_rule_flag = #{addedRuleFlag},
+      </if>
+      <if test="archiveFlag != null">
+        archive_flag = #{archiveFlag},
+      </if>
+      <if test="minValue != null">
+        min_value = #{minValue},
+      </if>
+      <if test="maxValue != null">
+        max_value = #{maxValue},
+      </if>
+      <if test="sex != null">
+        sex = #{sex},
+      </if>
+      <if test="tableName != null">
+        table_name = #{tableName},
+      </if>
+      <if test="columnName != null">
+        column_name = #{columnName},
+      </if>
+      <if test="isChar != null">
+        is_char = #{isChar},
+      </if>
+    </set>
+    where code = #{code} and sex=#{sex}
+  </update>
+
+
+  <!-- 逻辑删除，更新del_flag -->
+  <update id="deleteByPrimaryKey" parameterType="HashMap">
+    update dist_archive_indicator
+    set del_flag = #{delFlag}
+    where id = #{id}
+  </update>
+
+  <!-- 逻辑删除by index_code，更新del_flag -->
+  <update id="deleteByCode" parameterType="HashMap">
+    update dist_archive_indicator
+    set del_flag = #{delFlag}
+    where code = #{code}
+  </update>
+
+</mapper>

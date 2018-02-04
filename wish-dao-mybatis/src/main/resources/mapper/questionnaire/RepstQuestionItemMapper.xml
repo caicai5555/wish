@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.write.questionnaire.RepstQuestionItemDao" >
+
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from repst_question_item
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="save" parameterType="com.foundation.dao.entity.questionnaire.RepstQuestionItem" >
+    insert into repst_question_item (
+      id, parent_item_id, question_id, item_type,  item_name,  item_desc,  item_score,
+      is_compute_score,  order_id,  item_limited,  item_id_dis,  e_item_ids,  q_limited,
+      q_ids,  q_enable,  operation_id,  is_control_quest,  mark,
+      type_encoding, archive_type
+      )
+    values (
+      #{id}, #{parentItemId}, #{questionId}, #{itemType}, #{itemName}, #{itemDesc}, #{itemScore},
+      #{isComputeScore},  #{orderId}, #{itemLimited}, #{itemIdDis}, #{eItemIds}, #{qLimited},
+      #{qIds}, #{qEnable}, #{operationId}, #{isControlQuest}, #{mark},
+      #{typeEncoding}, #{archiveType}
+      )
+  </insert>
+
+  <update id="update" parameterType="com.foundation.dao.entity.questionnaire.RepstQuestionItem" >
+    update repst_question_item
+    <set >
+      <if test="parentItemId != null" > parent_item_id = #{parentItemId}, </if>
+      <if test="questionId != null" > question_id = #{questionId}, </if>
+      <if test="itemType != null" > item_type = #{itemType}, </if>
+      <if test="itemName != null" > item_name = #{itemName}, </if>
+      <if test="itemDesc != null" > item_desc = #{itemDesc}, </if>
+      <if test="itemScore != null" > item_score = #{itemScore}, </if>
+      <if test="isComputeScore != null" > is_compute_score = #{isComputeScore}, </if>
+      <if test="orderId != null" > order_id = #{orderId}, </if>
+      <if test="itemLimited != null" > item_limited = #{itemLimited}, </if>
+      <if test="itemIdDis != null" > item_id_dis = #{itemIdDis}, </if>
+      <if test="eItemIds != null" > e_item_ids = #{eItemIds}, </if>
+      <if test="qLimited != null" > q_limited = #{qLimited}, </if>
+      <if test="qIds != null" > q_ids = #{qIds}, </if>
+      <if test="qEnable != null" > q_enable = #{qEnable}, </if>
+      <if test="operationId != null" > operation_id = #{operationId}, </if>
+      <if test="isControlQuest != null" > is_control_quest = #{isControlQuest}, </if>
+      <if test="mark != null" > mark = #{mark}, </if>
+      <if test="typeEncoding != null" > type_encoding = #{typeEncoding}, </if>
+      <if test="archiveType != null" > archive_type = #{archiveType}, </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateById" parameterType="java.util.Map" >
+    update repst_question_item
+    <set >
+      <if test="parentItemId != null" > parent_item_id = #{parentItemId}, </if>
+      <if test="questionId != null" > question_id = #{questionId}, </if>
+      <if test="itemType != null" > item_type = #{itemType}, </if>
+      <if test="itemName != null" > item_name = #{itemName}, </if>
+      <if test="itemDesc != null" > item_desc = #{itemDesc}, </if>
+      <if test="itemScore != null" > item_score = #{itemScore}, </if>
+      <if test="isComputeScore != null" > is_compute_score = #{isComputeScore}, </if>
+      <if test="orderId != null" > order_id = #{orderId}, </if>
+      <if test="itemLimited != null" > item_limited = #{itemLimited}, </if>
+      <if test="itemIdDis != null" > item_id_dis = #{itemIdDis}, </if>
+      <if test="eItemIds != null" > e_item_ids = #{eItemIds}, </if>
+      <if test="qLimited != null" > q_limited = #{qLimited}, </if>
+      <if test="qIds != null" > q_ids = #{qIds}, </if>
+      <if test="qEnable != null" > q_enable = #{qEnable}, </if>
+      <if test="operationId != null" > operation_id = #{operationId}, </if>
+      <if test="isControlQuest != null" > is_control_quest = #{isControlQuest}, </if>
+      <if test="mark != null" > mark = #{mark}, </if>
+      <if test="typeEncoding != null" > type_encoding = #{typeEncoding}, </if>
+      <if test="archiveType != null" > archive_type = #{archiveType}, </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <insert id="batchSave" parameterType="java.util.List">
+    insert into  repst_question_item (
+    id, parent_item_id, question_id, item_type,  item_name,  item_desc,  item_score,
+    is_compute_score,  order_id,  item_limited,  item_id_dis,  e_item_ids,  q_limited,
+    q_ids,  q_enable,  operation_id,  is_control_quest,  mark,
+    type_encoding, archive_type
+      )
+    values
+    <foreach item="item" collection="list" separator=",">
+      (
+      #{item.id}, #{item.parentItemId}, #{item.questionId}, #{item.itemType}, #{item.itemName}, #{item.itemDesc}, #{item.itemScore},
+      #{item.isComputeScore},  #{item.orderId}, #{item.itemLimited}, #{item.itemIdDis}, #{item.eItemIds}, #{item.qLimited},
+      #{item.qIds}, #{item.qEnable}, #{item.operationId}, #{item.isControlQuest}, #{item.mark},
+      #{item.typeEncoding}, #{item.archiveType}
+      )
+    </foreach>
+  </insert>
+
+</mapper>

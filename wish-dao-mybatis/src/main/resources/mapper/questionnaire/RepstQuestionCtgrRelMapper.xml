@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.write.questionnaire.RepstQuestionCtgrRelDao" >
+
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from repst_question_ctgr_rel
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="save" parameterType="com.foundation.dao.entity.questionnaire.RepstQuestionCtgrRel" >
+    insert into repst_question_ctgr_rel (
+      id, question_ctgr, question_id, order_id
+      )
+    values (
+      #{id}, #{questionCtgr}, #{questionId}, #{orderId}
+      )
+  </insert>
+
+
+  <update id="update" parameterType="com.foundation.dao.entity.questionnaire.RepstQuestionCtgrRel" >
+    update repst_question_ctgr_rel
+    <set >
+      <if test="questionCtgr != null" > question_ctgr = #{questionCtgr}, </if>
+      <if test="questionId != null" > question_id = #{questionId}, </if>
+      <if test="orderId != null" > order_id = #{orderId}, </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateById" parameterType="java.util.Map" >
+    update repst_question_ctgr_rel
+    <set >
+      <if test="questionCtgr != null" > question_ctgr = #{questionCtgr}, </if>
+      <if test="questionId != null" > question_id = #{questionId}, </if>
+      <if test="orderId != null" > order_id = #{orderId}, </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <insert id="batchSave" parameterType="java.util.List">
+    insert into  repst_question_ctgr_rel (
+      id, question_ctgr, question_id, order_id
+      )
+    values
+    <foreach item="item" collection="list" separator=",">
+      (
+        #{item.id}, #{item.questionCtgr}, #{item.questionId}, #{item.orderId}
+      )
+    </foreach>
+  </insert>
+
+</mapper>

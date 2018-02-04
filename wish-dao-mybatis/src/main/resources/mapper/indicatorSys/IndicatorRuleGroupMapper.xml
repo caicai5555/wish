@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.write.indicatorSys.IndicatorRuleGroupDao" >
+
+  <insert id="save" parameterType="com.foundation.dao.entity.indicatorSys.IndicatorRuleGroup" >
+    insert into indicator_rule_group
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="indicatorId != null" >
+        indicator_id,
+      </if>
+      <if test="indicatorCode != null" >
+        indicator_code,
+      </if>
+      <if test="itemCodes != null" >
+        item_codes,
+      </if>
+      <if test="itemNames != null" >
+        item_names,
+      </if>
+      <if test="delFlag != null" >
+        is_delete,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id},
+      </if>
+      <if test="indicatorId != null" >
+        #{indicatorId},
+      </if>
+      <if test="indicatorCode != null" >
+        #{indicatorCode},
+      </if>
+      <if test="itemCodes != null" >
+        #{itemCodes},
+      </if>
+      <if test="itemNames != null" >
+        #{itemNames},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag}
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByMap" parameterType="map" >
+    update indicator_rule_group
+    <set >
+      <if test="indicatorId != null" >
+        indicator_id = #{indicatorId},
+      </if>
+      <if test="itemCodes != null" >
+        item_codes = #{itemCodes},
+      </if>
+      <if test="itemNames != null" >
+        item_names = #{itemNames},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+</mapper>

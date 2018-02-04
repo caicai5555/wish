@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.read.indicatorSys.IndicatorRuleDaoR">
+    <resultMap id="BaseResultMap" type="com.foundation.dao.entity.indicatorSys.IndicatorRule">
+        <id column="id" property="id"/>
+        <result column="indicator_id" property="indicatorId"/>
+        <result column="indicator_code" property="indicatorCode"/>
+        <result column="group_id" property="groupId"/>
+        <result column="value_tab" property="valueTab"/>
+        <result column="color" property="color"/>
+        <result column="conclusion" property="conclusion"/>
+        <result column="suggest" property="suggest"/>
+        <result column="unit" property="unit"/>
+        <result column="expression" property="expression"/>
+        <result column="del_flag" property="delFlag"/>
+        <result column="default_min" property="defaultMin"/>
+        <result column="default_max" property="defaultMax"/>
+        <result column="item_count" property="itemCount"/>
+    </resultMap>
+
+    <!--  <resultMap id="QueryRuleInteval" type="com.foundation.dao.entity.indicatorSys.IndicatorRuleIntervalDO">
+        <id column="id" property="id"  />
+        <result column="indicator_id" property="indicatorId"/>
+      </resultMap>-->
+
+    <sql id="Base_Column_List">
+    id, indicator_id, indicator_code, group_id, value_tab, color, conclusion, suggest, unit, expression,
+    del_flag, default_min, default_max, item_count
+  </sql>
+    <select id="queryList" resultMap="BaseResultMap" parameterType="map">
+        select
+        <include refid="Base_Column_List"/>
+        from indicator_rule
+        <where>
+            <if test="indicatorId != null">
+                and indicator_id = #{indicatorId}
+            </if>
+            <if test="indicatorCode != null">
+                and indicator_code = #{indicatorCode}
+            </if>
+            <if test="groupId != null">
+                and group_id = #{groupId}
+            </if>
+            <if test="delFlag != null">
+                and del_flag = #{delFlag}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryObject" resultMap="BaseResultMap" parameterType="map">
+        select
+        <include refid="Base_Column_List"/>
+        from indicator_rule
+        <where>
+            <if test="indicatorId != null">
+                and indicator_id = #{indicatorId}
+            </if>
+            <if test="indicatorCode != null">
+                and indicator_code = #{indicatorCode}
+            </if>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="delFlag != null">
+                and del_flag = #{delFlag}
+            </if>
+        </where>
+    </select>
+
+
+    <!--  <select id="queryIndRuleInterval" >
+
+      </select>-->
+</mapper>

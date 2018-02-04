@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.read.clinic.InspectListOrgDaoR" >
+
+  <resultMap id="BaseResultMap" type="com.foundation.dao.entity.clinic.InspectListOrg" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="inspect_name" property="inspectName" jdbcType="VARCHAR" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="list_id" property="listId" jdbcType="VARCHAR" />
+    <result column="org_id" property="orgId" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, inspect_name, org_name, list_id, org_id
+  </sql>
+
+  <select id="queryById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from inspect_list_org
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="queryPageList" resultType="com.foundation.dao.entity.clinic.InspectListOrg" parameterType="map" >
+    select
+    <include refid="Base_Column_List" />
+    from inspect_list_org
+    <where>
+      <if test="map.ids != null">
+        id IN
+        <foreach collection="map.ids" item="item" index="index" open="(" separator="," close=")">
+          '${item}'
+        </foreach>
+      </if>
+    </where>
+    <if test="map.orders != null">
+      ORDER BY
+      <foreach collection="map.orders" item="item" index="index" open="" separator="," close="">
+        ${index} ${item}
+      </foreach>
+    </if>
+  </select>
+
+  <select id="getCount" parameterType="map" resultType="int">
+    select
+    count(0)
+    from inspect_list_org
+    <where>
+      <if test="map != null">
+        <if test="map.id != null">id = #{map.id} </if>
+      </if>
+    </where>
+  </select>
+
+</mapper>

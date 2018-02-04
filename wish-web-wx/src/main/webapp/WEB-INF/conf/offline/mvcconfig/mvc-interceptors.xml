@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+			http://www.springframework.org/schema/beans 
+			http://www.springframework.org/schema/beans/spring-beans.xsd 
+			http://www.springframework.org/schema/context 
+			http://www.springframework.org/schema/context/spring-context.xsd
+			http://www.springframework.org/schema/mvc
+		    http://www.springframework.org/schema/mvc/spring-mvc.xsd"
+    default-lazy-init="false">
+    <!-- 拦截器 
+	<mvc:interceptors>		
+			<bean id="systemInterceptor" class="com.bioeh.sp.hm.bsp.interceptor.SystemInterceptor" ></bean>
+	</mvc:interceptors>
+			<bean id="verifyLoginInterceptor" class="com.bioeh.sp.hm.bsp.interceptor.VerifyLoginInterceptor" ></bean> 
+	-->
+<!--	<mvc:interceptors>
+			<bean id="loginInterceptor" class="com.bioeh.sp.hm.bsp.interceptor.LoginInterceptor" ></bean>
+	</mvc:interceptors>-->
+	<!--
+	<mvc:interceptors>
+		<bean class="com.bioeh.sp.hm.wx.interceptor.WXCommonIterceptor"/>
+	</mvc:interceptors>-->
+	<!-- 拦截器 拦截所有的url获取code-->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/wxAirCat/getAirCatData"/>
+			<bean class="com.bioeh.sp.hm.wx.common.interceptor.GetOpenIdInterceptor"/>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/wxGene/getReport"/>
+			<bean class="com.bioeh.sp.hm.wx.common.interceptor.GetOpenIdInterceptor"/>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/explanation/openExplanation"/>
+			<bean class="com.bioeh.sp.hm.wx.common.interceptor.GetOpenIdInterceptor"/>
+		</mvc:interceptor>
+	<!--	&lt;!&ndash; 拦截器 拦截gene判断是否绑定手机号&ndash;&gt;
+		<mvc:interceptor>
+			<mvc:mapping path="/gene/*"/>
+			&lt;!&ndash; 需排除拦截的地址 &ndash;&gt;
+			&lt;!&ndash;<mvc:exclude-mapping path="/gene/getReport"/>
+			<mvc:exclude-mapping path="/gene/readReport"/>&ndash;&gt;
+			<bean class="com.bioeh.sp.hm.wx.common.interceptor.WXUserBindIterceptor"/>
+		</mvc:interceptor>
+
+		&lt;!&ndash; 拦截器 拦截aircat下判断是否绑定设备&ndash;&gt;
+		<mvc:interceptor>
+			<mvc:mapping path="/airCat/*"/>
+			&lt;!&ndash; 需排除拦截的地址 &ndash;&gt;
+			&lt;!&ndash;<mvc:exclude-mapping path="/gene/getReport"/>
+			<mvc:exclude-mapping path="/gene/readReport"/>&ndash;&gt;
+			<bean class="com.bioeh.sp.hm.wx.common.interceptor.WXAirCatIterceptor"/>
+		</mvc:interceptor>-->
+	</mvc:interceptors>
+</beans>

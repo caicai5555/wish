@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.write.indicatorSys.IndicatorRangeDao" >
+
+  <!-- 物理删除 -->
+  <delete id="deleteByMap" parameterType="map" >
+    delete from indicator_range
+    <where>
+      <if test="id != null">
+        and id = #{id}
+      </if>
+      <if test="indicatorId != null">
+        and indicator_id = #{indicatorId}
+      </if>
+    </where>
+  </delete>
+
+  <!--动态插入-->
+  <insert id="save" parameterType="com.foundation.dao.entity.indicatorSys.IndicatorRange" >
+    insert into indicator_range
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="indicatorId != null" >
+        indicator_id,
+      </if>
+      <if test="method != null" >
+        method,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="rangeMin != null" >
+        range_min,
+      </if>
+      <if test="rangeMax != null" >
+        range_max,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id},
+      </if>
+      <if test="indicatorId != null" >
+        #{indicatorId},
+      </if>
+      <if test="method != null" >
+        #{method},
+      </if>
+      <if test="remark != null" >
+        #{remark},
+      </if>
+      <if test="rangeMin != null" >
+        #{rangeMin},
+      </if>
+      <if test="rangeMax != null" >
+        #{rangeMax},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag},
+      </if>
+    </trim>
+  </insert>
+  <!--动态更新-->
+  <update id="update" parameterType="com.foundation.dao.entity.indicatorSys.IndicatorRange" >
+    update indicator_range
+    <set >
+      <if test="indicatorId != null" >
+        indicator_id = #{indicatorId},
+      </if>
+      <if test="method != null" >
+        method = #{method},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark},
+      </if>
+      <if test="rangeMin != null" >
+        range_min = #{rangeMin},
+      </if>
+      <if test="rangeMax != null" >
+        range_max = #{rangeMax},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+</mapper>

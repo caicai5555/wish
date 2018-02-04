@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.read.indicatorSys.IndicatorRuleExpItemsDaoR">
+    <resultMap id="BaseResultMap" type="com.foundation.dao.entity.indicatorSys.IndicatorRuleExpItems">
+        <id column="id" property="id"/>
+        <result column="indrule_id" property="indruleId"/>
+        <result column="item_code" property="itemCode"/>
+        <result column="item_opt" property="itemOpt"/>
+        <result column="item_value" property="itemValue"/>
+        <result column="del_flag" property="delFlag"/>
+    </resultMap>
+
+    <resultMap id="RuleItemsAndRuleExpItemsRM" type="com.foundation.dao.entity.indicatorSys.IndicatorRuleExpItemsDO">
+        <id column="item_code" property="itemCode"/>
+        <result column="item_name" property="itemName"/>
+        <result column="item_type" property="itemType"/>
+        <result column="item_child_group" property="itemChildGroup"/>
+        <collection property="ruleExpItems" ofType="com.foundation.dao.entity.indicatorSys.IndicatorRuleExpItems">
+            <id column="id" property="id"/>
+            <result column="indruleId" property="indruleId"/>
+            <result column="itemCode" property="itemCode"/>
+            <result column="itemOpt" property="itemOpt"/>
+            <result column="itemValue" property="itemValue"/>
+        </collection>
+    </resultMap>
+
+
+    <!-- 级联查询指标规则表达式项及其关联字典数据 -->
+    <select id="queryRuleExpItemsAndRuleItemInfo" resultMap="RuleItemsAndRuleExpItemsRM" parameterType="String">
+        select e.id id,
+        e.indrule_id indruleId,
+        e.item_code itemCode,
+        e.item_opt itemOpt,
+        e.item_value itemValue,
+        i.item_code,
+        i.item_name,
+        i.item_type,
+        i.item_child_group
+        from indicator_rule_exp_items e
+        LEFT JOIN indicator_rule_items i
+        on e.item_code=i.item_code
+        where e.indrule_id=#{indruleId}
+        order by e.create_date
+     </select>
+
+</mapper>

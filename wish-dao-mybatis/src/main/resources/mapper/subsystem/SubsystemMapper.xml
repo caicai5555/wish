@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.write.subsystem.SubsystemDao" >
+
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from subsystem
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="save" parameterType="com.foundation.dao.entity.subsystem.Subsystem" >
+    insert into subsystem (
+      id, name, code, desc, del_flag,
+      del_date, create_by, create_date, update_by, update_date
+      )
+    values (
+      #{id}, #{name}, #{code}, #{desc}, #{delFlag},
+      #{delDate}, #{createBy.id}, #{createDate}, #{updateBy.id}, #{updateDate}
+      )
+  </insert>
+
+  <update id="update" parameterType="com.foundation.dao.entity.subsystem.Subsystem" >
+    update subsystem
+    <set >
+      <if test="name != null" > name = #{name}, </if>
+      <if test="code != null" > code = #{code}, </if>
+      <if test="desc != null" > desc = #{desc}, </if>
+      <if test="delFlag != null" > del_flag = #{delFlag}, </if>
+      <if test="delDate != null" > del_date = #{delDate}, </if>
+      <if test="createBy != null" > create_by = #{createBy.id}, </if>
+      <if test="createDate != null" > create_date = #{createDate}, </if>
+      <if test="updateBy != null" > update_by = #{updateBy.id}, </if>
+      <if test="updateDate != null" > update_date = #{updateDate}, </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateById" parameterType="java.util.Map" >
+    update subsystem
+    <set >
+      <if test="name != null" > name = #{name}, </if>
+      <if test="code != null" > code = #{code}, </if>
+      <if test="desc != null" > desc = #{desc}, </if>
+      <if test="delFlag != null" > del_flag = #{delFlag}, </if>
+      <if test="delDate != null" > del_date = #{delDate}, </if>
+      <if test="createBy != null" > create_by = #{createBy.id}, </if>
+      <if test="createDate != null" > create_date = #{createDate}, </if>
+      <if test="updateBy != null" > update_by = #{updateBy.id}, </if>
+      <if test="updateDate != null" > update_date = #{updateDate}, </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <insert id="batchSave" parameterType="java.util.List">
+    insert into  subsystem (
+      id, name, code, desc, del_flag,
+      del_date, create_by, create_date, update_by, update_date
+      )
+    values
+    <foreach item="item" collection="list" separator=",">
+      (
+        #{item.id}, #{item.name}, #{item.code}, #{item.desc}, #{item.delFlag},
+        #{item.delDate}, #{item.createBy.id}, #{item.createDate}, #{item.updateBy.id}, #{item.updateDate}
+      )
+    </foreach>
+  </insert>
+
+</mapper>

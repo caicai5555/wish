@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="wish-web-busiSync:war">
+    <output-path>$PROJECT_DIR$/../wish-module-sync/wish-web-busiSync/target</output-path>
+    <root id="archive" name="wish-web-busiSync.war">
+      <element id="artifact" artifact-name="wish-web-busiSync:war exploded" />
+    </root>
+  </artifact>
+</component>

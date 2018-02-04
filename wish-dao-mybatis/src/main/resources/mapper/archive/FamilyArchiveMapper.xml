@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.foundation.dao.modules.write.archive.FamilyArchiveDao">
+  <sql id="Base_Column_List">
+    id,pregnancy_archive_id, wife_cert_num, wife_name, husband_cert_num, husband_name, service_zone_code,
+    service_zone, create_by, create_date, update_by, update_date, del_flag
+  </sql>
+
+  <insert id="save" parameterType="com.foundation.dao.entity.archive.FamilyArchive">
+    insert into sys_family_archive
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="pregnancyArchiveId != null">
+        pregnancy_archive_id,
+      </if>
+      <if test="wifeCertNum != null">
+        wife_cert_num,
+      </if>
+      <if test="wifeName != null">
+        wife_name,
+      </if>
+      <if test="husbandCertNum != null">
+        husband_cert_num,
+      </if>
+      <if test="husbandName != null">
+        husband_name,
+      </if>
+      <if test="serviceZoneCode != null">
+        service_zone_code,
+      </if>
+      <if test="serviceZone != null">
+        service_zone,
+      </if>
+      <if test="informedConsentSigned != null">
+        informed_consent_signed,
+      </if>
+      <if test="provinceCode != null">
+        province_code,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="pregnancyArchiveId != null">
+        #{pregnancyArchiveId},
+      </if>
+      <if test="wifeCertNum != null">
+        #{wifeCertNum},
+      </if>
+      <if test="wifeName != null">
+        #{wifeName},
+      </if>
+      <if test="husbandCertNum != null">
+        #{husbandCertNum},
+      </if>
+      <if test="husbandName != null">
+        #{husbandName},
+      </if>
+      <if test="serviceZoneCode != null">
+        #{serviceZoneCode},
+      </if>
+      <if test="serviceZone != null">
+        #{serviceZone},
+      </if>
+      <if test="informedConsentSigned != null">
+        #{informedConsentSigned},
+      </if>
+      <if test="provinceCode != null">
+        #{provinceCode},
+      </if>
+      <if test="createBy != null">
+        #{createBy},
+      </if>
+      <if test="createDate != null">
+        #{createDate},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.foundation.dao.entity.archive.FamilyArchive">
+    update sys_family_archive
+    <set>
+      <if test="pregnancyArchiveId != null">
+        pregnancy_archive_id = #{pregnancyArchiveId}
+      </if>
+      <if test="wifeCertNum != null">
+        ,wife_cert_num = #{wifeCertNum}
+      </if>
+      <if test="wifeName != null">
+        ,wife_name = #{wifeName}
+      </if>
+      <if test="husbandCertNum != null">
+        , husband_cert_num = #{husbandCertNum}
+      </if>
+      <if test="husbandName != null">
+        , husband_name = #{husbandName}
+      </if>
+      <if test="serviceZoneCode != null">
+        , service_zone_code = #{serviceZoneCode}
+      </if>
+      <if test="serviceZone != null">
+        ,service_zone = #{serviceZone}
+      </if>
+      <if test="informedConsentSigned != null">
+        ,informed_consent_signed= #{informedConsentSigned}
+      </if>
+      <if test="provinceCode != null">
+        ,province_code= #{provinceCode}
+      </if>
+      <if test="createBy != null">
+        ,create_by = #{createBy}
+      </if>
+      <if test="createDate != null">
+        ,create_date = #{createDate}
+      </if>
+      <if test="updateBy != null">
+        ,update_by = #{updateBy}
+      </if>
+      <if test="updateDate != null">
+        ,update_date = #{updateDate}
+      </if>
+      <if test="delFlag != null">
+        ,del_flag = #{delFlag}
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+
+  <!-- 逻辑删除，更新del_flag -->
+  <update id="updateByMap" parameterType="HashMap">
+    update sys_family_archive
+    set del_flag = #{delFlag}
+    where id = #{id}
+  </update>
+</mapper>

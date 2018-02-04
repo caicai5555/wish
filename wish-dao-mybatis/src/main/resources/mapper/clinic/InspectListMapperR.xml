@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.read.clinic.InspectListDaoR" >
+
+  <resultMap id="BaseResultMap" type="com.foundation.dao.entity.clinic.InspectList" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="inspect_name" property="inspectName" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="DATE" />
+    <result column="english_name" property="englishName" jdbcType="VARCHAR" />
+    <result column="inspect_method" property="inspectMethod" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, inspect_name, create_date, english_name, inspect_method
+  </sql>
+
+  <select id="queryByIdOnly" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from inspect_list
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="queryPageList" resultType="com.foundation.dao.entity.clinic.InspectList" parameterType="map" >
+    select
+    <include refid="Base_Column_List" />
+    from inspect_list
+    <where>
+      <if test="map.ids != null">
+       AND id IN
+        <foreach collection="map.ids" item="item" index="index" open="(" separator="," close=")">
+          '${item}'
+        </foreach>
+      </if>
+      <if test="map.inspectName != null">
+       AND inspect_name LIKE CONCAT('%','${map.inspectName}','%' )
+      </if>
+    </where>
+    ORDER BY create_date DESC
+    <if test="map.orders != null">
+      <foreach collection="map.orders" item="item" index="index" open="," separator="," close="">
+        ${index} ${item}
+      </foreach>
+    </if>
+  </select>
+
+  <select id="getCount" parameterType="map" resultType="int">
+    select
+    count(0)
+    from inspect_list
+    <where>
+      <if test="map != null">
+        <if test="map.id != null">id = #{map.id} </if>
+      </if>
+    </where>
+  </select>
+  
+  <select id="queryById" parameterType="string" resultMap="detailEntity">
+    SELECT
+	A.id,
+	A.inspect_name,
+	A.create_date,
+	A.english_name,
+	A.inspect_method,
+	C.id as itemId,
+	C.english_name as englishName,
+	C.item_name as itemName,
+	C.units as units,
+	C.normal_range as normalRange,
+	C.max as max,
+	C.min as min,
+	C.index_name as indexName,
+	C.reduce_formula as reduceFormula
+FROM inspect_list A
+			LEFT OUTER JOIN inspect_list_item B ON A.id = B.list_id
+			LEFT OUTER JOIN inspect_item C on B.item_id = C.id
+WHERE A.id=#{id,jdbcType=VARCHAR}
+  AND B.del_flag != 1;
+  </select>
+  
+  <resultMap id="detailEntity" type="com.foundation.dao.entity.clinic.InspectList">
+    <id column="id" property="id" jdbcType="VARCHAR"/>
+    <result column="inspect_name" property="inspectName" jdbcType="VARCHAR"/>
+    <result column="create_date" property="createDate" jdbcType="DATE"/>
+    <result column="english_name" property="englishName" jdbcType="VARCHAR"/>
+    <result column="inspect_method" property="inspectMethod" jdbcType="VARCHAR"/>
+    <collection property="inspectItems" ofType="com.foundation.dao.entity.clinic.InspectItem">
+      <id column="itemId" property="id" jdbcType="VARCHAR"/>
+      <result column="englishName" property="englishName" jdbcType="VARCHAR" />
+      <result column="itemName" property="itemName" jdbcType="VARCHAR" />
+      <result column="units" property="units" jdbcType="VARCHAR" />
+      <result column="normalRange" property="normalRange" jdbcType="VARCHAR" />
+      <result column="max" property="max" jdbcType="REAL" />
+      <result column="min" property="min" jdbcType="REAL" />
+      <result column="indexName" property="indexName" jdbcType="VARCHAR" />
+      <result column="reduceFormula" property="reduceFormula" jdbcType="VARCHAR" />
+    </collection>
+  </resultMap>
+</mapper>

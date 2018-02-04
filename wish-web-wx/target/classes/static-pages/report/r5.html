@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>查看报告5</title>
+  <meta name="viewport"
+        content="width=device-width, initial-scale=0.35, maximum-scale=0.35, minimum-scale=0.35, user-scalable=no">
+  <link rel="stylesheet" type="text/css" href="../../../webapp/styles/common.css"/>
+  <link rel="stylesheet" type="text/css" href="../../../webapp/styles/jquery.datetimepicker.css">
+  <style>
+    body {
+      background: #fff;
+    }
+
+    header {
+      height: 6rem;
+      background: #fff;
+      line-height: 6rem;
+    }
+
+    header b {
+      float: left;
+      padding-left: 3rem;
+      font-size: 3rem;
+      margin-right: 5rem;
+    }
+
+    header span {
+      font-size: 3.2rem;
+    }
+
+    .report-box-list li {
+      display: block;
+      line-height: 7rem;
+      font-size: 2.5rem;
+      float: left;
+      width: 90%;
+      height: auto;
+      padding: 1rem;
+      margin: 1rem;
+    }
+
+    .report-box-list li a {
+      display: block;
+      color: #000;
+      text-decoration: none;
+      font-size: 3.5rem;
+      margin: 0 2rem;
+    }
+
+    .report-box-list dl, .report-box-list a, .report-box-list span {
+      float: left;
+    }
+
+    .report-box-list dl {
+      position: relative;
+      top: 2rem;
+    }
+
+    .report-box-list dl dd {
+      display: block;
+      float: left;
+      width: 2rem;
+      height: 2rem;
+      border: 1px solid #ccc;
+      margin-right: 1rem;
+      background: #ddd;
+    }
+
+    .content {
+      padding: 2rem 1rem;
+    }
+
+    p {
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 7rem;
+      font-size: 2.5rem;
+      line-height: 4rem;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+<header><b><</b><span>阅读指南</span></header>
+<hr>
+<section class="content">
+  <ul class="report-box-list">
+    <li>
+      <dl>
+        <dd></dd>
+        <dd></dd>
+        <dd></dd>
+        <dd></dd>
+        <dd></dd>
+      </dl>
+      <a href="#">0级</a>
+      <span>未检测到风险指标</span>
+    </li>
+    <li>
+      <dl>
+        <dd></dd>
+        <dd></dd>
+        <dd></dd>
+        <dd></dd>
+        <dd></dd>
+      </dl>
+      <a href="#">1级</a>
+      <span>弱度遗传易感风险</span>
+    </li>
+    <li>
+      <dl>
+        <dd></dd>
+        <dd></dd>
+        <dd></dd>
+        <dd></dd>
+        <dd></dd>
+      </dl>
+      <a href="#">2级</a>
+      <span>轻度遗传易感风险</span>
+    </li>
+  </ul>
+  <p>
+    0、1、2级表示发病风险低于普通人群。即根据遗传特征导致患该病的几率较低。
+  </p>
+  <ul class="report-box-list">
+    <li>
+      <dl>
+        <dd></dd>
+        <dd></dd>
+        <dd></dd>
+        <dd></dd>
+        <dd></dd>
+      </dl>
+      <a href="#">3级</a>
+      <span>中毒遗传易感风险</span>
+    </li>
+  </ul>
+  <p>
+    0、1、2级表示发病风险低于普通人群。即根据遗传特征导致患该病的几率较低。
+  </p>
+  <ul class="report-box-list">
+    <li>
+      <dl>
+        <dd></dd>
+        <dd></dd>
+        <dd></dd>
+        <dd></dd>
+        <dd></dd>
+      </dl>
+      <a href="#">4级</a>
+      <span>较高遗传易感风险</span>
+    </li>
+    <li>
+      <dl>
+        <dd></dd>
+        <dd></dd>
+        <dd></dd>
+        <dd></dd>
+        <dd></dd>
+      </dl>
+      <a href="#">5级</a>
+      <span>高度遗传易感风险</span>
+    </li>
+  </ul>
+  <p>
+    0、1、2级表示发病风险低于普通人群。即根据遗传特征导致患该病的几率较低。
+  </p>
+</section>
+<script type="text/javascript" src="../jquery.js"></script>
+<script>
+  var elemList = $('.report-box-list li');
+  $(function () {
+    elemList.each(function (v, e) {
+      var ddElem, color;
+      ddElem = elemList.eq(v).find('dd');
+      for (var n = 0; n < v; n++) {
+        if (v < 3) {
+          color = 'green';
+        } else if (v == 3) {
+          color = 'orange';
+        } else {
+          color = 'red';
+        }
+        ddElem.eq(n).css('background', color);
+      }
+    });
+  });
+</script>
+</body>
+</html>

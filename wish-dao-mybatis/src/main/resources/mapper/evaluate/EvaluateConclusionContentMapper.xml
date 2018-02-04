@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.write.evaluate.EvaluateConclusionContentDao">
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.foundation.dao.entity.evaluate.EvaluateConclusionContent">
+		insert into evaluate_conclusion_content
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="evaluateInfoId != null">
+				evaluate_info_id,
+			</if>
+			<if test="evaluateRuleId != null">
+				evaluate_rule_id,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="enname != null">
+				enname,
+			</if>
+			<if test="conclusion != null">
+				conclusion,
+			</if>
+			<if test="resultTag != null">
+				result_tag,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="evaluateInfoId != null">
+				#{evaluateInfoId},
+			</if>
+			<if test="evaluateRuleId != null">
+				#{evaluateRuleId},
+			</if>
+			<if test="name != null">
+				#{name},
+			</if>
+			<if test="enname != null">
+				#{enname},
+			</if>
+			<if test="conclusion != null">
+				#{conclusion},
+			</if>
+			<if test="resultTag != null">
+				#{resultTag},
+			</if>
+		</trim>
+	</insert>
+	<!-- 更新 -->
+	<update id="update" parameterType="com.foundation.dao.entity.evaluate.EvaluateConclusionContent">
+		update evaluate_conclusion_content
+		<set>
+			<if test="evaluateInfoId != null">
+				evaluate_info_id = #{evaluateInfoId},
+			</if>
+			<if test="evaluateRuleId != null">
+				evaluate_rule_id = #{evaluateRuleId},
+			</if>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="enname != null">
+				enname = #{enname},
+			</if>
+			<if test="conclusion != null">
+				conclusion = #{conclusion},
+			</if>
+			<if test="resultTag != null">
+				result_tag = #{resultTag},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.lang.String">
+		delete from evaluate_conclusion_content where id = #{id}
+	</delete>
+</mapper>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>设备管理</title>
+  <style type="text/css">
+    body {
+      font-size: 62.5%;
+    }
+
+    ul, li {
+      margin: 0;
+      padding: 0;
+    }
+
+    div:after {
+      display: block;
+      height: auto;
+      clear: both;
+      content: '\20';
+    }
+
+    .device-list li {
+      padding: 2rem;
+      background: #4CB050;
+      font-size: 2rem;
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+
+    .title-text, .edit-icon, .delete {
+      display: block;
+    }
+
+    .title-text, .edit-icon {
+      float: left;
+    }
+
+    .delete {
+      float: right;
+    }
+
+    .title-text {
+      font-size: 2.8rem;
+      margin-right: 2rem;
+      max-width: 28rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .edit-icon, .delete {
+      width: 3rem;
+      height: 3rem;
+    }
+
+    .delete {
+      background: url('delete.png') no-repeat center center;
+    }
+
+    .edit-icon {
+      background: url('edit.png') no-repeat center center;
+    }
+
+    .device-info {
+      clear: both;
+    }
+
+    .device-info span {
+      display: block;
+    }
+
+    .device-info span.serial-number {
+      float: left;
+    }
+
+    .device-info span.device-status {
+      float: right;
+      width: 18rem;
+    }
+
+    .device-status i {
+      display: inline-block;
+      width: 1.5rem;
+      height: 1.5rem;
+      border: 2px solid #fff;
+      border-radius: 1.5rem;
+      margin-right: 1rem;
+      vertical-align: middle;
+    }
+
+    .device-status.exception i {
+      background: red;
+    }
+
+    .device-status.normal i {
+      background: green;
+    }
+
+    .add-device {
+      text-align: center;
+      font-size: 2rem;
+      color: #4CB050;
+      background: #E5F3E6;
+      line-height: 13rem;
+    }
+
+    .add-device b {
+      font-size: 3rem;
+      vertical-align: bottom;
+    }
+
+    .add-device span {
+      line-height: 3rem;
+    }
+  </style>
+</head>
+<body>
+<input type="hidden" name="responseData"
+       value='[{"id":1470790324202,"position":"大厅","airCatStatus":"offline","mac":"5c:cf:7f:86:0a:45","openId":"oOTfGjrnQYbzF7qDKyzK_SZh3qkw"}, {"id":1470807432674,"position":"默认","airCatStatus":null,"mac":"","openId":"oOTfGjrnQYbzF7qDKyzK_SZh3qkw"}, {"id":1470807432675,"position":"默认","airCatStatus":null,"mac":"","openId":"oOTfGjrnQYbzF7qDKyzK_SZh3qkw"}, {"id":1470807432679,"position":"默认","airCatStatus":"offline","mac":"5c:cf:7f:86:0a:45","openId":"oOTfGjrnQYbzF7qDKyzK_SZh3qkw"}, {"id":1470807432680,"position":"默认","airCatStatus":"offline","mac":"5c:cf:7f:86:0a:45","openId":"oOTfGjrnQYbzF7qDKyzK_SZh3qkw"}, {"id":1470807432681,"position":"默认","airCatStatus":"offline","mac":"5c:cf:7f:86:0a:45","openId":"oOTfGjrnQYbzF7qDKyzK_SZh3qkw"}, {"id":1470807432682,"position":"默认","airCatStatus":"offline","mac":"5c:cf:7f:86:0a:45","openId":"oOTfGjrnQYbzF7qDKyzK_SZh3qkw"}, {"id":1470807432683,"position":"默认","airCatStatus":"offline","mac":"5c:cf:7f:86:0a:45","openId":"oOTfGjrnQYbzF7qDKyzK_SZh3qkw"}, {"id":1470807432686,"position":"默认","airCatStatus":"offline","mac":"5c:cf:7f:86:0a:45","openId":"oOTfGjrnQYbzF7qDKyzK_SZh3qkw"}, {"id":1470807432687,"position":"默认","airCatStatus":"offline","mac":"5c:cf:7f:86:0a:45","openId":"oOTfGjrnQYbzF7qDKyzK_SZh3qkw"}, {"id":1470807432688,"position":"默认","airCatStatus":"offline","mac":"5c:cf:7f:86:0a:45","openId":"oOTfGjrnQYbzF7qDKyzK_SZh3qkw"}, {"id":1470807432689,"position":"默认","airCatStatus":"offline","mac":"5c:cf:7f:86:0a:45","openId":"oOTfGjrnQYbzF7qDKyzK_SZh3qkw"}, {"id":1470807432690,"position":"默认","airCatStatus":"offline","mac":"5c:cf:7f:86:0a:45","openId":"oOTfGjrnQYbzF7qDKyzK_SZh3qkw"}, {"id":1470807432691,"position":"默认","airCatStatus":"offline","mac":"5c:cf:7f:86:0a:45","openId":"oOTfGjrnQYbzF7qDKyzK_SZh3qkw"}, {"id":1470807432692,"position":"默认","airCatStatus":"offline","mac":"5c:cf:7f:86:0a:45","openId":"oOTfGjrnQYbzF7qDKyzK_SZh3qkw"}, {"id":1470807432693,"position":"默认","airCatStatus":"offline","mac":"5c:cf:7f:86:0a:45","openId":"oOTfGjrnQYbzF7qDKyzK_SZh3qkw"}, {"id":1470807432694,"position":"默认","airCatStatus":"offline","mac":"5c:cf:7f:86:0a:45","openId":"oOTfGjrnQYbzF7qDKyzK_SZh3qkw"}, {"id":1470807432695,"position":"默认","airCatStatus":"offline","mac":"5c:cf:7f:86:0a:45","openId":"oOTfGjrnQYbzF7qDKyzK_SZh3qkw"}, {"id":1470807432696,"position":"默认","airCatStatus":"offline","mac":"5c:cf:7f:86:0a:45","openId":"oOTfGjrnQYbzF7qDKyzK_SZh3qkw"}, {"id":1470807432697,"position":"默认","airCatStatus":"offline","mac":"5c:cf:7f:86:0a:45","openId":"oOTfGjrnQYbzF7qDKyzK_SZh3qkw"}, {"id":1470807432698,"position":"默认","airCatStatus":"offline","mac":"5c:cf:7f:86:0a:45","openId":"oOTfGjrnQYbzF7qDKyzK_SZh3qkw"}, {"id":1470807432699,"position":"默认","airCatStatus":"offline","mac":"5c:cf:7f:86:0a:45","openId":"oOTfGjrnQYbzF7qDKyzK_SZh3qkw"}, {"id":1470807432700,"position":"默认","airCatStatus":"offline","mac":"5c:cf:7f:86:0a:45","openId":"oOTfGjrnQYbzF7qDKyzK_SZh3qkw"}, {"id":1470807432701,"position":"默认","airCatStatus":"offline","mac":"5c:cf:7f:86:0a:45","openId":"oOTfGjrnQYbzF7qDKyzK_SZh3qkw"}, {"id":1470807432702,"position":"默认","airCatStatus":"offline","mac":"5c:cf:7f:86:0a:45","openId":"oOTfGjrnQYbzF7qDKyzK_SZh3qkw"}, {"id":1470807432703,"position":"默认","airCatStatus":"offline","mac":"5c:cf:7f:86:0a:45","openId":"oOTfGjrnQYbzF7qDKyzK_SZh3qkw"}, {"id":1470807432704,"position":"默认","airCatStatus":"offline","mac":"5c:cf:7f:86:0a:45","openId":"oOTfGjrnQYbzF7qDKyzK_SZh3qkw"}, {"id":1470807432705,"position":"默认","airCatStatus":"offline","mac":"5c:cf:7f:86:0a:45","openId":"oOTfGjrnQYbzF7qDKyzK_SZh3qkw"}, {"id":1470807432706,"position":"默认","airCatStatus":"offline","mac":"5c:cf:7f:86:0a:45","openId":"oOTfGjrnQYbzF7qDKyzK_SZh3qkw"}, {"id":1470807432707,"position":"默认","airCatStatus":"offline","mac":"5c:cf:7f:86:0a:45","openId":"oOTfGjrnQYbzF7qDKyzK_SZh3qkw"}, {"id":1470807432708,"position":"默认","airCatStatus":"offline","mac":"5c:cf:7f:86:0a:45","openId":"oOTfGjrnQYbzF7qDKyzK_SZh3qkw"}, {"id":1470807432709,"position":"默认","airCatStatus":"offline","mac":"5c:cf:7f:86:0a:45","openId":"oOTfGjrnQYbzF7qDKyzK_SZh3qkw"}, {"id":1470807432710,"position":"默认","airCatStatus":"offline","mac":"5c:cf:7f:86:0a:45","openId":"oOTfGjrnQYbzF7qDKyzK_SZh3qkw"}, {"id":1470807432711,"position":"默认","airCatStatus":"offline","mac":"5c:cf:7f:86:0a:45","openId":"oOTfGjrnQYbzF7qDKyzK_SZh3qkw"}]'>
+<script id="template" type="text/html">
+  <div id="listWrapper">
+    <ul class="device-list" data-bind="foreach:$root.resData">
+      <li>
+        <div class="device-title">
+          <b class="title-text" data-bind="text:position">主卧室</b>
+          <a class="edit-icon"> </a>
+          <i class="delete"> </i>
+        </div>
+        <div class="device-info">
+          <span class="serial-number">设备ID:<em data-bind="text:id"></em></span>
+          <span
+              data-bind="attr:{class:airCatStatus === 'offline' ? 'device-status exception' : 'device-status normal'}"><i> </i><em
+              data-bind="text:(airCatStatus === 'offline' ? '连接异常' : '连接正常')"></em></span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</script>
+
+<div class="add-device">
+  <b>+ </b><span>添加设备</span>
+</div>
+<script src="jquery.js"></script>
+<script src="../../webapp/viewjs/common/common.js"></script>
+<script>
+  $(function () {
+    function List(compile) {
+      var resData;
+      eval('resData = ' + $('[name=responseData]').val());
+      var template = $('#template').html();
+      this.viewModel = {
+        resData: resData
+      };
+      this.compile = compile;
+      var segment = compile.call(this, $(template), this.viewModel);
+      segment.insertBefore('.add-device');
+    }
+
+    new List(templateCompile);
+  });
+
+</script>
+</body>
+</html>

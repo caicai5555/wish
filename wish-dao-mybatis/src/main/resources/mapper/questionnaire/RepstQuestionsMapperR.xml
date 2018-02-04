@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.read.questionnaire.RepstQuestionsDaoR" >
+
+  <resultMap id="BaseResultMap" type="com.foundation.dao.entity.questionnaire.RepstQuestions" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="question_name" property="questionName"/>
+    <result column="parent_question_id" property="parentQuestionId"/>
+    <result column="questionnaire_id" property="questionnaireId"/>
+    <result column="question_type" property="questionType"/>
+    <result column="suit_sex" property="suitSex"/>
+    <result column="fill_type" property="fillType"/>
+    <result column="sys_user_id" property="sysUserId"/>
+    <result column="create_date" property="createDate"/>
+    <result column="update_date" property="updateDate"/>
+    <result column="order_id" property="orderId"/>
+    <result column="q_required" property="qRequired"/>
+    <result column="show_state" property="showState"/>
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+      id, question_name, parent_question_id, questionnaire_id, question_type,
+      suit_sex, fill_type, sys_user_id, create_date, update_date,
+      order_id, q_required, show_state
+  </sql>
+
+  <select id="queryById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from repst_questions
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="queryPageList" resultType="com.foundation.dao.entity.questionnaire.RepstQuestions" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM repst_questions
+    <where>
+      <if test="map.ids != null">
+        AND id IN
+        <foreach collection="map.ids" item="item" index="index" open="(" separator="," close=")">
+          '${item}'
+        </foreach>
+      </if>
+      <if test="map.questionnaireId != null">
+        AND questionnaire_id = ${map.questionnaireId}
+      </if>
+    </where>
+    <if test="map.orders != null">
+      ORDER BY
+      <foreach collection="map.orders" item="item" index="index" open="" separator="," close="">
+        ${index} ${item}
+      </foreach>
+    </if>
+  </select>
+
+<select id="getCount" parameterType="map" resultType="int">
+  select
+  count(0)
+  from repst_questions
+  <where>
+    <if test="map != null">
+      <if test="map.id != null">id = #{map.id} </if>
+      <if test="map.questionnaireId != null">
+        AND questionnaire_id = ${map.questionnaireId}
+      </if>
+    </if>
+  </where>
+</select>
+
+  <select id="queryDetailById" resultMap="entityDetail" parameterType="java.lang.String" >
+    SELECT
+      A.*,
+      C.id as item_id,
+      C.parent_item_id,
+      C.question_id,
+      C.item_type,
+      C.item_name,
+      C.item_desc,
+      C.item_score,
+      C.is_compute_score,
+      C.order_id AS item_order_id,
+      C.item_limited,
+      C.item_id_dis,
+      C.e_item_ids,
+      C.q_limited,
+      C.q_ids,
+      C.q_enable,
+      C.operation_id,
+      C.is_control_quest,
+      C.mark
+    FROM repst_questions A
+      LEFT JOIN repst_question_item C ON A.id = C.question_id
+    WHERE A.id = #{id,jdbcType=VARCHAR}
+    ORDER BY A.order_id;
+  </select>
+
+  <resultMap id="entityDetail" type="com.foundation.dao.entity.questionnaire.RepstQuestions" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="question_name" property="questionName"/>
+    <result column="parent_question_id" property="parentQuestionId"/>
+    <result column="questionnaire_id" property="questionnaireId"/>
+    <result column="question_type" property="questionType"/>
+    <result column="suit_sex" property="suitSex"/>
+    <result column="fill_type" property="fillType"/>
+    <result column="sys_user_id" property="sysUserId"/>
+    <result column="create_date" property="createDate"/>
+    <result column="update_date" property="updateDate"/>
+    <result column="order_id" property="orderId"/>
+    <result column="q_required" property="qRequired"/>
+    <result column="show_state" property="showState"/>
+    <collection property="repstQuestionItemList" ofType="com.foundation.dao.entity.questionnaire.RepstQuestionItem">
+      <id column="item_id" property="id" jdbcType="VARCHAR"/>
+      <result column="parent_item_id" property="parentItemId"/>
+      <result column="question_id" property="questionId"/>
+      <result column="item_type" property="itemType"/>
+      <result column="item_name" property="itemName"/>
+      <result column="item_desc" property="itemDesc"/>
+      <result column="item_score" property="itemScore"/>
+      <result column="is_compute_score" property="isComputeScore"/>
+      <result column="item_order_id" property="orderId"/>
+      <result column="item_limited" property="itemLimited"/>
+      <result column="item_id_dis" property="itemIdDis"/>
+      <result column="e_item_ids" property="eItemIds"/>
+      <result column="q_limited" property="qLimited"/>
+      <result column="q_ids" property="qIds"/>
+      <result column="q_enable" property="qEnable"/>
+      <result column="operation_id" property="operationId"/>
+      <result column="is_control_quest" property="isControlQuest"/>
+      <result column="mark" property="mark"/>
+    </collection>
+  </resultMap>
+
+  <select id="queryDetailPage" resultMap="entityDetail" parameterType="map" >
+    SELECT
+    A.*,
+    C.id as item_id,
+    C.parent_item_id,
+    C.question_id,
+    C.item_type,
+    C.item_name,
+    C.item_desc,
+    C.item_score,
+    C.is_compute_score,
+    C.order_id AS item_order_id,
+    C.item_limited,
+    C.item_id_dis,
+    C.e_item_ids,
+    C.q_limited,
+    C.q_ids,
+    C.q_enable,
+    C.operation_id,
+    C.is_control_quest,
+    C.mark
+    FROM repst_questions A
+    LEFT JOIN repst_question_item C ON A.id = C.question_id
+    <where>
+      <if test="map.ids != null">
+        AND A.id IN
+        <foreach collection="map.ids" item="item" index="index" open="(" separator="," close=")">
+          '${item}'
+        </foreach>
+      </if>
+    </where>
+    ORDER BY A.order_id, C.order_id
+  </select>
+
+
+</mapper>

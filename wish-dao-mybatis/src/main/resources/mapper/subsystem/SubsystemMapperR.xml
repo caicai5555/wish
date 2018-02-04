@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.read.subsystem.SubsystemDaoR" >
+
+  <resultMap id="BaseResultMap" type="com.foundation.dao.entity.subsystem.Subsystem" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name"/>
+    <result column="code" property="code"/>
+    <result column="desc" property="desc"/>
+    <result column="del_flag" property="delFlag"/>
+    <result column="del_date" property="delDate"/>
+    <!--<result column="create_by" property="createBy"/>-->
+    <result column="create_date" property="createDate"/>
+    <!--<result column="update_by" property="updateBy"/>-->
+    <result column="update_date" property="updateDate"/>
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+      id, name, code, desc, del_flag,
+      del_date, create_by, create_date, update_by, update_date
+  </sql>
+
+  <select id="queryById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from subsystem
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="queryPageList" resultType="com.foundation.dao.entity.subsystem.Subsystem" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM subsystem
+    <where>
+      <if test="map.ids != null">
+        AND id IN
+        <foreach collection="map.ids" item="item" index="index" open="(" separator="," close=")">
+          '${item}'
+        </foreach>
+      </if>
+      <if test="map.name != null">
+        AND name = ${map.name}
+      </if>
+    </where>
+    <if test="map.orders != null">
+      ORDER BY
+      <foreach collection="map.orders" item="item" index="index" open="" separator="," close="">
+        ${index} ${item}
+      </foreach>
+    </if>
+  </select>
+
+<select id="getCount" parameterType="map" resultType="int">
+  select
+  count(0)
+  from subsystem
+  <where>
+    <if test="map != null">
+      <if test="map.id != null">id = #{map.id} </if>
+      <if test="map.name != null">
+        AND name = ${map.name}
+      </if>
+    </if>
+  </where>
+</select>
+
+</mapper>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.read.clinic.InspectItemDaoR" >
+
+  <resultMap id="BaseResultMap" type="com.foundation.dao.entity.clinic.InspectItem" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="english_name" property="englishName" jdbcType="VARCHAR" />
+    <result column="item_name" property="itemName" jdbcType="VARCHAR" />
+    <result column="units" property="units" jdbcType="VARCHAR" />
+    <result column="normal_range" property="normalRange" jdbcType="VARCHAR" />
+    <result column="max" property="max" jdbcType="REAL" />
+    <result column="min" property="min" jdbcType="REAL" />
+    <result column="index_name" property="indexName" jdbcType="VARCHAR" />
+    <result column="reduce_formula" property="reduceFormula" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="index_id" property="indexId" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, english_name, item_name, units, normal_range, max, min, index_name, reduce_formula,
+    create_date, index_id
+  </sql>
+
+  <select id="queryById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from inspect_item
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="queryPageList" resultType="com.foundation.dao.entity.clinic.InspectItem" parameterType="map" >
+    select
+    <include refid="Base_Column_List" />
+    from inspect_item
+    <where>
+      <if test="map.ids != null">
+        id IN
+        <foreach collection="map.ids" item="item" index="index" open="(" separator="," close=")">
+          '${item}'
+        </foreach>
+      </if>
+      <if test="map.itemName != null">
+        AND item_name LIKE CONCAT('%','${map.itemName}','%' )
+      </if>
+    </where>
+    ORDER BY create_date DESC
+    <if test="map.orders != null">
+      <foreach collection="map.orders" item="item" index="index" open="," separator="," close="">
+        ${index} ${item}
+      </foreach>
+    </if>
+  </select>
+
+  <select id="getCount" parameterType="map" resultType="int">
+    select
+    count(0)
+    from inspect_item
+    <where>
+      <if test="map != null">
+        <if test="map.id != null">id = #{map.id} </if>
+      </if>
+    </where>
+  </select>
+
+</mapper>

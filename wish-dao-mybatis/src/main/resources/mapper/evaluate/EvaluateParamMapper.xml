@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.write.evaluate.EvaluateParamDao">
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.foundation.dao.entity.evaluate.EvaluateParam">
+		insert into evaluate_param
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="evaluateInfoId != null">
+				evaluate_info_id,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="enname != null">
+				enname,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="evaluateInfoId != null">
+				#{evaluateInfoId},
+			</if>
+			<if test="name != null">
+				#{name},
+			</if>
+			<if test="enname != null">
+				#{enname},
+			</if>
+			<if test="type != null">
+				#{type},
+			</if>
+		</trim>
+	</insert>
+	<!-- 更新 -->
+	<update id="update" parameterType="com.foundation.dao.entity.evaluate.EvaluateParam">
+		update evaluate_param
+		<set>
+			<if test="evaluateInfoId != null">
+				evaluate_info_id = #{evaluateInfoId},
+			</if>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="enname != null">
+				enname = #{enname},
+			</if>
+			<if test="type != null">
+				type = #{type},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.lang.String">
+		delete from evaluate_param where id = #{id}
+	</delete>
+</mapper>

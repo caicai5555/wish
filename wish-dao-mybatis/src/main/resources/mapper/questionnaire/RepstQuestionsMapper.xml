@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.write.questionnaire.RepstQuestionsDao" >
+
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from repst_questions
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="save" parameterType="com.foundation.dao.entity.questionnaire.RepstQuestions" >
+    insert into repst_questions (
+      id, question_name, parent_question_id, questionnaire_id, question_type,
+      suit_sex, fill_type, sys_user_id, create_date, update_date,
+      order_id, q_required, show_state
+      )
+    values (
+      #{id}, #{questionName}, #{parentQuestionId}, #{questionnaireId}, #{questionType},
+      #{suitSex}, #{fillType}, #{sysUserId}, #{createDate}, #{updateDate},
+      #{orderId}, #{qRequired}, #{showState}
+      )
+  </insert>
+
+  <update id="update" parameterType="com.foundation.dao.entity.questionnaire.RepstQuestions" >
+    update repst_questions
+    <set >
+      <if test="questionName != null" > question_name = #{questionName}, </if>
+      <if test="parentQuestionId != null" > parent_question_id = #{parentQuestionId}, </if>
+      <if test="questionnaireId != null" > questionnaire_id = #{questionnaireId}, </if>
+      <if test="questionType != null" > question_type = #{questionType}, </if>
+      <if test="suitSex != null" > suit_sex = #{suitSex}, </if>
+      <if test="fillType != null" > fill_type = #{fillType}, </if>
+      <if test="sysUserId != null" > sys_user_id = #{sysUserId}, </if>
+      <if test="createDate != null" > create_date = #{createDate}, </if>
+      <if test="updateDate != null" > update_date = #{updateDate}, </if>
+      <if test="orderId != null" > order_id = #{orderId}, </if>
+      <if test="qRequired != null" > q_required = #{qRequired}, </if>
+      <if test="showState != null" > show_state = #{showState}, </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateById" parameterType="java.util.Map" >
+    update repst_questions
+    <set >
+      <if test="questionName != null" > question_name = #{questionName}, </if>
+      <if test="parentQuestionId != null" > parent_question_id = #{parentQuestionId}, </if>
+      <if test="questionnaireId != null" > questionnaire_id = #{questionnaireId}, </if>
+      <if test="questionType != null" > question_type = #{questionType}, </if>
+      <if test="suitSex != null" > suit_sex = #{suitSex}, </if>
+      <if test="fillType != null" > fill_type = #{fillType}, </if>
+      <if test="sysUserId != null" > sys_user_id = #{sysUserId}, </if>
+      <if test="createDate != null" > create_date = #{createDate}, </if>
+      <if test="updateDate != null" > update_date = #{updateDate}, </if>
+      <if test="orderId != null" > order_id = #{orderId}, </if>
+      <if test="qRequired != null" > q_required = #{qRequired}, </if>
+      <if test="showState != null" > show_state = #{showState}, </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <insert id="batchSave" parameterType="java.util.List">
+    insert into  repst_questions (
+      id, question_name, parent_question_id, questionnaire_id, question_type,
+      suit_sex, fill_type, sys_user_id, create_date, update_date,
+      order_id, q_required, show_state
+      )
+    values
+    <foreach item="item" collection="list" separator=",">
+      (
+        #{item.id}, #{item.questionName}, #{item.parentQuestionId}, #{item.questionnaireId}, #{item.questionType},
+        #{item.suitSex}, #{item.fillType}, #{item.sysUserId}, #{item.createDate}, #{item.updateDate},
+        #{item.orderId}, #{item.qRequired}, #{item.showState}
+      )
+    </foreach>
+  </insert>
+
+</mapper>

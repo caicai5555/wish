@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.read.questionnaire.RepstQuestionsCtgrDaoR" >
+
+  <resultMap id="BaseResultMap" type="com.foundation.dao.entity.questionnaire.RepstQuestionsCtgr" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="question_ctgr_name" property="questionCtgrName"/>
+    <result column="parent_question_ctgr" property="parentQuestionCtgr"/>
+    <result column="order_id" property="orderId"/>
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, question_ctgr_name, parent_question_ctgr, order_id
+  </sql>
+
+  <select id="queryById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from repst_questions_ctgr
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="queryPageList" resultType="com.foundation.dao.entity.questionnaire.RepstQuestionsCtgr" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM repst_questions_ctgr
+    <where>
+      <if test="map.questionnaireName != null">
+        AND question_ctgr_name LIKE CONCAT('%','${map.questionCtgrName}','%' )
+      </if>
+    </where>
+    <if test="map.orders != null">
+      ORDER BY
+      <foreach collection="map.orders" item="item" index="index" open="" separator="," close="">
+        ${index} ${item}
+      </foreach>
+    </if>
+  </select>
+
+<select id="getCount" parameterType="map" resultType="int">
+  select
+  count(0)
+  from repst_questions_ctgr
+  <where>
+    <if test="map != null">
+      <if test="map.id != null">id = #{map.id} </if>
+    </if>
+  </where>
+</select>
+
+  <select id="queryDetailById" resultMap="entityDetail" parameterType="java.lang.String" >
+    select
+      A.id,
+      A.question_ctgr_name,
+      A.parent_question_ctgr,
+      A.order_id,
+      C.id AS question_id,
+      C.question_name,
+      C.parent_question_id,
+      C.questionnaire_id,
+      C.question_type,
+      C.suit_sex,
+      C.fill_type,
+      C.sys_user_id,
+      C.create_date,
+      C.update_date,
+      C.order_id AS question_order_id,
+      C.q_required,
+      C.show_state
+    from repst_questions_ctgr A
+    LEFT JOIN repst_question_ctgr_rel B ON A.id = B.question_ctgr
+    LEFT JOIN repst_questions C ON B.question_id = C.id
+    where A.id = #{id,jdbcType=VARCHAR}
+  </select>
+
+
+  <select id="queryDetailPage" resultMap="entityDetail" parameterType="map" >
+    select
+    A.id,
+    A.question_ctgr_name,
+    A.parent_question_ctgr,
+    A.order_id,
+    C.id AS question_id,
+    C.question_name,
+    C.parent_question_id,
+    C.questionnaire_id,
+    C.question_type,
+    C.suit_sex,
+    C.fill_type,
+    C.sys_user_id,
+    C.create_date,
+    C.update_date,
+    C.order_id AS question_order_id,
+    C.q_required,
+    C.show_state
+    from repst_questions_ctgr A
+    LEFT JOIN repst_question_ctgr_rel B ON A.id = B.question_ctgr
+    LEFT JOIN repst_questions C ON B.question_id = C.id
+    <where>
+      <if test="map.ids != null">
+        A.id IN
+        <foreach collection="map.ids" item="item" index="index" open="(" separator="," close=")">
+          '${item}'
+        </foreach>
+      </if>
+    </where>
+    ORDER BY A.order_id, C.order_id
+  </select>
+
+  <resultMap id="entityDetail" type="com.foundation.dao.entity.questionnaire.RepstQuestionsCtgr" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="question_ctgr_name" property="questionCtgrName"/>
+    <result column="parent_question_ctgr" property="parentQuestionCtgr"/>
+    <result column="order_id" property="orderId"/>
+    <collection property="repstQuestionsList" ofType="com.foundation.dao.entity.questionnaire.RepstQuestions">
+      <id column="question_id" property="id" jdbcType="VARCHAR" />
+      <result column="question_name" property="questionName"/>
+      <result column="parent_question_id" property="parentQuestionId"/>
+      <result column="questionnaire_id" property="questionnaireId"/>
+      <result column="question_type" property="questionType"/>
+      <result column="suit_sex" property="suitSex"/>
+      <result column="fill_type" property="fillType"/>
+      <result column="sys_user_id" property="sysUserId"/>
+      <result column="create_date" property="createDate"/>
+      <result column="update_date" property="updateDate"/>
+      <result column="question_order_id" property="orderId"/>
+      <result column="q_required" property="qRequired"/>
+      <result column="show_state" property="showState"/>
+    </collection>
+  </resultMap>
+
+</mapper>

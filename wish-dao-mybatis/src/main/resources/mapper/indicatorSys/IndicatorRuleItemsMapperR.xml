@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.read.indicatorSys.IndicatorRuleItemsDaoR" >
+  <resultMap id="BaseResultMap" type="com.foundation.dao.entity.indicatorSys.IndicatorRuleItems" >
+    <result column="item_name" property="itemName"/>
+    <result column="item_code" property="itemCode"/>
+    <result column="item_group" property="itemGroup"/>
+    <result column="item_type" property="itemType"/>
+    <result column="item_child_group" property="itemChildGroup"/>
+    <result column="item_index" property="itemIndex"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    item_name, item_code, item_group, item_type, item_child_group,item_index
+  </sql>
+
+  <select id="queryList" resultMap="BaseResultMap" parameterType="map" >
+    select
+    <include refid="Base_Column_List" />
+    from indicator_rule_items
+    <where>
+      <if test="itemGroup != null">
+        and item_group = #{itemGroup}
+      </if>
+      <if test="itemType != null">
+        and item_type = #{itemType}
+      </if>
+    </where>
+    order by item_index desc
+  </select>
+  <!--根据项codes获取指标规则项列表-->
+  <select id="queryByItemCodes" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from indicator_rule_items where item_code in
+    <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+    order by item_index desc
+  </select>
+
+  <select id="queryByItemGroup" resultType="Map" parameterType="String" >
+    select r.item_code itemCode,r.item_name itemName from indicator_rule_items r where r.item_group=#{itemGroup}
+  </select>
+</mapper>

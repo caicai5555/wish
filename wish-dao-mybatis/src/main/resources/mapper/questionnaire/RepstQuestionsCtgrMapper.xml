@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.write.questionnaire.RepstQuestionsCtgrDao" >
+
+  <resultMap id="BaseResultMap" type="com.foundation.dao.entity.questionnaire.RepstQuestionsCtgr" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="question_ctgr_name" property="questionCtgrName"/>
+    <result column="parent_question_ctgr" property="parentQuestionCtgr"/>
+    <result column="order_id" property="orderId"/>
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, question_ctgr_name, parent_question_ctgr, order_id
+  </sql>
+
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from repst_questions_ctgr
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="save" parameterType="com.foundation.dao.entity.questionnaire.RepstQuestionsCtgr" >
+    insert into repst_questions_ctgr (
+       id, question_ctgr_name, parent_question_ctgr, order_id
+      )
+    values (
+      #{id}, #{questionCtgrName}, #{parentQuestionCtgr}, #{orderId}
+      )
+  </insert>
+
+  <insert id="saveSelective" parameterType="com.foundation.dao.entity.questionnaire.RepstQuestionsCtgr" >
+    insert into repst_questions_ctgr
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" > id, </if>
+      <if test="questionCtgrName != null" >question_ctgr_name,</if>
+      <if test="parentQuestionCtgr != null" >parent_question_ctgr,</if>
+      <if test="orderId != null" >order_id,</if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" > #{id},</if>
+      <if test="questionCtgrName != null" >#{questionCtgrName},</if>
+      <if test="parentQuestionCtgr != null" >#{parentQuestionCtgr},</if>
+      <if test="orderId != null" >#{orderId},</if>
+    </trim>
+  </insert>
+
+  <update id="update" parameterType="com.foundation.dao.entity.questionnaire.RepstQuestionsCtgr" >
+    update repst_questions_ctgr
+    <set >
+      <if test="questionCtgrName != null" > question_ctgr_name = #{questionCtgrName}, </if>
+      <if test="parentQuestionCtgr != null" > parent_question_ctgr = #{parentQuestionCtgr}, </if>
+      <if test="orderId != null" > order_id = #{orderId}, </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateById" parameterType="java.util.Map" >
+    update repst_questions_ctgr
+    <set>
+      <if test="questionCtgrName != null" > question_ctgr_name = #{questionCtgrName}, </if>
+      <if test="parentQuestionCtgr != null" > parent_question_ctgr = #{parentQuestionCtgr}, </if>
+      <if test="orderId != null" > order_id = #{orderId}, </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <insert id="batchSave" parameterType="java.util.List">
+    insert into  repst_questions_ctgr (
+      id, question_ctgr_name, parent_question_ctgr, order_id
+      )
+    values
+    <foreach item="item" collection="list" separator=",">
+      (
+        #{item.id}, #{item.questionCtgrName}, #{item.parentQuestionCtgr}, #{item.orderId}
+      )
+    </foreach>
+  </insert>
+
+</mapper>

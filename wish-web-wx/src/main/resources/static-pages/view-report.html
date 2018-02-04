@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>查看报告</title>
+  <style type="text/css">
+    body {
+      margin: 0;
+      font-size: 62.5%;
+      width: 100%;
+      height: 100%;
+      padding: 2rem;
+    }
+
+    a {
+      color: #53B157;
+      text-decoration: underline;
+    }
+
+    ul, li {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    header {
+      height: 4rem;
+      font-size: 2rem;
+      text-align: right;
+    }
+
+    header .icon-cancel {
+      background: red;
+      width: 3rem;
+      height: 3rem;
+      background: url('../../webapp/images/cancel.png') no-repeat 0 0;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    section {
+      background: #E5F3E6;
+      font-size: 2.3rem;
+      margin-bottom: 3rem;
+    }
+
+    section .title {
+      height: 7rem;
+      background: #4CB050;
+      color: #fff;
+      line-height: 7rem;
+      padding: 0 2rem;
+      font-size: 2.6rem;
+    }
+
+    section ul {
+      color: #000;
+      height: auto;
+      width: 90%;
+      width: -moz-calc(100% - 4rem);
+      width: -webkit-calc(100% - 4rem);
+      width: calc(100% - 4rem);
+      padding: 0 2rem;
+    }
+
+    section li {
+      line-height: 5rem;
+      border-bottom: 1px solid #CDE8CE;
+      clear: both;
+    }
+    section li a{
+      font-size: 2rem;
+      text-decoration: none;
+    }
+    section .result {
+      height: 7rem;
+      line-height: 7rem;
+      color: #999;
+      padding: 0 2rem;
+      font-size: 2rem;
+    }
+
+    .result em {
+      float: left;
+      font-style: normal;
+    }
+
+    .result em.finish {
+      width: 20rem;
+      height: 7rem;
+      line-height: 7rem;
+      padding-left: 3rem;
+      background: url('../../webapp/images/finish.png') no-repeat left center;
+    }
+
+    .result a {
+      float: right;
+    }
+    .null-data{
+      width: 100%;
+      height:100%
+    }
+    .null-data div{
+      width: 260px;
+      height: 369px;
+      margin: 35% auto;
+      background: url('../../webapp/images/nullData.png') no-repeat center center;;
+    }
+  </style>
+</head>
+<body>
+<input type="hidden" name="responseData"
+       value='[{"title":"健康尊享卡号：ASP2015111306","geneSet":"慢病套餐7项","sampleStatus":"报告已送达","aspId":"ASP2015111306","haveReportAudited":true},{"title":"健康尊享卡号：CS2015122801","geneSet":"泰安慈铭基因套餐2000 ","sampleStatus":"报告已送达","aspId":"CS2015122801","haveReportAudited":true},{"title":"健康尊享卡号：CS2015122802","geneSet":"泰安慈铭基因套餐2000 ","sampleStatus":"报告已送达","aspId":"CS2015122802","haveReportAudited":true},{"title":"健康尊享卡号：2015001","geneSet":"泰安慈铭基因套餐2000","sampleStatus":"报告已送达","aspId":"2015001","haveReportAudited":true},{"title":"健康尊享卡号：CS2016012701","geneSet":"泰安慈铭基因套餐1000ssss,泰安慈铭基因套餐2000 ","sampleStatus":"样品成功接收","aspId":"CS2016012701","haveReportAudited":false},{"title":"健康尊享卡号：CS2016032902","geneSet":"基因检测套餐1","sampleStatus":"样品成功接收","aspId":"CS2016032902","haveReportAudited":false},{"title":"健康尊享卡号：CS2016032910","geneSet":"泰安慈铭基因套餐1000ssss","sampleStatus":"样品成功接收","aspId":"CS2016032910","haveReportAudited":false},{"title":"健康尊享卡号：CS2016032921","geneSet":"基因检测套餐1","sampleStatus":"","aspId":"CS2016032921","haveReportAudited":false},{"title":"健康尊享卡号：CS2016050601","geneSet":"基因检测套餐1","sampleStatus":"报告已送达","aspId":"CS2016050601","haveReportAudited":true},{"title":"健康尊享卡号：CS2016050602","geneSet":"泰安慈铭基因套餐2000 ,食物不耐受","sampleStatus":"报告已送达","aspId":"CS2016050602","haveReportAudited":true},{"title":"健康尊享卡号：CS2016051101","geneSet":"基因检测套餐1","sampleStatus":"样品成功接收","aspId":"CS2016051101","haveReportAudited":false},{"title":"健康尊享卡号：CS2016051801","geneSet":"cc--基因","sampleStatus":"样品已登记","aspId":"CS2016051801","haveReportAudited":false},{"title":"健康尊享卡号：CS2016052601","geneSet":"cc--基因","sampleStatus":"样品已登记","aspId":"CS2016052601","haveReportAudited":false},{"title":"健康尊享卡号：CS2016060301","geneSet":"食物不耐受","sampleStatus":"报告已生成","aspId":"CS2016060301","haveReportAudited":false},{"title":"健康尊享卡号：CS2016062201","geneSet":"食物不耐受","sampleStatus":"样品已登记","aspId":"CS2016062201","haveReportAudited":false},{"title":"健康尊享卡号：CS2016062202","geneSet":"基因检测套餐2","sampleStatus":"样品成功接收","aspId":"CS2016062202","haveReportAudited":false},{"title":"健康尊享卡号：CS2016072810","geneSet":"青少年眼病易感基因检测7项","sampleStatus":"报告已送达","aspId":"CS2016072810","haveReportAudited":true}]'>
+<script type="text/html" id="template">
+  <article>
+    <header><i class="icon-cancel"> </i><a href="#">解绑账号</a></header>
+    <div class="null-data" data-bind="$root.resData" data-if="$root.resData.length === 0">
+    <div></div>
+  </div >
+    <div class="section-outter" data-bind="foreach:$root.resData">
+      <section data-bind="click:$root.resData.gotoPage">
+        <div class="title" data-bind="text:title">健康尊享卡号: VIP-IP12138</div>
+        <ul data-bind="foreach:geneSet">
+          <li><a data-href="'${content.contextPath}/wxGene/getSampleFlowChartByAspid?aspid='+$root.aspId" data-bind="text:[]">健康尊享套餐（男）</a></li>
+        </ul>
+        <div class="result">
+          <em class="status finish" data-bind="text:sampleStatus">报告已出具</em>
+          <a data-bind="attr:{href:'${content.contextPath}/wxGene/getReportList?aspid='+aspId}" target="_blank"
+             data-if="haveReportAudited">查看报告</a>
+        </div>
+      </section>
+    </div>
+  </article>
+</script>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="../../webapp/viewjs/common/common.js"></script>
+<script type="text/javascript">
+  $(function () {
+
+    function convertModel(resData) {
+      resData.gotoPage = function(data, event, $index){
+        location.href = '${content.contextPath}/wxGene/getSampleFlowChartByAspid?aspid=' + data.aspId;
+      };
+      resData.map(function (d) {
+        d.geneSet = d.geneSet.split(',');
+        return d;
+      });
+    }
+
+    new Component(convertModel);
+  });
+</script>
+</body>
+</html>

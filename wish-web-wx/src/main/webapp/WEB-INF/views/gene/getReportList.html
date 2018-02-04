@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>检查报告列表</title>
+	<meta name="viewport" content="width=device-width, initial-scale=0.35, maximum-scale=0.35, minimum-scale=0.35, user-scalable=no">
+	<style type="text/css">
+
+		header {
+			height: 4rem;
+			font-size: 2rem;
+			text-align: right;
+		}
+
+		header .icon-cancel {
+			background: red;
+			width: 3rem;
+			height: 3rem;
+			background: url('${content.contextPath}/images/cancel.png') no-repeat 0 0;
+			display: inline-block;
+			vertical-align: middle;
+		}
+
+		section {
+			font-size: 2.3rem;
+			margin-bottom: 3rem;
+			background: #E5F3E6;
+		}
+
+		section .title {
+			height: 7rem;
+			background: #4CB050;
+			color: #fff;
+			line-height: 7rem;
+			padding: 0 2rem;
+		}
+
+		section ul {
+			color: #000;
+			height: auto;
+			width: 90%;
+			width: -moz-calc(100% - 4rem);
+			width: -webkit-calc(100% - 4rem);
+			width: calc(100% - 4rem);
+			padding: 0 2rem;
+		}
+
+		section li {
+			line-height: 7rem;
+			border-bottom: 1px solid #CDE8CE;
+			clear: both;
+		}
+
+		section .result {
+			height: 7rem;
+			line-height: 7rem;
+			color: #999;
+			padding: 0 2rem;
+			font-size: 2rem;
+		}
+
+		.result em {
+			float: left;
+			font-style: normal;
+		}
+
+		.result em.finish {
+			width: 20rem;
+			height: 7rem;
+			line-height: 7rem;
+			padding-left: 3rem;
+			background: url('${content.contextPath}/images/finish.png') no-repeat left center;
+		}
+
+		.result a {
+			float: right;
+			width: 49%;
+			text-align: center;
+			text-decoration: none;
+			height: 3rem;
+			line-height: 3rem;
+			margin-top: 2rem;
+		}
+
+		.result .view {
+			border-right: 1px solid #3BAF3D;
+		}
+
+		/**遮罩层*/
+		.shade {
+			width: 100%;
+			min-height: 700px;
+			height: 110%;
+			background: #000;
+			opacity: 0.6;
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: 9999;
+			width: calc(100% + 4rem);
+		}
+
+		.dialog {
+			width: 34rem;
+			min-height: 20rem;
+			height: auto;
+			left: 50%;
+			top: 30%;
+			margin-left: -17rem;
+			background: #fff;
+			line-height: 3rem;
+			position: absolute;
+			z-index: 10000;
+			padding: 2rem;
+		}
+
+		.dialog .content {
+			font-size: 2rem;
+			text-align: left;
+		}
+
+		.dialog .button-group {
+			font-size: 2rem;
+			margin-top: 5rem;
+		}
+
+		.dialog .button-group button {
+			border: none;
+			background: none;
+			font-size: 2rem;
+			color: #3BAF3D;
+			display: block;
+			float: right;
+			height: 4rem;
+		}
+
+		.dialog .cancel {
+			clear: both;
+		}
+
+		hr {
+			margin: 0;
+		}
+
+		.dialog .progress {
+			height: 6px;
+			background: #3BAF3D;
+			border: 1px solid #3BAF3D;
+			border-radius: 3px;
+			width: 0;
+			position: absolute;
+			left: 0;
+			top: -3px;
+		}
+
+		.dialog .progress-line {
+			height: 1px;
+			width: 100%;
+			color: red;
+			background: #3BAF3D;
+			border: 1px solid #3BAF3D;
+			position: relative;
+			margin: 3rem 0;
+		}
+
+		.rate {
+			text-align: right;
+		}
+	</style>
+	#parse("common/header.html")
+</head>
+<body>
+
+<input type="hidden" name="responseData"
+			 value='${page}'/>
+
+<script id="template" type="text/html">
+	<article class="viewport">
+		<div class="null-data" data-bind="$root.resData" data-if="$root.resData.length === 0">
+			<div></div>
+		</div>
+	<div class="main"  data-bind="$root.resData" data-if="$root.resData.length !== 0">
+		<div data-bind="foreach:$root.resData">
+			<section>
+				<div class="title" data-bind="text:reportName"></div>
+				<div class="result">
+					<a target="_blank" class="download" data-bind="attr:{href:reportUrl}">下载</a>
+					<a target="_blank" class="view" data-bind="attr:{href:reportUrl}">查看</a>
+				</div>
+			</section>
+		</div>
+	</div>
+	</article>
+</script>
+
+<script id="dialogTemplate" type="text/html">
+	<div class="shade">
+	</div>
+	<div class="dialog">
+		<div class="content" data-bind="html:$root.content"></div>
+		<div class="button-group">
+			<button class="confirm" data-bind="click:$root.onConfirm" data-if="$root.isShowConfirm">确定</button>
+			<button class="cancel" data-bind="click:$root.onCancel">取消</button>
+		</div>
+	</div>
+</script>
+
+<script src="${content.contextPath}/viewjs/lib/pdf2.js"></script>
+<script type="text/javascript">
+	$(function () {
+		new Component();
+
+		function downloadPdf(url) {
+			var blobUrl = url + '#pdfjs.action=download';
+			var filename = /(?:^|\/)([^\/]+\.pdf)/.exec(blobUrl)[1] || 'myPDF';
+			var a = document.createElement('a');
+			if (window.top === window &&
+					blobUrl.split('#')[0] === window.location.href.split('#')[0]) {
+				var padCharacter = blobUrl.indexOf('?') === -1 ? '?' : '&';
+				blobUrl = blobUrl.replace(/#|$/, padCharacter + '$&');
+			}
+			window.open(blobUrl, '_parent');
+		}
+
+
+		function createCORSRequest(method, url) {
+			var xhr = new XMLHttpRequest();
+			if ("withCredentials" in xhr) {
+				// Check if the XMLHttpRequest object has a "withCredentials" property.
+				// "withCredentials" only exists on XMLHTTPRequest2 objects.
+				xhr.open(method, url, true);
+
+			} else if (typeof XDomainRequest != "undefined") {
+
+				// Otherwise, check if XDomainRequest.
+				// XDomainRequest only exists in IE, and is IE's way of making CORS requests.
+				xhr = new XDomainRequest();
+				xhr.open(method, url);
+
+			} else {
+
+				// Otherwise, CORS is not supported by the browser.
+				xhr = null;
+
+			}
+			if (!xhr) {
+				alert('-------------------');
+				throw new Error('CORS not supported');
+			}else{
+				xhr.onreadystatechange = function(){
+					console.log(arguments);
+				};
+				xhr.send(null);
+			}
+		}
+
+		//createCORSRequest('GET', 'http://mozilla.github.io/pdf.js/examples/learning/helloworld.pdf');
+
+//    viewPdf('http://lz553814861.6655.la/ehfs/upload/otherfile/sip/CS2015122801/report_CS2015122801.pdf');
+
+		function viewPdf(url) {
+
+			//
+			// If absolute URL from the remote server is provided, configure the CORS
+			// header on that server.
+			//
+
+			//
+			// Disable workers to avoid yet another cross-origin issue (workers need
+			// the URL of the script to be loaded, and dynamically loading a cross-origin
+			// script does not work).
+			//
+			PDFJS.disableWorker = true;
+
+			//
+			// In cases when the pdf.worker.js is located at the different folder than the
+			// pdf.js's one, or the pdf.js is executed via eval(), the workerSrc property
+			// shall be specified.
+			//
+			// PDFJS.workerSrc = '../../build/pdf.worker.js';
+
+			var pdfDoc = null,
+					pageNum = 1,
+					pageRendering = false,
+					pageNumPending = null,
+					scale = 0.8,
+					canvas = document.getElementById('the-canvas'),
+					ctx = canvas.getContext('2d');
+
+			/**
+			 * Get page info from document, resize canvas accordingly, and render page.
+			 * @param num Page number.
+			 */
+			function renderPage(num) {
+				pageRendering = true;
+				// Using promise to fetch the page
+				pdfDoc.getPage(num).then(function (page) {
+					var viewport = page.getViewport(scale);
+					canvas.height = viewport.height;
+					canvas.width = viewport.width;
+
+					// Render PDF page into canvas context
+					var renderContext = {
+						canvasContext: ctx,
+						viewport: viewport
+					};
+					var renderTask = page.render(renderContext);
+
+					// Wait for rendering to finish
+					renderTask.promise.then(function () {
+						pageRendering = false;
+						if (pageNumPending !== null) {
+							// New page rendering is pending
+							renderPage(pageNumPending);
+							pageNumPending = null;
+						}
+					});
+				});
+
+				// Update page counters
+				document.getElementById('page_num').textContent = pageNum;
+			}
+
+			/**
+			 * If another page rendering in progress, waits until the rendering is
+			 * finised. Otherwise, executes rendering immediately.
+			 */
+			function queueRenderPage(num) {
+				if (pageRendering) {
+					pageNumPending = num;
+				} else {
+					renderPage(num);
+				}
+			}
+
+			/**
+			 * Displays previous page.
+			 */
+			function onPrevPage() {
+				if (pageNum <= 1) {
+					return;
+				}
+				pageNum--;
+				queueRenderPage(pageNum);
+			}
+
+			document.getElementById('prev').addEventListener('click', onPrevPage);
+
+			/**
+			 * Displays next page.
+			 */
+			function onNextPage() {
+				if (pageNum >= pdfDoc.numPages) {
+					return;
+				}
+				pageNum++;
+				queueRenderPage(pageNum);
+			}
+
+			document.getElementById('next').addEventListener('click', onNextPage);
+
+			/**
+			 * Asynchronously downloads PDF.
+			 */
+			PDFJS.getDocument(url).then(function (pdfDoc_) {
+				pdfDoc = pdfDoc_;
+				document.getElementById('page_count').textContent = pdfDoc.numPages;
+
+				// Initial/first page rendering
+				renderPage(pageNum);
+			});
+
+		}
+
+		//弹窗
+		$('body').click(function (event) {
+			var target = $(event.target);
+			var dataModel;
+			if (target.hasClass('download')) {
+				var downloadURL = target.attr('href');
+				dataModel = {
+					id: 007,
+					content: '确定下载吗？非WIFI网络会消耗手机流量',
+					onCancel: function () {
+						$('.shade, .dialog').remove();
+					},
+					onConfirm: function (data, event) {
+						downloadPdf(downloadURL);
+					},
+					isShowConfirm: true
+				};
+				new Component(null, dataModel, '#dialogTemplate');
+			}
+			if (target.hasClass('view')) {
+				var downloadURL = target.attr('href');
+				var num = 0, max = 100;
+				var interval = setInterval(function () {
+					//fixme
+					num += 20;
+					if (num > max) {
+						num = max;
+						clearInterval(interval);
+						$('.shade, .dialog').remove();
+						downloadPdf(downloadURL);
+					}
+					$('.progress').width(num + '%');
+				}, 300);
+			}
+			if(!target.attr('download')){
+				event.stopPropagation();
+				event.preventDefault();
+				return false;
+			}
+		});
+	});
+
+</script>
+</body>
+</html>

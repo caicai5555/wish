@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.read.clinic.ClinicRecordDaoR" >
+
+  <resultMap id="BaseResultMap" type="com.foundation.dao.entity.clinic.ClinicRecord" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="inspect_date" property="inspectDate" jdbcType="TIMESTAMP" />
+    <result column="inspect_name" property="inspectName" jdbcType="VARCHAR" />
+    <result column="type_name" property="typeName" jdbcType="VARCHAR" />
+    <result column="hospital" property="hospital" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="doctor" property="doctor" jdbcType="VARCHAR" />
+    <result column="department" property="department" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="is_add" property="isAdd" jdbcType="INTEGER" />
+    <result column="conclusion" property="conclusion" jdbcType="VARCHAR" />
+    <result column="manager" property="manager" jdbcType="VARCHAR" />
+    <result column="type_id" property="typeId" jdbcType="VARCHAR" />
+    <result column="manager_id" property="managerId" jdbcType="BIGINT" />
+    <result column="doctor_id" property="doctorId" jdbcType="BIGINT" />
+    <result column="cust_id" property="custId" jdbcType="BIGINT" />
+    <result column="order_id" property="orderId" jdbcType="BIGINT" />
+    <result column="service_class_id" property="serviceClassId" jdbcType="BIGINT" />
+    <result column="order_item_id" property="orderItemId" jdbcType="BIGINT" />
+    <result column="inspect_id" property="inspectId" jdbcType="BIGINT" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, inspect_date, inspect_name, type_name, hospital, address, doctor, department,
+    description, status, is_add, conclusion, manager, type_id, manager_id, doctor_id, 
+    cust_id, order_id, service_class_id, order_item_id, inspect_id
+  </sql>
+
+  <select id="queryByIdOnly" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from clinic_record
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="queryPageList" resultType="com.foundation.dao.entity.clinic.ClinicRecord" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM clinic_record
+    <where>
+      <if test="map.ids != null">
+        AND id IN
+        <foreach collection="map.ids" item="item" index="index" open="(" separator="," close=")">
+          '${item}'
+        </foreach>
+      </if>
+      <if test="map.inspectName != null">
+        AND inspect_name LIKE CONCAT('%','${map.inspectName}','%' )
+      </if>
+    </where>
+    ORDER BY inspect_date DESC
+    <if test="map.orders != null">
+      <foreach collection="map.orders" item="item" index="index" open="," separator="," close="">
+        ${index} ${item}
+      </foreach>
+    </if>
+  </select>
+
+<select id="getCount" parameterType="map" resultType="int">
+  select
+  count(0)
+  from clinic_record
+  <where>
+    <if test="map != null">
+      <if test="map.id != null">id = #{map.id} </if>
+    </if>
+  </where>
+</select>
+
+  <select id="queryById" resultMap="entityDetail" parameterType="java.lang.String" >
+    SELECT
+      A.*,
+      B.id AS inspectId,
+      B.inspect_name AS listInspectName,
+      B.create_date AS listCreateDate,
+      B.english_name AS listEnglishName,
+      B.inspect_method AS listInspectMethod,
+      D.id as itemId,
+      D.english_name as englishName,
+      D.item_name as itemName,
+      D.units as units,
+      D.normal_range as normalRange,
+      D.max as max,
+      D.min as min,
+      D.index_name as indexName,
+      D.reduce_formula as reduceFormula
+  FROM clinic_record A
+      LEFT JOIN inspect_list B ON A.inspect_id=B.id
+      LEFT JOIN inspect_list_item C ON C.list_id=B.id
+      LEFT JOIN inspect_item D ON D.id=C.item_id
+  WHERE A.id = #{id,jdbcType=VARCHAR}
+    </select>
+  
+  <resultMap id="entityDetail" type="com.foundation.dao.entity.clinic.ClinicRecord" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="inspect_date" property="inspectDate" jdbcType="TIMESTAMP" />
+    <result column="inspect_name" property="inspectName" jdbcType="VARCHAR" />
+    <result column="type_name" property="typeName" jdbcType="VARCHAR" />
+    <result column="hospital" property="hospital" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="doctor" property="doctor" jdbcType="VARCHAR" />
+    <result column="department" property="department" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="is_add" property="isAdd" jdbcType="INTEGER" />
+    <result column="conclusion" property="conclusion" jdbcType="VARCHAR" />
+    <result column="manager" property="manager" jdbcType="VARCHAR" />
+    <result column="type_id" property="typeId" jdbcType="VARCHAR" />
+    <result column="manager_id" property="managerId" jdbcType="BIGINT" />
+    <result column="doctor_id" property="doctorId" jdbcType="BIGINT" />
+    <result column="cust_id" property="custId" jdbcType="BIGINT" />
+    <result column="order_id" property="orderId" jdbcType="BIGINT" />
+    <result column="service_class_id" property="serviceClassId" jdbcType="BIGINT" />
+    <result column="order_item_id" property="orderItemId" jdbcType="BIGINT" />
+    <result column="inspect_id" property="inspectId" jdbcType="BIGINT" />
+    <association property="inspectList" javaType="com.foundation.dao.entity.clinic.InspectList">
+      <id column="inspectId" property="id" jdbcType="VARCHAR"/>
+      <result column="listInspectName" property="inspectName" jdbcType="VARCHAR"/>
+      <result column="listCreateDate" property="createDate" jdbcType="DATE"/>
+      <result column="listEnglishName" property="englishName" jdbcType="VARCHAR"/>
+      <result column="listInspectMethod" property="inspectMethod" jdbcType="VARCHAR"/>
+      <collection property="inspectItems" ofType="com.foundation.dao.entity.clinic.InspectItem">
+        <id column="itemId" property="id" jdbcType="VARCHAR"/>
+        <result column="englishName" property="englishName" jdbcType="VARCHAR" />
+        <result column="itemName" property="itemName" jdbcType="VARCHAR" />
+        <result column="units" property="units" jdbcType="VARCHAR" />
+        <result column="normalRange" property="normalRange" jdbcType="VARCHAR" />
+        <result column="max" property="max" jdbcType="REAL" />
+        <result column="min" property="min" jdbcType="REAL" />
+        <result column="indexName" property="indexName" jdbcType="VARCHAR" />
+        <result column="reduceFormula" property="reduceFormula" jdbcType="VARCHAR" />
+      </collection>
+    </association>
+  </resultMap>
+  
+</mapper>

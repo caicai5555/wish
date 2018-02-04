@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.read.followup.FollowupSingleDaoR" >
+
+  <sql id="Base_Column_List" >
+      id, 
+      followup_id AS followupId, 
+      quest_id AS questId,
+      record_id AS recordId,
+      quest_name AS questName, 
+      name,
+      type, 
+      status, 
+      del_flag AS delFlag, 
+      followup_date AS followupDate,
+      complete_date AS completeDate, 
+      complete_by AS 'completeBy.id'
+  </sql>
+
+  <select id="queryById"  parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from followup_single
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="queryPageList" resultType="com.foundation.dao.entity.followup.FollowupSingle" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM followup_single
+    <where>
+      <if test="map.ids != null">
+        AND id IN
+        <foreach collection="map.ids" item="item" index="index" open="(" separator="," close=")">
+          '${item}'
+        </foreach>
+      </if>
+      <if test="map.followupId != null and map.followupId != '' ">
+        AND followup_id = '${map.followupId}'
+      </if>
+    </where>
+    <if test="map.orders != null">
+      ORDER BY
+      <foreach collection="map.orders" item="item" index="index" open="" separator="," close="">
+        ${index} ${item}
+      </foreach>
+    </if>
+    ORDER by followup_date ASC , name ASC
+  </select>
+
+<select id="getCount"  resultType="int">
+  select
+  count(0)
+  from followup_single
+  <where>
+    <if test="ids != null">
+      AND id IN
+      <foreach collection="ids" item="item" index="index" open="(" separator="," close=")">
+        '${item}'
+      </foreach>
+    </if>
+    <if test="followupId != null and followupId != '' ">
+      AND followup_id = '${followupId}'
+    </if>
+  </where>
+</select>
+
+</mapper>

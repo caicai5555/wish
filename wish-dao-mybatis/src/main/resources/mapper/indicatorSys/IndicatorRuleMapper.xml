@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.write.indicatorSys.IndicatorRuleDao" >
+
+ <insert id="save" parameterType="com.foundation.dao.entity.indicatorSys.IndicatorRule" >
+    insert into indicator_rule
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="indicatorId != null" >
+        indicator_id,
+      </if>
+      <if test="indicatorCode != null" >
+        indicator_code,
+      </if>
+      <if test="groupId != null" >
+        group_id,
+      </if>
+      <if test="valueTab != null" >
+        value_tab,
+      </if>
+      <if test="color != null" >
+        color,
+      </if>
+      <if test="conclusion != null" >
+        conclusion,
+      </if>
+      <if test="suggest != null" >
+        suggest,
+      </if>
+      <if test="unit != null" >
+        unit,
+      </if>
+      <if test="expression != null" >
+        expression,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+      <if test="defaultMin != null" >
+        default_min,
+      </if>
+      <if test="defaultMax != null" >
+        default_max,
+      </if>
+      <if test="itemCount != null" >
+        item_count,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id},
+      </if>
+      <if test="indicatorId != null" >
+        #{indicatorId},
+      </if>
+      <if test="indicatorCode != null" >
+        #{indicatorCode},
+      </if>
+      <if test="groupId != null" >
+        #{groupId},
+      </if>
+      <if test="valueTab != null" >
+        #{valueTab},
+      </if>
+      <if test="color != null" >
+        #{color},
+      </if>
+      <if test="conclusion != null" >
+        #{conclusion},
+      </if>
+      <if test="suggest != null" >
+        #{suggest},
+      </if>
+      <if test="unit != null" >
+        #{unit},
+      </if>
+      <if test="expression != null" >
+        #{expression},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag},
+      </if>
+      <if test="defaultMin != null" >
+        #{defaultMin},
+      </if>
+      <if test="defaultMax != null" >
+        #{defaultMax},
+      </if>
+      <if test="itemCount != null" >
+        #{itemCount},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.foundation.dao.entity.indicatorSys.IndicatorRule" >
+    update indicator_rule
+    <set >
+      <if test="indicatorId != null" >
+        indicator_id = #{indicatorId},
+      </if>
+      <if test="indicatorCode != null" >
+        indicator_code = #{indicatorCode},
+      </if>
+      <if test="groupId != null" >
+        group_id = #{groupId},
+      </if>
+      <if test="valueTab != null" >
+        value_tab = #{valueTab},
+      </if>
+      <if test="color != null" >
+        color = #{color},
+      </if>
+      <if test="conclusion != null" >
+        conclusion = #{conclusion},
+      </if>
+      <if test="suggest != null" >
+        suggest = #{suggest},
+      </if>
+      <if test="unit != null" >
+        unit = #{unit},
+      </if>
+      <if test="expression != null" >
+        expression = #{expression},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag},
+      </if>
+      <if test="defaultMin != null" >
+        default_min = #{defaultMin},
+      </if>
+      <if test="defaultMax != null" >
+        default_max = #{defaultMax},
+      </if>
+      <if test="itemCount != null" >
+        item_count = #{itemCount},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <update id="updateByGroupId" parameterType="com.foundation.dao.entity.indicatorSys.IndicatorRule" >
+    update indicator_rule
+    <set >
+      <if test="indicatorId != null" >
+        indicator_id = #{indicatorId},
+      </if>
+      <if test="indicatorCode != null" >
+        indicator_code = #{indicatorCode},
+      </if>
+      <if test="valueTab != null" >
+        value_tab = #{valueTab},
+      </if>
+      <if test="color != null" >
+        color = #{color},
+      </if>
+      <if test="conclusion != null" >
+        conclusion = #{conclusion},
+      </if>
+      <if test="suggest != null" >
+        suggest = #{suggest},
+      </if>
+      <if test="unit != null" >
+        unit = #{unit},
+      </if>
+      <if test="expression != null" >
+        expression = #{expression},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag},
+      </if>
+      <if test="defaultMin != null" >
+        default_min = #{defaultMin},
+      </if>
+      <if test="defaultMax != null" >
+        default_max = #{defaultMax},
+      </if>
+      <if test="itemCount != null" >
+        item_count = #{itemCount},
+      </if>
+    </set>
+    where group_id = #{groupId}
+  </update>
+</mapper>

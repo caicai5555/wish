@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.read.evaluate.EvaluateInfoDaoR">
+	<!-- 查询字段 -->
+	<sql id="Base_Column_List">
+		id, 
+		name, 
+		enname, 
+		evaluate_category_id as evaluateCategoryId,
+		file_name as fileName, 
+		file_path as filePath, 
+		status, 
+		mode, 
+		times, 
+		create_by as createBy,
+		create_date as createDate, 
+		update_by as updateBy,
+		update_date as updateDate, 
+		del_flag as delFlag, 
+		del_date as delDate,
+		remarks
+	</sql>
+	<!-- 根据id查询 -->
+	<select id="queryById" parameterType="java.lang.String"
+		resultType="com.foundation.dao.entity.evaluate.EvaluateInfo">
+		select
+		<include refid="Base_Column_List" />
+		from evaluate_info
+		where id=#{id}
+	</select>
+	<!-- 分页查询 -->
+	<select id="queryPage" parameterType="map"
+		resultType="com.foundation.dao.entity.evaluate.EvaluateInfo">
+		select
+		<include refid="Base_Column_List" />
+		from evaluate_info
+		<where>
+			<![CDATA[
+				del_flag = ${@com.foundation.common.bean.Constants@DEL_FLAG_NORMAL}
+			]]>
+			<if test="map.name != null">
+				and name like CONCAT('%','${map.name}','%' )  
+			</if>
+			<if test="map.enname != null">
+				and enname like CONCAT('%','${map.enname}','%' )  
+			</if>
+			<if test="map.evaluateCategoryId != null">
+				and evaluate_category_id =#{map.evaluateCategoryId}
+			</if>
+			<if test="map.startDate != null">
+			<![CDATA[
+				and create_date>=#{map.startDate}
+			]]>
+			</if>
+			<if test="map.endDate != null">
+			<![CDATA[
+				and create_date<=#{map.endDate}
+			]]>
+			</if>
+		</where>
+		order by create_date desc
+	</select>
+	<!-- 查询 -->
+	<select id="queryList" parameterType="map"
+		resultType="com.foundation.dao.entity.evaluate.EvaluateInfo">
+		select
+		<include refid="Base_Column_List" />
+		from evaluate_info
+		<where>
+			<![CDATA[
+				del_flag = ${@com.foundation.common.bean.Constants@DEL_FLAG_NORMAL}
+			]]>
+			<if test="evaluateInfoId != null">
+				and evaluate_info_id = #{evaluateInfoId}
+			</if>
+			<if test="evaluateCategoryId != null">
+				and evaluate_category_id = #{evaluateCategoryId}
+			</if>
+		</where>
+	</select>
+	<!-- 获取数量 -->
+	<select id="getCount" parameterType="map"
+		resultType="java.lang.Integer">
+		select count(1) from evaluate_info
+		<where>
+			<![CDATA[
+			del_flag = ${@com.foundation.common.bean.Constants@DEL_FLAG_NORMAL}
+			]]>
+			<if test="idNot != null">
+				and id !=#{idNot}
+			</if>
+			<if test="enname != null">
+				and enname=#{enname}
+			</if>
+			<if test="evaluateCategoryId != null">
+				and evaluate_category_id =#{evaluateCategoryId}
+			</if>
+		</where>
+	</select>
+</mapper>

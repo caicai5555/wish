@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.write.questionnaire.RepstQuestionnaireCtgrRelDao" >
+
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from repst_questionnaire_ctgr_rel
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="save" parameterType="com.foundation.dao.entity.questionnaire.RepstQuestionnaireCtgrRel" >
+    insert into repst_questionnaire_ctgr_rel (
+      id, questionnaire_id, question_ctgr, is_show_flag, order_id
+      )
+    values (
+      #{id}, #{questionnaireId}, #{questionCtgr}, #{isShowFlag}, #{orderId}
+      )
+  </insert>
+
+  <update id="update" parameterType="com.foundation.dao.entity.questionnaire.RepstQuestionnaireCtgrRel" >
+    update repst_questionnaire_ctgr_rel
+    <set >
+      <if test="questionnaireId != null" > questionnaire_id = #{questionnaireId}, </if>
+      <if test="questionCtgr != null" > question_ctgr = #{questionCtgr}, </if>
+      <if test="isShowFlag != null" > is_show_flag = #{isShowFlag}, </if>
+      <if test="orderId != null" > order_id = #{orderId}, </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateById" parameterType="java.util.Map" >
+    update repst_questionnaire_ctgr_rel
+    <set >
+      <if test="questionnaireId != null" > questionnaire_id = #{questionnaireId}, </if>
+      <if test="questionCtgr != null" > question_ctgr = #{questionCtgr}, </if>
+      <if test="isShowFlag != null" > is_show_flag = #{isShowFlag}, </if>
+      <if test="orderId != null" > order_id = #{orderId}, </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <insert id="batchSave" parameterType="java.util.List">
+    insert into  repst_questionnaire_ctgr_rel (
+      id, questionnaire_id, question_ctgr, is_show_flag, order_id
+      )
+    values
+    <foreach item="item" collection="list" separator=",">
+      (
+      #{item.id}, #{item.questionnaireId}, #{item.questionCtgr}, #{item.isShowFlag}, #{item.orderId}
+      )
+    </foreach>
+  </insert>
+
+</mapper>

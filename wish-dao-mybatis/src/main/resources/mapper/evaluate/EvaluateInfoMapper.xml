@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.write.evaluate.EvaluateInfoDao">
+	<!-- 保存 -->
+	<insert id="save" parameterType="com.foundation.dao.entity.evaluate.EvaluateInfo">
+		insert into evaluate_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="enname != null">
+				enname,
+			</if>
+			<if test="evaluateCategoryId != null">
+				evaluate_category_id,
+			</if>
+			<if test="fileName != null">
+				file_name,
+			</if>
+			<if test="filePath != null">
+				file_path,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="mode != null">
+				mode,
+			</if>
+			<if test="times != null">
+				times,
+			</if>
+			<if test="createBy != null">
+				create_by,
+			</if>
+				create_date,
+			<if test="updateBy != null">
+				update_by,
+			</if>
+				update_date,
+			<if test="delFlag != null">
+				del_flag,
+			</if>
+			<if test="delDate != null">
+				del_date,
+			</if>
+			<if test="remarks != null">
+				remarks,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="name != null">
+				#{name},
+			</if>
+			<if test="enname != null">
+				#{enname},
+			</if>
+			<if test="evaluateCategoryId != null">
+				#{evaluateCategoryId},
+			</if>
+			<if test="fileName != null">
+				#{fileName},
+			</if>
+			<if test="filePath != null">
+				#{filePath},
+			</if>
+			<if test="status != null">
+				#{status},
+			</if>
+			<if test="mode != null">
+				#{mode},
+			</if>
+			<if test="times != null">
+				#{times},
+			</if>
+			<if test="createBy != null">
+				#{createBy.id},
+			</if>
+			<choose>
+				<when test="createDate != null">
+					#{createDate},
+				</when>
+				<otherwise>
+					now(),
+				</otherwise>
+			</choose>
+			<if test="updateBy != null">
+				#{updateBy.id},
+			</if>
+			<choose>
+				<when test="updateDate != null">
+					#{updateDate},
+				</when>
+				<otherwise>
+					now(),
+				</otherwise>
+			</choose>
+			<if test="delFlag != null">
+				#{delFlag},
+			</if>
+			<if test="delDate != null">
+				#{delDate},
+			</if>
+			<if test="remarks != null">
+				#{remarks},
+			</if>
+		</trim>
+	</insert>
+	<!-- 更新 -->
+	<update id="update" parameterType="com.foundation.dao.entity.evaluate.EvaluateInfo">
+		update evaluate_info
+		<set>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="enname != null">
+				enname = #{enname},
+			</if>
+			<if test="evaluateCategoryId != null">
+				evaluate_category_id = #{evaluateCategoryId},
+			</if>
+			<if test="fileName != null">
+				file_name = #{fileName},
+			</if>
+			<if test="filePath != null">
+				file_path = #{filePath},
+			</if>
+			<if test="status != null">
+				status = #{status},
+			</if>
+			<if test="mode != null">
+				mode = #{mode},
+			</if>
+			<if test="times != null">
+				times = #{times},
+			</if>
+			<if test="createBy != null">
+				create_by = #{createBy.id},
+			</if>	
+			<if test="createDate != null">
+				create_date = #{createDate},
+			</if>		
+			<if test="updateBy != null">
+				update_by = #{updateBy.id},
+			</if>		
+			<choose>
+				<when test="updateDate != null">
+					update_date = #{updateDate},
+				</when>
+				<otherwise>
+					update_date = now(),
+				</otherwise>
+			</choose>
+			<if test="delFlag != null">
+				del_flag = #{delFlag},
+			</if>	
+			<if test="delDate != null">
+				del_Date = #{delDate},
+			</if>	
+			<if test="remarks != null">
+				remarks = #{remarks},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	<!-- 更新 -->
+	<update id="updateTimes" parameterType="string">
+		update evaluate_info
+		<set>	
+			times = times+1,
+		</set>
+		where id = #{id}
+	</update>
+    <!-- 删除 -->
+    <delete id="delete" parameterType="java.lang.String">
+        delete from evaluate_info where id=#{id}
+    </delete>
+</mapper>

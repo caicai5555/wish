@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Wish.iml" filepath="$PROJECT_DIR$/Wish.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../wish-core/wish-core.iml" filepath="$PROJECT_DIR$/../wish-core/wish-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../wish-core/wish-core-cache/wish-core-cache.iml" filepath="$PROJECT_DIR$/../wish-core/wish-core-cache/wish-core-cache.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../wish-core/wish-core-canal-client/wish-core-canal-client.iml" filepath="$PROJECT_DIR$/../wish-core/wish-core-canal-client/wish-core-canal-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../wish-core/wish-core-common/wish-core-common.iml" filepath="$PROJECT_DIR$/../wish-core/wish-core-common/wish-core-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../wish-core/wish-core-elasticsearch/wish-core-elasticsearch.iml" filepath="$PROJECT_DIR$/../wish-core/wish-core-elasticsearch/wish-core-elasticsearch.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../wish-core/wish-core-parent/wish-core-parent.iml" filepath="$PROJECT_DIR$/../wish-core/wish-core-parent/wish-core-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wish-dao-mongodb/wish-dao-mongodb.iml" filepath="$PROJECT_DIR$/wish-dao-mongodb/wish-dao-mongodb.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wish-dao-mybatis/wish-dao-mybatis.iml" filepath="$PROJECT_DIR$/wish-dao-mybatis/wish-dao-mybatis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../wish-module-sync/wish-dao-sync-mybatis/wish-dao-sync-mybatis.iml" filepath="$PROJECT_DIR$/../wish-module-sync/wish-dao-sync-mybatis/wish-dao-sync-mybatis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../wish-module-sync/wish-module-sync.iml" filepath="$PROJECT_DIR$/../wish-module-sync/wish-module-sync.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wish-parent/wish-parent.iml" filepath="$PROJECT_DIR$/wish-parent/wish-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wish-service-archive/wish-service-archive.iml" filepath="$PROJECT_DIR$/wish-service-archive/wish-service-archive.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wish-service-clinic/wish-service-clinic.iml" filepath="$PROJECT_DIR$/wish-service-clinic/wish-service-clinic.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wish-service-disease/wish-service-disease.iml" filepath="$PROJECT_DIR$/wish-service-disease/wish-service-disease.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wish-service-evaluate/wish-service-evaluate.iml" filepath="$PROJECT_DIR$/wish-service-evaluate/wish-service-evaluate.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wish-service-followup/wish-service-followup.iml" filepath="$PROJECT_DIR$/wish-service-followup/wish-service-followup.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wish-service-indicatorSys/wish-service-indicatorSys.iml" filepath="$PROJECT_DIR$/wish-service-indicatorSys/wish-service-indicatorSys.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wish-service-questionnaire/wish-service-questionnaire.iml" filepath="$PROJECT_DIR$/wish-service-questionnaire/wish-service-questionnaire.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wish-service-record/wish-service-record.iml" filepath="$PROJECT_DIR$/wish-service-record/wish-service-record.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../wish-module-sync/wish-service-sync/wish-service-sync.iml" filepath="$PROJECT_DIR$/../wish-module-sync/wish-service-sync/wish-service-sync.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wish-service-upload/wish-service-upload.iml" filepath="$PROJECT_DIR$/wish-service-upload/wish-service-upload.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wish-service-userCenter/wish-service-userCenter.iml" filepath="$PROJECT_DIR$/wish-service-userCenter/wish-service-userCenter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../wish-module-sync/wish-web-busiSync/wish-web-busiSync.iml" filepath="$PROJECT_DIR$/../wish-module-sync/wish-web-busiSync/wish-web-busiSync.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wish-web-console/wish-web-console.iml" filepath="$PROJECT_DIR$/wish-web-console/wish-web-console.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../wish-module-sync/wish-web-dictSync/wish-web-dictSync.iml" filepath="$PROJECT_DIR$/../wish-module-sync/wish-web-dictSync/wish-web-dictSync.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wish-web-restApi/wish-web-restApi.iml" filepath="$PROJECT_DIR$/wish-web-restApi/wish-web-restApi.iml" />
+    </modules>
+  </component>
+</project>

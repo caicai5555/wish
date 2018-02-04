@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>检查报告详情</title>
+	<meta name="viewport" content="width=device-width, initial-scale=0.35, maximum-scale=0.35, minimum-scale=0.35, user-scalable=no">
+	<link rel="stylesheet" type="text/css" href="${content.contextPath}/styles/common.css">
+	<style type="text/css">
+
+		header {
+			height: 4rem;
+			font-size: 2rem;
+			text-align: right;
+		}
+
+		header .icon-cancel {
+			background: red;
+			width: 3rem;
+			height: 3rem;
+			background: url('${content.contextPath}/images/cancel.png') no-repeat 0 0;
+			display: inline-block;
+			vertical-align: middle;
+		}
+
+		section {
+			background: #E5F3E6;
+			font-size: 2.3rem;
+			margin-bottom: 3rem;
+		}
+
+		section .title {
+			height: 7rem;
+			background: #4CB050;
+			color: #fff;
+			line-height: 7rem;
+			padding: 0 2rem;
+		}
+
+		section ul {
+			color: #000;
+			height: auto;
+			margin: 5rem 2rem 0 2rem;
+		}
+
+		section li {
+			line-height: 7rem;
+			padding-bottom: 2rem;
+			padding-left: 4rem;
+			position: relative;
+			top: -1rem;
+			left: -1rem;
+			border-left: 2px solid #CCE7CC;
+			position: relative;
+			clear: both;
+		}
+
+		section .result {
+			height: 7rem;
+			line-height: 7rem;
+			color: #999;
+			padding: 0 2rem;
+			font-size: 2rem;
+		}
+
+		.result em {
+			float: left;
+			font-style: normal;
+		}
+
+		.result em.finish {
+			width: 20rem;
+			height: 7rem;
+			line-height: 7rem;
+			padding-left: 3rem;
+			background: url('${content.contextPath}/images/finish.png') no-repeat left center;
+		}
+
+		.result a {
+			float: right;
+			width: 49%;
+			text-align: center;
+			text-decoration: none;
+			height: 3rem;
+			line-height: 3rem;
+			margin-top: 2rem;
+		}
+
+		.result .view {
+			border-right: 1px solid #3BAF3D;
+		}
+
+		.title i {
+			display: inline-block;
+			width: 3rem;
+			height: 3rem;
+			border-radius: 1.5rem;
+			float: right;
+			position: relative;
+			top: 50%;
+			margin-top: -1.5rem;
+			background: #fff url('${content.contextPath}/images/arrow.png') no-repeat center center;
+			transform: rotate(180deg);
+			-ms-transform: rotate(180deg);
+			-moz-transform: rotate(180deg);
+			-webkit-transform: rotate(180deg);
+			-o-transform: rotate(180deg);
+		}
+
+		.title i.rotate {
+			transform: rotate(0deg);
+			-ms-transform: rotate(0deg);
+			-moz-transform: rotate(0deg);
+			-webkit-transform: rotate(0deg);
+			-o-transform: rotate(0deg);
+		}
+
+		.inspect-list {
+			height: auto;
+			overflow: hidden;
+			background: #4CB050;
+			padding: 0 2rem;
+			color: #fff;
+		}
+
+		.inspect-list dd {
+			font-size: 2rem;
+			line-height: 3rem;
+			border-bottom: 1px solid #349438;
+			padding: 2rem 0;
+		}
+
+		.status {
+			font-size: 2.3rem;
+			position: relative;
+			top: -3rem;
+			left: -2rem;
+		}
+
+		.status > * {
+			display: inline-block;
+			float: left;
+		}
+
+		.status b {
+			width: 40%;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		.status a {
+			font-size: 2rem;
+			float: right;
+		}
+
+		.status i {
+			color: #999;
+			font-size: 2rem;
+			font-style: normal;;
+		=
+		}
+
+		.time {
+			clear: both;
+			font-size: 1.5rem;
+			color: #999;
+			line-height: 1rem;
+			position: relative;
+			top: -3rem;
+			left: -2rem;
+		}
+
+		.progress-wrapper {
+			margin-left: 2rem;
+		}
+
+		.progress li.no-border {
+			border: none;
+		}
+
+		.progress li em {
+			display: inline-block;
+			width: 42px;
+			height: 42px;
+			position: absolute;
+			left: -3rem;
+			top: 2.5rem;
+		}
+
+		.progress li.success em {
+			background: url('${content.contextPath}/images/success.png') no-repeat 0 0;
+		}
+
+		.progress li.error em {
+			background: url('${content.contextPath}/images/error2.png') no-repeat 0 0;
+		}
+
+		.progress li.warn em {
+			background: url('${content.contextPath}/images/warn.png') no-repeat 0 0;
+		}
+
+		.progress li.over em {
+			background: url('${content.contextPath}/images/over.png') no-repeat 0 0;
+		}
+		.null-data{
+			width: 100%;
+			height:100%
+		}
+		.null-data div{
+			width: 260px;
+			height: 369px;
+			margin: 35% auto;
+			background: url('${content.contextPath}/images/nullData.png') no-repeat center center;;
+		}
+	</style>
+	#parse("common/header.html")
+</head>
+<body>
+<input type="hidden" name="responseData" value='${page}'>
+<input type="hidden"  id="aspid" value='${aspid}'>
+<script id="template" type="text/html">
+	<section>
+		<div class="title"><span data-bind="text:$root.resData.sample.title"></span><i></i></div>
+		<dl class="inspect-list" data-bind="foreach:resData.sample.geneSet" style="display: none">
+			<dd data-bind="text:[]"></dd>
+		</dl>
+		<div class="progress-wrapper">
+			<div class="null-data" data-bind="$root.resData.sample" data-if="$root.resData.sample.statusArray.length === 0">
+				<div></div>
+			</div>
+			<ul class="progress" data-bind="foreach:$root.resData.sample.statusArray">
+				<li class="" data-bind="code" data-class="code > $root.resData.sample.currentStatus ?'over':code==81||code==91?'warn':code==80?'error': 'success'">
+					<div class="status">
+						<em></em>
+						<b data-bind="text:name"></b>
+						<i></i>
+						<a data-if="code <= $root.resData.sample.currentStatus" data-href="text:name=='报告已出具'?'${content.contextPath}/wxGene/getReportList?aspid=${aspid}':name=='报告寄送中'||name=='报告已寄送'?'${content.contextPath}/wxGene/getReportExpressByexpressNo?expressComCode='+$root.resData.express.expressComCode+'&expressNo='+$root.resData.express.expressNo+'&title='+$root.resData.sample.title+'&geneSet='+$root.resData.sample.geneSet.join(','):''" data-bind="text:name=='报告已出具'?'查看报告':name=='报告寄送中'||name=='报告已寄送'?'查看物流':''"></a>
+					</div>
+					<div class="time" data-if="date!=null" data-bind="text:date"></div>
+				</li>
+			</ul>
+		</div>
+	</section>
+</script>
+<script>
+	$(function () {
+		function convertModel(resData){
+			resData.sample.statusArray.map(function(d){
+				var date;
+				d.date = d.date && (date = new Date(d.date), date.toISOString().match(/\d{4}-\d{2}-\d{2}/) + '  ' + date.getHours() + ':' + date.getMinutes());
+			});
+			resData.sample.geneSet = resData.sample.geneSet.split(',');
+		}
+		new Component(convertModel);
+		$('.title i').click(function () {
+			if ($(this).hasClass('rotate')) {
+				$(this).removeClass('rotate');
+				$('.inspect-list').hide();
+			} else {
+				$(this).addClass('rotate');
+				$('.inspect-list').show();
+			}
+		});
+		$('.progress li:last').addClass('no-border');
+	});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.read.indicatorSys.IndicatorRuleGroupDaoR">
+    <resultMap id="BaseResultMap" type="com.foundation.dao.entity.indicatorSys.IndicatorRuleGroup">
+        <id column="id" property="id"/>
+        <result column="indicator_id" property="indicatorId"/>
+        <result column="indicator_code" property="indicatorCode"/>
+        <result column="item_codes" property="itemCodes"/>
+        <result column="item_names" property="itemNames"/>
+        <result column="del_flag" property="delFlag"/>
+    </resultMap>
+
+    <resultMap id="QureyRuleGroupAndGroupRulesRM" type="com.foundation.dao.entity.indicatorSys.IndicatorRuleGroupDO">
+        <id column="ruleGroupId" property="ruleGroupId"/>
+        <result column="itemCodes" property="itemCodes"/>
+        <result column="itemNames" property="itemNames"/>
+        <result column="indicatorId" property="indicatorId"/>
+        <result column="indicatorCode" property="indicatorCode"/>
+
+
+        <collection property="indicatorRules" ofType="com.foundation.dao.entity.indicatorSys.IndicatorRule">
+            <id column="id" property="id"/>
+            <result column="group_id" property="groupId"/>
+            <result column="indicator_id" property="indicatorId"/>
+            <result column="indicator_code" property="indicatorCode"/>
+            <result column="color" property="color"/>
+            <result column="unit" property="unit"/>
+            <result column="value_tab" property="valueTab"/>
+            <result column="expression" property="expression"/>
+            <result column="suggest" property="suggest"/>
+            <result column="conclusion" property="conclusion"/>
+            <result column="default_max" property="defaultMax"/>
+            <result column="default_min" property="defaultMin"/>
+
+        </collection>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, indicator_id, item_codes, item_names, del_flag
+  </sql>
+
+    <select id="queryObject" resultMap="BaseResultMap" parameterType="map">
+        select
+        <include refid="Base_Column_List"/>
+        from indicator_rule_group
+        <where>
+            <if test="indicatorId != null">
+                and indicator_id = #{indicatorId}
+            </if>
+            <if test="itemCodes != null">
+                and item_codes = #{itemCodes}
+            </if>
+            <if test="delFlag != null">
+                and del_flag = #{delFlag}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryList" resultMap="BaseResultMap" parameterType="map">
+        select
+        <include refid="Base_Column_List"/>
+        from indicator_rule_group
+        <where>
+            <if test="indicatorId != null">
+                and indicator_id = #{indicatorId}
+            </if>
+            <if test="delFlag != null">
+                and del_flag = #{delFlag}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryRuleGroupAndRules" resultMap="QureyRuleGroupAndGroupRulesRM" parameterType="map">
+        select
+        g.id ruleGroupId,
+        g.item_codes itemCodes,
+        g.item_names itemNames,
+        g.indicator_id indicatorId,
+        g.indicator_code indicatorCode,
+        r.color,
+        r.conclusion,
+        r.default_max,
+        r.default_min,
+        r.expression,
+        r.indicator_id,
+        r.group_id,
+        r.id,
+        r.suggest,
+        r.unit,
+        r.value_tab
+        from indicator_rule_group g
+        LEFT JOIN (
+        select * from indicator_rule where
+        del_flag='0'
+        <if test="indicatorId !=null">
+            and indicator_id=#{indicatorId}
+        </if>
+        <if test="indicatorCode !=null">
+            and indicator_code=#{indicatorCode}
+        </if>
+        ) r
+        on g.id=r.group_id
+        where
+          g.del_flag ='0'
+          <if test="indicatorId !=null">
+            and g.indicator_id=#{indicatorId}
+          </if>
+          <if test="indicatorCode !=null">
+            and g.indicator_code=#{indicatorCode}
+          </if>
+
+  </select>
+</mapper>

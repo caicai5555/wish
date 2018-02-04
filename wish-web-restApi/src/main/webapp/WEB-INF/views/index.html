@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8"/>
+    <title>短信测试</title>
+</head>
+<body>
+<form action="/sms/send" method="post">
+    手机号码（多个用，号分割）：<input type="text" name="mobiles"/>
+    <br/>
+    模版短信内容：您的订单号为：<input type="text" name="content"/>，请不要告诉他人，请及时取件
+    <br/>
+    <input type="submit" value="提交"/>
+</form>
+<hr>
+<form action="/logistics/query" method="post">
+    常用物流公司：<select name="comDb">
+                <option value="sf" selected>顺丰</option>
+                <option value="sto">申通</option>
+                <option value="yt">圆通</option>
+                <option value="yd">韵达</option>
+                <option value="tt">天天</option>
+                <option value="ems">EMS</option>
+                <option value="zto">中通</option>
+                <option value="ht">汇通</option>
+                <option value="qf">全峰</option>
+                <option value="db">德邦</option>
+             </select>
+    <br/>
+    物流号码：<input type="text" name="number" value="402104510131"/>，请不要告诉他人，请及时取件
+    <br/>
+    <input type="submit" value="查询"/>
+</form>
+${result}
+</body>
+</html>

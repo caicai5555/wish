@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.foundation.dao.modules.write.archive.DistArchiveDescindicatorDao" >
+
+  <sql id="Base_Column_List" >
+    id, code, type, name, remark, create_date, update_date, parent_id, del_flag
+  </sql>
+  <!-- 物理删除 -->
+<!--   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from dist_archive_descindicator
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>-->
+
+  <!-- 逻辑删除 -->
+  <update id="updateByMap" parameterType="Map">
+    update dist_archive_descindicator
+    set del_flag = #{delFlag}
+    where id = #{id}
+  </update>
+
+  <!-- 判断字段非空插入 -->
+  <insert id="save" parameterType="com.foundation.dao.entity.archive.DistArchiveDescindicator" >
+    insert into dist_archive_descindicator
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+      <if test="archiveFlag != null" >
+        archive_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id},
+      </if>
+      <if test="code != null" >
+        #{code},
+      </if>
+      <if test="type != null" >
+        #{type},
+      </if>
+      <if test="name != null" >
+        #{name},
+      </if>
+      <if test="remark != null" >
+        #{remark},
+      </if>
+      <if test="createDate != null" >
+        #{createDate},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate},
+      </if>
+      <if test="parentId != null" >
+        #{parentId},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag},
+      </if>
+      <if test="archiveFlag != null" >
+        #{archiveFlag},
+      </if>
+    </trim>
+  </insert>
+  <!-- 判断非空字段更新 -->
+  <update id="update" parameterType="com.foundation.dao.entity.archive.DistArchiveDescindicator" >
+    update dist_archive_descindicator
+    <set >
+      <if test="code != null" >
+        code = #{code},
+      </if>
+      <if test="type != null" >
+        type = #{type},
+      </if>
+      <if test="name != null" >
+        name = #{name},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate},
+      </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag},
+      </if>
+      <if test="archiveFlag != null" >
+        archive_flag = #{archiveFlag},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+</mapper>
